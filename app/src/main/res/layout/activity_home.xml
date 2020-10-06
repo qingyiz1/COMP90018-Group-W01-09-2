@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".HomeActivity">
+
+    <TextView
+        android:id="@+id/text_home"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:text="Home"
+        android:layout_marginTop="5dp"/>
+
+    <ImageButton
+        android:id="@+id/add_post"
+        android:layout_width="53dp"
+        android:layout_height="47dp"
+        android:layout_alignParentEnd="true"
+        android:background="@color/design_default_color_background"
+        android:clickable="true"
+        android:scaleType="centerInside"
+        android:src="@drawable/add" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/text_home"
+        android:layout_marginTop="5dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <androidx.viewpager.widget.ViewPager
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/viewpager_container">
+
+        </androidx.viewpager.widget.ViewPager>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true">
+
+        <ImageButton
+            android:id="@+id/button_home"
+            android:layout_width="40dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentBottom="true"
+            android:layout_weight="1"
+            android:background="@color/design_default_color_background"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_home_black_24dp"
+            android:tint="@android:color/holo_green_light" />
+
+
+        <ImageButton
+            android:id="@+id/button_map"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_below="@+id/button_home"
+            android:layout_toStartOf="@+id/button_shake"
+            android:layout_toLeftOf="@+id/button_shake"
+            android:layout_weight="1"
+            android:background="@color/design_default_color_background"
+            android:scaleType="fitCenter"
+            android:src="@android:drawable/ic_dialog_map"
+            android:tint="@android:color/holo_blue_bright" />
+
+        <ImageButton
+            android:id="@+id/button_shake"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignEnd="@+id/viewpager_container"
+            android:layout_alignRight="@+id/viewpager_container"
+            android:layout_alignParentBottom="true"
+            android:layout_weight="1"
+            android:background="@color/design_default_color_background"
+            android:scaleType="fitCenter"
+            android:src="@android:drawable/ic_menu_always_landscape_portrait"
+            android:tint="@android:color/holo_red_light" />
+
+        <ImageButton
+            android:id="@+id/button_profile"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_toStartOf="@+id/button_shake"
+            android:layout_toLeftOf="@+id/button_shake"
+            android:layout_weight="1"
+            android:scaleType="fitCenter"
+            android:src="@drawable/default_profile_image"
+            android:background="@color/design_default_color_background" />
+
+    </LinearLayout>
+
+</RelativeLayout>
