@@ -146,7 +146,7 @@
         app:layout_constraintTop_toBottomOf="@+id/editTextEmailAddress" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/buttonCancelProfile"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -155,11 +155,11 @@
         android:text="Cancel"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintBottom_toRight_Of="parent"
-        app:layout_constraintEnd_toStartOf="@+id/button2"
+        app:layout_constraintEnd_toStartOf="@+id/buttonDoneProfile"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/buttonDoneProfile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
@@ -168,6 +168,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintBottom_toLeft_Of="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/button" />
+        app:layout_constraintStart_toEndOf="@+id/buttonCancelProfile" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
