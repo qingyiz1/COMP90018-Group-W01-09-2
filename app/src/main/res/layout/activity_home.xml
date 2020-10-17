@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".HomeActivity"
+    android:id="@+id/container"
+    android:fitsSystemWindows="true">
+
+    <LinearLayout
+        android:background="@android:color/white"
+        android:layout_above="@+id/nav_bottons"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <RelativeLayout
+            android:id="@+id/main_body"
+            android:background="@android:color/white"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </RelativeLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/nav_bottons">
+
+        <ImageButton
+            android:id="@+id/button_home"
+            android:layout_width="40dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentBottom="true"
+            android:layout_weight="1"
+            android:background="@color/design_default_color_background"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_home_black_24dp"
+            android:tint="@android:color/holo_green_light" />
+
+        <ImageButton
+            android:id="@+id/button_search"
+            android:layout_width="40dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentBottom="true"
+            android:layout_weight="1"
+            android:background="@color/design_default_color_background"
+            android:scaleType="fitCenter"
+            android:src="@android:drawable/ic_search_category_default"
+            android:tint="@android:color/black" />
+
+
+        <ImageButton
+            android:id="@+id/button_map"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_toStartOf="@+id/button_shake"
+            android:layout_toLeftOf="@+id/button_shake"
+            android:layout_weight="1"
+            android:background="@color/design_default_color_background"
+            android:scaleType="fitCenter"
+            android:src="@android:drawable/ic_dialog_map"
+            android:tint="@android:color/holo_blue_bright" />
+
+        <ImageButton
+            android:id="@+id/button_shake"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignEnd="@+id/viewpager_container"
+            android:layout_alignRight="@+id/viewpager_container"
+            android:layout_alignParentBottom="true"
+            android:layout_weight="1"
+            android:background="@color/design_default_color_background"
+            android:scaleType="fitCenter"
+            android:src="@android:drawable/ic_menu_always_landscape_portrait"
+            android:tint="@android:color/holo_red_light" />
+
+        <ImageButton
+            android:id="@+id/button_profile"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_toStartOf="@+id/button_shake"
+            android:layout_toLeftOf="@+id/button_shake"
+            android:layout_weight="1"
+            android:scaleType="fitCenter"
+            android:src="@drawable/default_profile_image"
+            android:background="@color/design_default_color_background" />
+
+    </LinearLayout>
+
+</RelativeLayout>
