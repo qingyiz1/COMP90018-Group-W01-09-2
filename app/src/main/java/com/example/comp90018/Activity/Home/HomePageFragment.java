@@ -109,7 +109,7 @@ class HomePageFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 //go to post activity;
-                Intent intent = new Intent(getActivity(), com.example.pet.Post.class);
+                Intent intent = new Intent(getActivity(), Post.class);
                 getActivity().startActivity(intent);
             }
         });

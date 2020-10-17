@@ -64,7 +64,6 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/text_photo_text"
         android:layout_alignLeft="@+id/surfaceView1"
-        android:layout_alignBottom="@+id/surfaceView1"
         android:layout_marginStart="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="5dp"
@@ -82,7 +81,18 @@
             android:id="@+id/button_post"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
-            android:layout_below="@+id/thumbnail"
+            android:background="#ff33b5e5"
+            android:textColor="#ffffff"/>
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="Cancel"
+            android:id="@+id/button_cancel"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginLeft="50dp"
             android:background="#ff33b5e5"
             android:textColor="#ffffff"/>
     </LinearLayout>

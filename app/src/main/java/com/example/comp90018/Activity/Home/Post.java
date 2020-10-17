@@ -37,6 +37,7 @@ public class Post extends AppCompatActivity {
     private Bitmap rawBitmap = null;
     private Bitmap thumbnail = null;
     private Button btnPost = null;
+    private Button btnCancel =null;
     private String filePath = "";
     private final static int REQUEST_ENABLE_BT = 1;
 
@@ -58,11 +59,20 @@ public class Post extends AppCompatActivity {
         thumbnail = rawBitmap;
         imageview.setImageBitmap(thumbnail);
 
+        //post button
         btnPost = (Button) findViewById(R.id.button_post);
         btnPost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 createInstagramIntent(filePath);
+            }
+        });
+
+        //cancel button
+        btnCancel = (Button) findViewById(R.id.button_cancel);
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View arg0) {
+                onBackPressed();
             }
         });
     }
