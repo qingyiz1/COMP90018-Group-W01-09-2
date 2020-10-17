@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".HomePageFragment">
+
+    <TextView
+        android:id="@+id/text_home"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:text="Home"
+        android:textSize="30dp"
+        android:textStyle="bold"
+        android:layout_marginTop="0dp"/>
+
+    <ImageButton
+        android:id="@+id/add_post"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginRight="20dp"
+        android:layout_alignParentEnd="true"
+        android:background="@color/design_default_color_background"
+        android:clickable="true"
+        android:scaleType="centerInside"
+        android:src="@drawable/add" />
+
+    <ListView
+        android:id="@+id/browseListView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="#33b5e5"
+        android:dividerHeight="1dp"
+        android:layout_weight="1"
+        android:layout_below="@+id/text_home"
+        android:layout_alignParentTop="true"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="50dp"/>
+
+</RelativeLayout>
