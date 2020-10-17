@@ -1,4 +1,4 @@
-package com.example.pet;
+package com.example.comp90018.Activity.Home;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -21,6 +21,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.example.comp90018.R;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -78,15 +80,4 @@ public class Post extends AppCompatActivity {
         startActivity(Intent.createChooser(instagram, "Share to"));
     }
 
-    private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String action = intent.getAction();
-            if (BluetoothDevice.ACTION_FOUND.equals(action)) {
-                BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-                String name = device.getName();
-                Log.d("Bluetooth Device : ", name);
-            }
-        }
-    };
 }

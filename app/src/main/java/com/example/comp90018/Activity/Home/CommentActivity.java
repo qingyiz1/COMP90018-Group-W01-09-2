@@ -1,4 +1,4 @@
-package com.example.pet;
+package com.example.comp90018.Activity.Home;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -14,6 +14,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.comp90018.R;
 
 import org.json.JSONException;
 import org.json.JSONObject;

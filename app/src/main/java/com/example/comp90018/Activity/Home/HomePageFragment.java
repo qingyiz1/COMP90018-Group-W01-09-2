@@ -1,4 +1,4 @@
-package com.example.pet;
+package com.example.comp90018.Activity.Home;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -22,6 +22,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.comp90018.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -108,7 +109,7 @@ class HomePageFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 //go to post activity;
-                Intent intent = new Intent(getActivity(), Post.class);
+                Intent intent = new Intent(getActivity(), com.example.pet.Post.class);
                 getActivity().startActivity(intent);
             }
         });

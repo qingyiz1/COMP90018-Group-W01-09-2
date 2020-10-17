@@ -1,4 +1,4 @@
-package com.example.pet;
+package com.example.comp90018.Activity.Home;
 
 import androidx.fragment.app.FragmentActivity;
 
@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+
+import com.example.comp90018.R;
 
 
 public class HomeActivity extends FragmentActivity implements View.OnClickListener {
