@@ -95,9 +95,9 @@ public class HomePageAdapter extends BaseAdapter {
         TextView captionText = (TextView) rowView.findViewById(R.id.captionTextView);
 
         //set text view styles
-        TextView captionFixText = (TextView) rowView.findViewById(R.id.textView1);
+        TextView captionFixText = (TextView) rowView.findViewById(R.id.captionText);
         captionFixText.setTypeface(captionFixText.getTypeface(), Typeface.BOLD);
-        TextView likesFixText = (TextView) rowView.findViewById(R.id.textView);
+        TextView likesFixText = (TextView) rowView.findViewById(R.id.likedText);
         likesFixText.setTypeface(likesFixText.getTypeface(), Typeface.BOLD);
         TextView commentFixText = (TextView) rowView.findViewById(R.id.commentText);
         commentFixText.setTypeface(commentFixText.getTypeface(), Typeface.BOLD);

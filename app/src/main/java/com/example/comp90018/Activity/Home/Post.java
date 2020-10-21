@@ -48,7 +48,7 @@ public class Post extends AppCompatActivity {
         pagePost = (TextView) findViewById(R.id.page_post);
         postTitle = (TextView) findViewById(R.id.text_post_text);
         textField = (EditText) findViewById(R.id.text_field);
-        String posttext = textField.getText().toString();
+        String postText = textField.getText().toString();
         photoTitle = (TextView) findViewById(R.id.text_photo_text);
         imageview = (ImageView) findViewById(R.id.imageView1);
 

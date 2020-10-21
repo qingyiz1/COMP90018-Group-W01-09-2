@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".HomePageFragment">
+    tools:context="com.example.comp90018.Activity.Home.HomePageFragment">
 
     <TextView
         android:id="@+id/text_home"
