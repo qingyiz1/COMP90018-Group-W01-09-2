@@ -11,13 +11,15 @@
         android:layout_width="114dp"
         android:layout_height="116dp"
         android:layout_marginStart="120dp"
-        android:layout_marginTop="42dp"
+        android:layout_marginTop="44dp"
         android:layout_marginEnd="120dp"
         android:scaleType="center"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/default_profile_image" />
+        app:srcCompat="@drawable/default_profile_image"
+        android:contentDescription="@string/todo" />
 
     <TextView
         android:id="@+id/textView2"
@@ -27,7 +29,7 @@
         android:layout_marginTop="24dp"
         android:layout_marginEnd="100dp"
         android:gravity="center"
-        android:text="Change profile photo"
+        android:text="@string/change_profile_photo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView" />
@@ -40,12 +42,13 @@
         android:layout_marginTop="24dp"
         android:layout_marginEnd="100dp"
         android:ems="10"
-        android:hint="Name"
+        android:hint="@string/name"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+        app:layout_constraintTop_toBottomOf="@+id/textView2"
+        android:autofillHints="" />
 
     <EditText
         android:id="@+id/editTextUserName"
@@ -55,11 +58,12 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="100dp"
         android:ems="10"
-        android:hint="Username"
+        android:hint="@string/username"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextPersonName" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextPersonName"
+        android:autofillHints="" />
 
     <EditText
         android:id="@+id/editTextPersonWebsite"
@@ -69,11 +73,12 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="100dp"
         android:ems="10"
-        android:hint="Website"
+        android:hint="@string/website"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextUserName" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextUserName"
+        android:autofillHints="" />
 
     <EditText
         android:id="@+id/editTextPersonBio"
@@ -83,11 +88,12 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="100dp"
         android:ems="10"
-        android:hint="Bio"
+        android:hint="@string/bio"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextPersonWebsite" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextPersonWebsite"
+        android:autofillHints="" />
 
     <TextView
         android:id="@+id/textView3"
@@ -96,7 +102,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="200dp"
-        android:text="Private information"
+        android:text="@string/private_information"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -111,11 +117,12 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="100dp"
         android:ems="10"
-        android:hint="Gender"
+        android:hint="@string/gender"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextPhone" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextPhone"
+        android:autofillHints="" />
 
     <EditText
         android:id="@+id/editTextEmailAddress"
@@ -125,11 +132,12 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="100dp"
         android:ems="10"
-        android:hint="Email address"
+        android:hint="@string/email_address"
         android:inputType="textEmailAddress"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+        app:layout_constraintTop_toBottomOf="@+id/textView3"
+        android:autofillHints="" />
 
     <EditText
         android:id="@+id/editTextPhone"
@@ -139,35 +147,23 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="100dp"
         android:ems="10"
-        android:hint="Phone"
+        android:hint="@string/phone"
         android:inputType="phone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextEmailAddress" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextEmailAddress"
+        android:autofillHints="" />
 
     <Button
-        android:id="@+id/buttonCancelProfile"
+        android:id="@+id/buttonDone"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="216dp"
-        android:layout_marginBottom="8dp"
-        android:text="Cancel"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintBottom_toRight_Of="parent"
-        app:layout_constraintEnd_toStartOf="@+id/buttonDoneProfile"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/buttonDoneProfile"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginStart="162dp"
+        android:layout_marginTop="23dp"
+        android:layout_marginEnd="161dp"
         android:text="Done"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintBottom_toLeft_Of="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/buttonCancelProfile" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextGender" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

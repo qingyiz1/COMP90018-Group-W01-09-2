@@ -1,4 +1,16 @@
 <resources>
     <string name="app_name">COMP90018</string>
     <string name="title_activity_maps">Map</string>
+    <string name="change_profile_photo">Change profile photo</string>
+    <string name="name">Name</string>
+    <string name="username">Username</string>
+    <string name="website">Website</string>
+    <string name="bio">Bio</string>
+    <string name="private_information">Private information</string>
+    <string name="gender">Gender</string>
+    <string name="email_address">Email address</string>
+    <string name="phone">Phone</string>
+    <string name="cancel">Cancel</string>
+    <string name="done">Done</string>
+    <string name="todo">TODO</string>
 </resources>
