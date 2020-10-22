@@ -102,22 +102,22 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
                 getSupportFragmentManager().beginTransaction().replace(R.id.main_body,new HomePageFragment()).commit();
                 setSelectStatus(0);
                 break;
-            case R.id.button_search:
-                getSupportFragmentManager().beginTransaction().replace(R.id.main_body,new SearchFragment()).commit();
-                setSelectStatus(1);
-                break;
-            case R.id.button_map://////////////////////////////////////////////////////输入fragment文件名字/////////////
-                getSupportFragmentManager().beginTransaction().replace(R.id.main_body,new Fragement3()).commit();
-                setSelectStatus(2);
-                break;
-            case R.id.button_shake://////////////////////////////////////////////////////输入fragment文件名字/////////////
-                getSupportFragmentManager().beginTransaction().replace(R.id.main_body,new Fragement3()).commit();
-                setSelectStatus(3);
-                break;
-            case R.id.button_profile://////////////////////////////////////////////////////输入fragment文件名字/////////////
-                getSupportFragmentManager().beginTransaction().replace(R.id.main_body,new Fragement3()).commit();
-                setSelectStatus(4);
-                break;
+//            case R.id.button_search:
+//                getSupportFragmentManager().beginTransaction().replace(R.id.main_body,new SearchFragment()).commit();
+//                setSelectStatus(1);
+//                break;
+//            case R.id.button_map://////////////////////////////////////////////////////输入fragment文件名字/////////////
+//                getSupportFragmentManager().beginTransaction().replace(R.id.main_body,new Fragement3()).commit();
+//                setSelectStatus(2);
+//                break;
+//            case R.id.button_shake://////////////////////////////////////////////////////输入fragment文件名字/////////////
+//                getSupportFragmentManager().beginTransaction().replace(R.id.main_body,new Fragement3()).commit();
+//                setSelectStatus(3);
+//                break;
+//            case R.id.button_profile://////////////////////////////////////////////////////输入fragment文件名字/////////////
+//                getSupportFragmentManager().beginTransaction().replace(R.id.main_body,new Fragement3()).commit();
+//                setSelectStatus(4);
+//                break;
         }
     }
 

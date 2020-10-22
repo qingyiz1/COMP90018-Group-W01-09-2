@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">COMP90018</string>
+    <string name="app_name">AnimalSociety</string>
     <string name="title_activity_maps">Map</string>
     <string name="title_activity_home">HomeActivity</string>
     <string name="tab_text_1">Tab 1</string>
@@ -45,7 +45,6 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_edit_profile">EditProfileActivity</string>
-
     <string name="title_activity_camera">CameraActivity</string>
     <string name="title_activity_post">Post</string>
     <string name="title_activity_comment">CommentActivity</string>
@@ -56,4 +55,13 @@
     <string name="action_camera">take photo</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
+    <string name="swipe_left_for_register">Swipe Left for Register</string>
+    <string name="login">Login</string>
+    <string name="password">Password</string>
+    <string name="e_mail">Email</string>
+    <string name="tag">Let\'s join us and \nBuild your relationship in AnimalSociety</string>
+    <string name="swipe_right_for_login">Swipe Right for Login</string>
+    <string name="register">Register</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="your_name">Full Name</string>
 </resources>
