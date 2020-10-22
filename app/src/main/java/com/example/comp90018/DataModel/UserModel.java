@@ -38,6 +38,7 @@ public class UserModel {
         this.email = email;
         this.password = password;
         this.nickName = nickName;
+        this.dateCreated = dateCreated;
     }
 
     public UserModel(int avatarID,String birthday, String email, String nickName, Timestamp dateCreated) {
@@ -86,6 +87,7 @@ public class UserModel {
         newUser.put("email", this.email);
         newUser.put("nickName", this.nickName);
         newUser.put("dateCreated",this.dateCreated);
+        newUser.put("password",this.password);
         return newUser;
     }
 
