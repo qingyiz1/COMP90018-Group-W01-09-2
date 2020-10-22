@@ -140,7 +140,7 @@ public class HomePageAdapter extends BaseAdapter {
                                         //update liked list
                                         if (code == 200) {
                                             Toast.makeText(context.getApplicationContext(),
-                                                    "You liked this photo!",
+                                                    "You liked!",
                                                     Toast.LENGTH_LONG).show();
                                         }
                                         System.out.println("Like: " + tmpLike);
@@ -176,7 +176,7 @@ public class HomePageAdapter extends BaseAdapter {
                     System.out.println("Like: " + finalLikeText);
                 } else {
                     Toast.makeText(context,
-                            "You have already liked this photo",
+                            "You have already liked!",
                             Toast.LENGTH_LONG).show();
                 }
             }
@@ -194,7 +194,7 @@ public class HomePageAdapter extends BaseAdapter {
         if (oneFeed.getCaption() != null) {
             captionText.setText(oneFeed.getCaption());
         } else {
-            captionText.setText("There is no caption for this photo.");
+            captionText.setText("No caption.");
         }
 
         // set up the blank like text in the view
@@ -215,14 +215,14 @@ public class HomePageAdapter extends BaseAdapter {
                 likedText.setText(oneFeed.getLike().toString().replace(',', ' '));
             }
         } else {
-            likedText.setText("Nobody has liked this photo yet.");
+            likedText.setText("Nobody has liked yet.");
         }
         // set up the blank comment text in the view
         if (oneFeed.getComment() != null) {
             commentText.setText(oneFeed.getComment().toString().replace(',', ' ').substring(1,
                     oneFeed.getComment().toString().length() - 1));
         } else {
-            commentText.setText("Nobody has commented on this photo yet.");
+            commentText.setText("Nobody has commented yet.");
         }
         return rowView;
     }

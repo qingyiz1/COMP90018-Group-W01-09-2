@@ -32,6 +32,7 @@ public class Post extends AppCompatActivity {
     private TextView pagePost;
     private TextView postTitle;
     private EditText textField=null;
+    private String postText;
     private TextView photoTitle;
     public ImageView imageview = null;
     private Bitmap rawBitmap = null;
@@ -48,7 +49,7 @@ public class Post extends AppCompatActivity {
         pagePost = (TextView) findViewById(R.id.page_post);
         postTitle = (TextView) findViewById(R.id.text_post_text);
         textField = (EditText) findViewById(R.id.text_field);
-        String postText = textField.getText().toString();
+        postText = textField.getText().toString();
         photoTitle = (TextView) findViewById(R.id.text_photo_text);
         imageview = (ImageView) findViewById(R.id.imageView1);
 
@@ -84,7 +85,7 @@ public class Post extends AppCompatActivity {
         File file = new File(filePath);
         Uri uri = Uri.fromFile(file);
         instagram.putExtra(Intent.EXTRA_STREAM, uri);
-        instagram.putExtra(Intent.EXTRA_TEXT, "YOUR TEXT TO SHARE IN INSTAGRAM");
+        instagram.putExtra(Intent.EXTRA_TEXT, postText);
         instagram.setPackage("com.instagram.android");
 
         startActivity(Intent.createChooser(instagram, "Share to"));
