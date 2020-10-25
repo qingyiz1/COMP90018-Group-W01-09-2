@@ -48,12 +48,12 @@
         android:background="@drawable/border"
         />
 
-    <TextView
+    <Button
         android:id="@+id/text_photo_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
-        android:text="Insert Photo"
+        android:text="Insert a Photo"
         android:textStyle="bold"
         android:layout_marginTop="5dp"
         android:layout_below="@+id/text_field"/>

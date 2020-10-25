@@ -297,7 +297,8 @@ public class CameraActivity extends Activity {
 
     public void takePicture() {
         try {
-            CaptureRequest.Builder captureRequestBuilder = mCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_STILL_CAPTURE);//用来设置拍照请求的request
+            CaptureRequest.Builder captureRequestBuilder = mCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_STILL_CAPTURE);
+            //用来设置拍照请求的request
             captureRequestBuilder.addTarget(mImageReader.getSurface());
             // 自动对焦
             captureRequestBuilder.set(CaptureRequest.CONTROL_AF_MODE, CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE);
@@ -373,7 +374,7 @@ public class CameraActivity extends Activity {
         // Pass the new image to the next edit view
         BitmapStore.setBitmap(cameraBitmap);
         Intent intent = new Intent();
-        intent.putExtra("post_img", myImage.toString());
+        //intent.putExtra("post_img", myImage.toString());
         intent.setClass(CameraActivity.this, Post.class);
         startActivity(intent);
     }

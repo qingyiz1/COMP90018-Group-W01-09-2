@@ -33,7 +33,7 @@ public class Post extends AppCompatActivity {
     private TextView postTitle;
     private EditText textField=null;
     private String postText;
-    private TextView photoTitle;
+    private Button photoInsert;
     public ImageView imageview = null;
     private Bitmap rawBitmap = null;
     private Bitmap thumbnail = null;
@@ -50,7 +50,6 @@ public class Post extends AppCompatActivity {
         postTitle = (TextView) findViewById(R.id.text_post_text);
         textField = (EditText) findViewById(R.id.text_field);
         postText = textField.getText().toString();
-        photoTitle = (TextView) findViewById(R.id.text_photo_text);
         imageview = (ImageView) findViewById(R.id.imageView1);
 
         // get the bitmap from file
@@ -59,6 +58,16 @@ public class Post extends AppCompatActivity {
         rawBitmap = BitmapFactory.decodeFile(filePath);
         thumbnail = rawBitmap;
         imageview.setImageBitmap(thumbnail);
+
+        photoInsert = (Button) findViewById(R.id.text_photo_text);
+        photoInsert.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setClass(Post.this, CameraActivity.class);
+                startActivity(intent);
+            }
+        });
 
         //post button
         btnPost = (Button) findViewById(R.id.button_post);
