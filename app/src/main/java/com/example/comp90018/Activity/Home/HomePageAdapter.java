@@ -130,36 +130,36 @@ public class HomePageAdapter extends BaseAdapter {
                             + oneFeed.getMediaID().toString()
                             + "/likes?access_token="
                             + context.getResources().getString(R.string.instagram_access_token);
-                    JsonObjectRequest postRequest = new JsonObjectRequest(Request.Method.POST, url,
-                            new Response.Listener<JSONObject>() {
-                                @Override
-                                public void onResponse(JSONObject response) {
-                                    try {
-                                        JSONObject jsonResponse = response.getJSONObject("meta");
-                                        int code = jsonResponse.getInt("code");
-                                        //update liked list
-                                        if (code == 200) {
-                                            Toast.makeText(context.getApplicationContext(),
-                                                    "You liked!",
-                                                    Toast.LENGTH_LONG).show();
-                                        }
-                                        System.out.println("Like: " + tmpLike);
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-                            },
-                            new Response.ErrorListener() {
-                                @Override
-                                public void onErrorResponse(VolleyError error) {
-                                    error.printStackTrace();
-                                    Toast.makeText(context,
-                                            "Network failure",
-                                            Toast.LENGTH_LONG).show();
-                                    likedText.setText(oneFeed.getLike().toString());
-                                }
-                            });
-                    Volley.newRequestQueue(context.getApplicationContext()).add(postRequest);
+//                    JsonObjectRequest postRequest = new JsonObjectRequest(Request.Method.POST, url,
+//                            new Response.Listener<JSONObject>() {
+//                                @Override
+//                                public void onResponse(JSONObject response) {
+//                                    try {
+//                                        JSONObject jsonResponse = response.getJSONObject("meta");
+//                                        int code = jsonResponse.getInt("code");
+//                                        //update liked list
+//                                        if (code == 200) {
+//                                            Toast.makeText(context.getApplicationContext(),
+//                                                    "You liked!",
+//                                                    Toast.LENGTH_LONG).show();
+//                                        }
+//                                        System.out.println("Like: " + tmpLike);
+//                                    } catch (JSONException e) {
+//                                        e.printStackTrace();
+//                                    }
+//                                }
+//                            },
+//                            new Response.ErrorListener() {
+//                                @Override
+//                                public void onErrorResponse(VolleyError error) {
+//                                    error.printStackTrace();
+//                                    Toast.makeText(context,
+//                                            "Network failure",
+//                                            Toast.LENGTH_LONG).show();
+//                                    likedText.setText(oneFeed.getLike().toString());
+//                                }
+//                            });
+                    //Volley.newRequestQueue(context.getApplicationContext()).add(postRequest);
 
                     //updating the view
                     if (tmpLike.equals(oneFeed.getLike().toString())) {

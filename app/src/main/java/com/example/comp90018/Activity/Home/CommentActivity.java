@@ -46,31 +46,31 @@ public class CommentActivity extends AppCompatActivity {
                         + getResources().getString(R.string.instagram_api_media_method)
                         + "id/comments?access_token="
                         + getResources().getString(R.string.instagram_access_token);
-                JsonObjectRequest postRequest = new JsonObjectRequest(Request.Method.POST, url,
-                        new Response.Listener<JSONObject>() {
-                            @Override
-                            public void onResponse(JSONObject response) {
-                                try {
-                                    JSONObject jsonResponse = response.getJSONObject("meta");
-                                    String errorMsg = jsonResponse.getString("error_message");
-                                    String errorType = jsonResponse.getString("error_type");
-                                    System.out.println("Comments: " + errorMsg);
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        },
-                        new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                error.printStackTrace();
-                                Toast.makeText(getApplicationContext(),
-                                        "This request requires scope=comments, but this access token" +
-                                                " is not authorized with this scope. Sorry!",
-                                        Toast.LENGTH_LONG).show();
-                            }
-                        });
-                Volley.newRequestQueue(getApplicationContext()).add(postRequest);
+//                JsonObjectRequest postRequest = new JsonObjectRequest(Request.Method.POST, url,
+//                        new Response.Listener<JSONObject>() {
+//                            @Override
+//                            public void onResponse(JSONObject response) {
+//                                try {
+//                                    JSONObject jsonResponse = response.getJSONObject("meta");
+//                                    String errorMsg = jsonResponse.getString("error_message");
+//                                    String errorType = jsonResponse.getString("error_type");
+//                                    System.out.println("Comments: " + errorMsg);
+//                                } catch (JSONException e) {
+//                                    e.printStackTrace();
+//                                }
+//                            }
+//                        },
+//                        new Response.ErrorListener() {
+//                            @Override
+//                            public void onErrorResponse(VolleyError error) {
+//                                error.printStackTrace();
+//                                Toast.makeText(getApplicationContext(),
+//                                        "This request requires scope=comments, but this access token" +
+//                                                " is not authorized with this scope. Sorry!",
+//                                        Toast.LENGTH_LONG).show();
+//                            }
+//                        });
+//                Volley.newRequestQueue(getApplicationContext()).add(postRequest);
             }
         });
     }
