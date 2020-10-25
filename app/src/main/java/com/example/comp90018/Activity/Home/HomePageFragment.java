@@ -30,7 +30,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class HomePageFragment extends Fragment {
+public class HomePageFragment extends Fragment{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -95,24 +95,23 @@ public class HomePageFragment extends Fragment {
         //loadFeeds();
         homepageAdapter.setFeed_array(getData());
         homepageAdapter.notifyDataSetChanged();
-
         text_home = (TextView) view.findViewById(R.id.text_home);
 
+        post = (ImageButton) view.findViewById(R.id.add_post);
+        post.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //go to post activity;
+                Intent intent = new Intent(getActivity(), CameraActivity.class);
+                startActivity(intent);
+            }
+        });
         return view;
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        post = (ImageButton) getActivity().findViewById(R.id.add_post);
-        post.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //go to post activity;
-                Intent intent = new Intent(getActivity(), CameraActivity.class);
-                getActivity().startActivity(intent);
-            }
-        });
     }
 
     @Override
