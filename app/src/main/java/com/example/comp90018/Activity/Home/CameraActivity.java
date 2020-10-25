@@ -1,16 +1,25 @@
 package com.example.comp90018.Activity.Home;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.ImageFormat;
 import android.graphics.PixelFormat;
-import android.hardware.Camera;
+import android.hardware.camera2.*;
+import android.media.Image;
+import android.media.ImageReader;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.HandlerThread;
 import android.util.Log;
+import android.util.Size;
+import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
@@ -19,9 +28,13 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 import android.widget.ToggleButton;
+
+import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
 
 import com.example.comp90018.R;
 
@@ -29,20 +42,33 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.util.Arrays;
 
 import static android.content.ContentValues.TAG;
 
 public class CameraActivity extends Activity implements SurfaceHolder.Callback  {
 
-    private Camera camera = null;
-    private SurfaceView cameraSurfaceView = null;
-    private SurfaceHolder cameraSurfaceHolder = null;
+    //private Camera camera = null;
+    private CameraManager mCameraManager;
+    private CameraDevice mCameraDevice;
+    private SurfaceView mSurfaceView;
+    private CaptureRequest.Builder mPreviewBuilder;
+    private CameraCaptureSession mSession;
+    private SurfaceHolder mSurfaceViewHolder;
+    //private SurfaceView cameraSurfaceView = null;
+    //private SurfaceHolder cameraSurfaceHolder = null;
+    private Handler mHandler;
+    private String mCameraId;
+    private ImageReader mImageReader;
+    private Handler mainHandler;
     private boolean previewing = false;
     RelativeLayout relativeLayout;
 
     private Button btnCapture = null;
     private ToggleButton btnFlash = null;
     private ImageButton btnGallery = null;
+    private ImageView img_show;
 
     // On create, first initialize the view elements
     @Override
@@ -59,19 +85,20 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback  
         relativeLayout=(RelativeLayout) findViewById(R.id.containerImg);
         relativeLayout.setDrawingCacheEnabled(true);
 
-        cameraSurfaceView = (SurfaceView) findViewById(R.id.surfaceView1);
-
-        cameraSurfaceHolder = cameraSurfaceView.getHolder();
-        cameraSurfaceHolder.setKeepScreenOn(true);
-        cameraSurfaceHolder.addCallback(this);
+        mCameraManager = (CameraManager) this.getSystemService(Context.CAMERA_SERVICE);
+        //cameraSurfaceView = (SurfaceView) findViewById(R.id.surfaceView1);
+        initSurfaceView();
+        //cameraSurfaceHolder = cameraSurfaceView.getHolder();
+        //cameraSurfaceHolder.setKeepScreenOn(true);
+        //cameraSurfaceHolder.addCallback(this);
 
         btnCapture = (Button)findViewById(R.id.button1);
         btnCapture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                camera.takePicture(cameraShutterCallback,
-                        cameraPictureCallbackRaw,
-                        cameraPictureCallbackJpeg);
+                takePicture();//cameraShutterCallback,
+                        //cameraPictureCallbackRaw,
+                        //cameraPictureCallbackJpeg);
             }
         });
 
@@ -79,31 +106,6 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback  
         btnFlash = (ToggleButton) findViewById(R.id.button_flash);
         // BugFixed - when return with isChecked state, there is a error message on screen
         // saying that camera isn't working properly, but does not affect the functioning
-        btnFlash.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    // The toggle is enabled
-                    if (camera == null) {
-                        camera = Camera.open();
-                    }
-                    Camera.Parameters parameters = camera.getParameters();
-                    parameters.setFlashMode(Camera.Parameters.FLASH_MODE_ON);
-                    parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
-                    camera.setParameters(parameters);
-                    camera.startPreview();
-                } else {
-                    // The toggle is disabled
-                    if (camera == null) {
-                        camera = Camera.open();
-                    }
-                    Camera.Parameters parameters = camera.getParameters();
-                    parameters.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
-                    parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_AUTO);
-                    camera.setParameters(parameters);
-                    camera.startPreview();
-                }
-            }
-        });
 
         // Button to Enter Gallery
         // Bug-fixed need to access all the pictures
@@ -118,21 +120,6 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback  
             }
         });
     }
-
-
-    Camera.ShutterCallback cameraShutterCallback = new Camera.ShutterCallback(){
-        @Override
-        public void onShutter(){
-
-        }
-    };
-
-    Camera.PictureCallback cameraPictureCallbackRaw = new Camera.PictureCallback() {
-        @Override
-        public void onPictureTaken(byte[] data, Camera camera) {
-
-        }
-    };
 
     Camera.PictureCallback cameraPictureCallbackJpeg = new Camera.PictureCallback(){
         @Override
@@ -167,48 +154,208 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback  
         }
     };
 
-    @Override
-    public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-        if(previewing) {
-            camera.stopPreview();
-            previewing = false;
-        }
-        try {
-            // set camera and preview size
-            Camera.Parameters parameters = camera.getParameters();
-            parameters.setPreviewSize(640, 480);
-            parameters.setPictureSize(640, 480);
-            if(this.getResources().getConfiguration().orientation
-                    != Configuration.ORIENTATION_LANDSCAPE) {
-                camera.setDisplayOrientation(90);
+    public void initSurfaceView(){
+        mSurfaceView = (SurfaceView) findViewById(R.id.surfaceView1);
+        mSurfaceViewHolder = mSurfaceView.getHolder();//通过SurfaceViewHolder可以对SurfaceView进行管理
+        mSurfaceViewHolder.addCallback(new SurfaceHolder.Callback() {
+            @Override
+            public void surfaceCreated(SurfaceHolder holder) {
+                initCameraAndPreview();
             }
 
-            camera.setParameters(parameters);
-            camera.setPreviewDisplay(cameraSurfaceHolder);
-            camera.startPreview();
-            previewing = true;
-        } catch(IOException e) {
-            Log.d(TAG, "Error starting camera preview: " + e.getMessage());
-        }
-    }
+            @Override
+            public void surfaceDestroyed(SurfaceHolder holder) {
+                //释放camera
+                if (mCameraDevice != null) {
+                    mCameraDevice.close();
+                    mCameraDevice = null;
+                }
+            }
 
-    @Override
-    public void surfaceCreated(SurfaceHolder holder) {
+            @Override
+            public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+                if(previewing) {
+                    mCameraDevice.close();
+                    previewing = false;
+                }
+                //parameters.setPictureSize(640, 480);
+            }
+        });
+    }
+    @TargetApi(19)
+    public void initCameraAndPreview() {
+        HandlerThread handlerThread = new HandlerThread("Camera2");
+        handlerThread.start();
+        mHandler = new Handler(handlerThread.getLooper());
+        mainHandler = new Handler(getMainLooper());//用来处理ui线程的handler，即ui线程
         try {
-            camera = Camera.open();
-        } catch(RuntimeException e) {
+            mCameraId = "" + CameraCharacteristics.LENS_FACING_FRONT;
+            mImageReader = ImageReader.newInstance(mSurfaceView.getWidth(), mSurfaceView.getHeight(), ImageFormat.JPEG,7);
+            mImageReader.setOnImageAvailableListener(mOnImageAvailableListener, mainHandler);//这里必须传入mainHandler，因为涉及到了Ui操作
+            mCameraManager = (CameraManager) this.getSystemService(Context.CAMERA_SERVICE);
+            if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                return;//按理说这里应该有一个申请权限的过程，但为了使程序尽可能最简化，所以先不添加
+            }
+            mCameraManager.openCamera(mCameraId, deviceStateCallback, mHandler);
+        } catch (CameraAccessException e) {
             Toast.makeText(getApplicationContext(), "Device Camera is " +
                     "not working properly, please try after sometime.", Toast.LENGTH_LONG).show();
         }
     }
 
-    @Override
-    public void surfaceDestroyed(SurfaceHolder holder) {
-        camera.stopPreview();
-        camera.release();
-        camera = null;
-        previewing = false;
+    private ImageReader.OnImageAvailableListener mOnImageAvailableListener = new ImageReader.OnImageAvailableListener() {
+        @Override
+        public void onImageAvailable(ImageReader reader) {
+            //进行相片存储
+            mCameraDevice.close();
+            Image image = reader.acquireNextImage();
+            ByteBuffer buffer = image.getPlanes()[0].getBuffer();
+            byte[] bytes = new byte[buffer.remaining()];
+            buffer.get(bytes);//将image对象转化为byte，再转化为bitmap
+            final Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+            if (bitmap != null) {
+                img_show.setImageBitmap(bitmap);
+            }
+        }
+    };
+
+    private CameraDevice.StateCallback deviceStateCallback = new CameraDevice.StateCallback() {
+        @Override
+        public void onOpened(CameraDevice camera) {
+            mCameraDevice = camera;
+            try {
+                takePreview();
+            } catch (CameraAccessException e) {
+                e.printStackTrace();
+            }
+        }
+        @Override
+        public void onDisconnected(@NonNull CameraDevice camera) {
+            if (mCameraDevice != null) {
+                mCameraDevice.close();
+                mCameraDevice = null;
+            }
+        }
+
+        @Override
+        public void onError(CameraDevice camera, int error) {
+            Toast.makeText(getApplicationContext(), "Camera open error", Toast.LENGTH_SHORT).show();
+        }
+    };
+
+    public void takePreview() throws CameraAccessException {
+        mPreviewBuilder = mCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW);
+        mPreviewBuilder.addTarget(mSurfaceViewHolder.getSurface());
+        mCameraDevice.createCaptureSession(Arrays.asList(mSurfaceViewHolder.getSurface(), mImageReader.getSurface()), mSessionPreviewStateCallback, mHandler);
     }
+
+    private CameraCaptureSession.StateCallback mSessionPreviewStateCallback = new CameraCaptureSession.StateCallback() {
+        @Override
+        public void onConfigured(@NonNull CameraCaptureSession session) {
+            mSession = session;
+            //配置完毕开始预览
+            try {
+                /**
+                 * 设置你需要配置的参数
+                 */
+                // set camera and preview size
+                mPreviewBuilder.set(CaptureRequest.JPEG_THUMBNAIL_SIZE, new Size(640, 480));
+
+                btnFlash.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        if (isChecked) {
+                            // The toggle is enabled
+                            mPreviewBuilder.set(CaptureRequest.CONTROL_AE_MODE, CaptureRequest.FLASH_MODE_TORCH);
+                            mPreviewBuilder.set(CaptureRequest.CONTROL_AF_MODE, CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE);
+                        } else {
+                            // The toggle is disabled
+                            mPreviewBuilder.set(CaptureRequest.CONTROL_AE_MODE, CaptureRequest.FLASH_MODE_OFF);
+                            mPreviewBuilder.set(CaptureRequest.CONTROL_AF_MODE, CaptureRequest.CONTROL_AF_MODE_AUTO);
+                        }
+                    }
+                });
+                //无限次的重复获取图像
+                mSession.setRepeatingRequest(mPreviewBuilder.build(), null, mHandler);
+                previewing = true;
+            } catch (CameraAccessException e) {
+                Log.d(TAG, "Error starting camera preview: " + e.getMessage());
+            }
+        }
+        @Override
+        public void onConfigureFailed(@NonNull CameraCaptureSession session) {
+            Toast.makeText(getApplicationContext(), "Error configuration", Toast.LENGTH_SHORT).show();
+        }
+    };
+
+    private CameraCaptureSession.CaptureCallback mSessionCaptureCallback = new CameraCaptureSession.CaptureCallback() {
+        @Override
+        public void onCaptureCompleted(CameraCaptureSession session, CaptureRequest request, TotalCaptureResult result) {
+            mSession = session;
+        }
+
+        @Override
+        public void onCaptureProgressed(@NonNull CameraCaptureSession session, @NonNull CaptureRequest request, @NonNull CaptureResult partialResult) {
+            mSession = session;
+        }
+
+        @Override
+        public void onCaptureFailed(@NonNull CameraCaptureSession session, @NonNull CaptureRequest request, @NonNull CaptureFailure failure) {
+            super.onCaptureFailed(session, request, failure);
+        }
+    };
+
+    public void takePicture() {
+        try {
+            CaptureRequest.Builder captureRequestBuilder = mCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_STILL_CAPTURE);//用来设置拍照请求的request
+            captureRequestBuilder.addTarget(mImageReader.getSurface());
+            // 自动对焦
+            captureRequestBuilder.set(CaptureRequest.CONTROL_AF_MODE, CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE);
+            // 自动曝光
+            captureRequestBuilder.set(CaptureRequest.CONTROL_AE_MODE, CaptureRequest.CONTROL_AE_MODE_ON_AUTO_FLASH);
+            int rotation = getWindowManager().getDefaultDisplay().getRotation();
+            CameraCharacteristics cameraCharacteristics = mCameraManager.getCameraCharacteristics(mCameraId);
+            captureRequestBuilder.set(CaptureRequest.JPEG_ORIENTATION, getJpegOrientation(cameraCharacteristics, rotation));//使图片做顺时针旋转
+            CaptureRequest mCaptureRequest = captureRequestBuilder.build();
+            mSession.capture(mCaptureRequest, null, mHandler);
+        } catch (CameraAccessException e) {
+            e.printStackTrace();
+        }
+    }
+    //获取图片应该旋转的角度，使图片竖直
+    public int getOrientation(int rotation) {
+        switch (rotation) {
+            case Surface.ROTATION_0:
+                return 90;
+            case Surface.ROTATION_90:
+                return 0;
+            case Surface.ROTATION_180:
+                return 270;
+            case Surface.ROTATION_270:
+                return 180;
+            default:
+                return 0;
+        }
+    }
+    //获取图片应该旋转的角度，使图片竖直
+    private int getJpegOrientation(CameraCharacteristics c, int deviceOrientation) {
+        if (deviceOrientation == android.view.OrientationEventListener.ORIENTATION_UNKNOWN)
+            return 0;
+        int sensorOrientation = c.get(CameraCharacteristics.SENSOR_ORIENTATION);
+
+        // Round device orientation to a multiple of 90
+        deviceOrientation = (deviceOrientation + 45) / 90 * 90;
+
+        // LENS_FACING相对于设备屏幕的方向,LENS_FACING_FRONT相机设备面向与设备屏幕相同的方向
+        boolean facingFront = c.get(CameraCharacteristics.LENS_FACING) == CameraCharacteristics.LENS_FACING_FRONT;
+        if (facingFront) deviceOrientation = -deviceOrientation;
+
+        // Calculate desired JPEG orientation relative to camera orientation to make
+        // the image upright relative to the device orientation
+        int jpegOrientation = (sensorOrientation + deviceOrientation + 360) % 360;
+
+        return jpegOrientation;
+    }
+
 
 
     // Bug-fixed: out of memory error when go back and select photo 2nd time
