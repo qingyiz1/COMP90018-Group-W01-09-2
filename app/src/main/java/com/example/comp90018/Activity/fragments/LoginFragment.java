@@ -124,7 +124,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
 
     private void checkUserState(){
         if(mAuth.getCurrentUser() != null){
-            Intent intent= new Intent(getActivity(), UsersActivity.class);
+            Intent intent= new Intent(getActivity(), HomeActivity.class);
             startActivity(intent);
             getActivity().finish();
         }

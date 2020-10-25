@@ -144,7 +144,7 @@ public class HomePageFragment extends Fragment{
         public void onFragmentInteraction(Uri uri);
     }
     //main requesting data method
-//    public void loadFeeds() {
+    public void loadFeeds() {
 //        String request_url = "https://api.instagram.com/v1/users/self/feed?access_token=25846960.1fb234f.1c7c1f3a4843498f88d0f559ff690eb2";
 //        //DEBUG
 //        System.out.println("Requesting from: " + request_url);
@@ -338,7 +338,7 @@ public class HomePageFragment extends Fragment{
 //        if (jsonRequest != null) {
 //            Volley.newRequestQueue(getActivity()).add(jsonRequest);
 //        }
-//    }
+    }
 
     public ArrayList<Feed> getData(){
         return feeds_array;
