@@ -67,10 +67,11 @@ public class CameraActivity extends Activity {
     private boolean previewing = false;
     RelativeLayout relativeLayout;
 
-    private Button btnCapture = null;
+    private ImageButton btnCapture = null;
     private ToggleButton btnFlash = null;
     private ImageButton btnGallery = null;
     private ImageView img_show;
+    private byte[] bytes;
 
     // On create, first initialize the view elements
     @Override
@@ -88,19 +89,13 @@ public class CameraActivity extends Activity {
         relativeLayout.setDrawingCacheEnabled(true);
 
         mCameraManager = (CameraManager) this.getSystemService(Context.CAMERA_SERVICE);
-        //cameraSurfaceView = (SurfaceView) findViewById(R.id.surfaceView1);
         initSurfaceView();
-        //cameraSurfaceHolder = cameraSurfaceView.getHolder();
-        //cameraSurfaceHolder.setKeepScreenOn(true);
-        //cameraSurfaceHolder.addCallback(this);
 
-        btnCapture = (Button)findViewById(R.id.button1);
+        btnCapture = (ImageButton) findViewById(R.id.button1);
         btnCapture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                takePicture();//cameraShutterCallback,
-                        //cameraPictureCallbackRaw,
-                        //cameraPictureCallbackJpeg);
+                takePicture();
             }
         });
 
@@ -125,7 +120,8 @@ public class CameraActivity extends Activity {
 
     public void initSurfaceView(){
         mSurfaceView = (SurfaceView) findViewById(R.id.surfaceView1);
-        mSurfaceViewHolder = mSurfaceView.getHolder();//通过SurfaceViewHolder可以对SurfaceView进行管理
+        mSurfaceViewHolder = mSurfaceView.getHolder();
+        //通过SurfaceViewHolder可以对SurfaceView进行管理
         mSurfaceViewHolder.addCallback(new SurfaceHolder.Callback() {
             @Override
             public void surfaceCreated(SurfaceHolder holder) {
@@ -143,10 +139,10 @@ public class CameraActivity extends Activity {
 
             @Override
             public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-                if(previewing) {
-                    mCameraDevice.close();
-                    previewing = false;
-                }
+//                if(previewing) {
+//                    mCameraDevice.close();
+//                    previewing = false;
+//                }
                 //parameters.setPictureSize(640, 480);
             }
         });
@@ -159,7 +155,7 @@ public class CameraActivity extends Activity {
         mainHandler = new Handler(getMainLooper());//用来处理ui线程的handler，即ui线程
         try {
             mCameraId = "" + CameraCharacteristics.LENS_FACING_FRONT;
-            mImageReader = ImageReader.newInstance(mSurfaceView.getWidth(), mSurfaceView.getHeight(), ImageFormat.JPEG,7);
+            mImageReader = ImageReader.newInstance(mSurfaceView.getWidth(), mSurfaceView.getHeight(), ImageFormat.JPEG,1);
             mImageReader.setOnImageAvailableListener(mOnImageAvailableListener, mainHandler);//这里必须传入mainHandler，因为涉及到了Ui操作
             mCameraManager = (CameraManager) this.getSystemService(Context.CAMERA_SERVICE);
             if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
@@ -205,8 +201,7 @@ public class CameraActivity extends Activity {
             mCameraDevice.close();
             Image image = reader.acquireNextImage();
             ByteBuffer buffer = image.getPlanes()[0].getBuffer();
-            byte[] bytes = new byte[buffer.remaining()];
-            savePicture(bytes);
+            bytes = new byte[buffer.remaining()];
             buffer.get(bytes);//将image对象转化为byte，再转化为bitmap
             final Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
             if (bitmap != null) {
@@ -307,12 +302,13 @@ public class CameraActivity extends Activity {
             // 自动对焦
             captureRequestBuilder.set(CaptureRequest.CONTROL_AF_MODE, CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE);
             // 自动曝光
-            captureRequestBuilder.set(CaptureRequest.CONTROL_AE_MODE, CaptureRequest.CONTROL_AE_MODE_ON_AUTO_FLASH);
+            //captureRequestBuilder.set(CaptureRequest.CONTROL_AE_MODE, CaptureRequest.CONTROL_AE_MODE_ON_AUTO_FLASH);
             int rotation = getWindowManager().getDefaultDisplay().getRotation();
             CameraCharacteristics cameraCharacteristics = mCameraManager.getCameraCharacteristics(mCameraId);
             captureRequestBuilder.set(CaptureRequest.JPEG_ORIENTATION, getJpegOrientation(cameraCharacteristics, rotation));//使图片做顺时针旋转
             CaptureRequest mCaptureRequest = captureRequestBuilder.build();
             mSession.capture(mCaptureRequest, null, mHandler);
+            savePicture(bytes);
         } catch (CameraAccessException e) {
             e.printStackTrace();
         }
