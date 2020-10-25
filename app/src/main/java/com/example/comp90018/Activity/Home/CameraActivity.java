@@ -189,11 +189,10 @@ public class CameraActivity extends Activity {
                 }
             } else {
                 // Permission Denied
+                Toast.makeText(this, "Please accept camera request!", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent();
-                intent.putExtra("post_img", myImage.toString());
                 intent.setClass(CameraActivity.this, HomeActivity.class);
                 startActivity(intent);
-                Toast.makeText(this, "Please accept camera request!", Toast.LENGTH_LONG).show();
                 finish();
             }
         }
