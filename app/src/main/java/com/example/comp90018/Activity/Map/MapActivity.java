@@ -1,8 +1,8 @@
-package com.example.comp90018.Activity.Map
+package com.example.comp90018.Activity.Map;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import com.example.myapplication.R;
+import com.example.comp90018.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -53,7 +53,8 @@ import com.google.android.libraries.places.api.net.PlacesClient;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback{
+
+public class MapActivity extends AppCompatActivity implements OnMapReadyCallback{
     private GoogleMap mMap;
     private Button follow;
     private Button near;
