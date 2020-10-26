@@ -4,10 +4,7 @@ package com.example.comp90018.Activity.Home;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.Typeface;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,15 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
 import com.example.comp90018.R;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -117,6 +106,7 @@ public class HomePageAdapter extends BaseAdapter {
             likedText.setVisibility(View.GONE);
             commentText.setVisibility(View.GONE);
         }
+
         // implement the like function here. POST request to Instagram API
         likeButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View arg0) {
@@ -130,37 +120,9 @@ public class HomePageAdapter extends BaseAdapter {
                             + oneFeed.getMediaID().toString()
                             + "/likes?access_token="
                             + context.getResources().getString(R.string.instagram_access_token);
-//                    JsonObjectRequest postRequest = new JsonObjectRequest(Request.Method.POST, url,
-//                            new Response.Listener<JSONObject>() {
-//                                @Override
-//                                public void onResponse(JSONObject response) {
-//                                    try {
-//                                        JSONObject jsonResponse = response.getJSONObject("meta");
-//                                        int code = jsonResponse.getInt("code");
-//                                        //update liked list
-//                                        if (code == 200) {
-//                                            Toast.makeText(context.getApplicationContext(),
-//                                                    "You liked!",
-//                                                    Toast.LENGTH_LONG).show();
-//                                        }
-//                                        System.out.println("Like: " + tmpLike);
-//                                    } catch (JSONException e) {
-//                                        e.printStackTrace();
-//                                    }
-//                                }
-//                            },
-//                            new Response.ErrorListener() {
-//                                @Override
-//                                public void onErrorResponse(VolleyError error) {
-//                                    error.printStackTrace();
-//                                    Toast.makeText(context,
-//                                            "Network failure",
-//                                            Toast.LENGTH_LONG).show();
-//                                    likedText.setText(oneFeed.getLike().toString());
-//                                }
-//                            });
-                    //Volley.newRequestQueue(context.getApplicationContext()).add(postRequest);
-
+                    //update liked list
+                    Toast.makeText(context.getApplicationContext(), "You liked!", Toast.LENGTH_LONG).show();
+                    System.out.println("Like: " + tmpLike);
                     //updating the view
                     if (tmpLike.equals(oneFeed.getLike().toString())) {
                         if (tmpLike.length() > 0) {
@@ -175,9 +137,7 @@ public class HomePageAdapter extends BaseAdapter {
                     }
                     System.out.println("Like: " + finalLikeText);
                 } else {
-                    Toast.makeText(context,
-                            "You have already liked!",
-                            Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, "You have already liked!", Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -217,6 +177,7 @@ public class HomePageAdapter extends BaseAdapter {
         } else {
             likedText.setText("Nobody has liked yet.");
         }
+
         // set up the blank comment text in the view
         if (oneFeed.getComment() != null) {
             commentText.setText(oneFeed.getComment().toString().replace(',', ' ').substring(1,

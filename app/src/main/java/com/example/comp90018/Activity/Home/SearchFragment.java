@@ -184,66 +184,8 @@ public class SearchFragment extends Fragment {
                             + SEARCH_COUNT;
                     System.out.println("Search URL: " + request_url);
                     users = new ArrayList<>();
-//                    JsonObjectRequest jsonRequest = new JsonObjectRequest
-//                            (Request.Method.GET, request_url, (String) null, new Response.Listener<JSONObject>() {
-//                                @Override
-//                                public void onResponse(JSONObject response) {
-//                                    try {
-//                                        JSONArray array = response.getJSONArray("data");
-//                                        for (int i = 0; i < array.length(); i++) {
-//                                            final Search oneUser = new Search();
-//                                            JSONObject oneResult = array.getJSONObject(i);
-//                                            String username_result = oneResult.getString("username").toString();
-//                                            String fullname_result = oneResult.getString("full_name").toString();
-//                                            String userImgURL_result = oneResult.getString("profile_picture").toString().replace("\\", "");
-//                                            System.out.println("Search IMAGE: " + userImgURL_result);
-//                                            oneUser.setFullName(fullname_result);
-//                                            oneUser.setUserName(username_result);
-//                                            oneUser.setGender("Secret");
-//                                            oneUser.setImgURL(userImgURL_result);
-//
-//                                            //set the image to profile image
-//                                            ImageRequest profileImgRequest =
-//                                                    new ImageRequest(userImgURL_result, new Response.Listener<Bitmap>() {
-//                                                        @Override
-//                                                        public void onResponse(Bitmap response) {
-//                                                            //do something with the bitmap
-//                                                            oneUser.setProfileImage(response);
-//
-//                                                            if (searchAdapter != null) {
-//                                                                searchAdapter.notifyDataSetChanged();
-//                                                            }
-//                                                        }
-//                                                    }, 0, 0, ImageView.ScaleType.FIT_XY, Bitmap.Config.RGB_565,
-//                                                            new Response.ErrorListener() {
-//                                                                @Override
-//                                                                public void onErrorResponse(VolleyError error) {
-//                                                                    error.printStackTrace();
-//                                                                }
-//                                                            });
-//                                            if (profileImgRequest != null) {
-//                                                Volley.newRequestQueue(getActivity()).add(profileImgRequest);
-//                                            }
-//                                            //add parse user to array list
-//                                            users.add(oneUser);
-//                                            if (searchAdapter != null) {
-//                                                searchAdapter.notifyDataSetChanged();
-//                                            }
-//                                        }
-//                                    } catch (JSONException e) {
-//                                        e.printStackTrace();
-//                                    }
-//                                }
-//                            }, new Response.ErrorListener() {
-//                                @Override
-//                                public void onErrorResponse(VolleyError error) {
-//                                    error.printStackTrace();
-//                                    Toast.makeText(getActivity(),
-//                                            "Network failure",
-//                                            Toast.LENGTH_LONG).show();
-//                                }
-//                            });
-//                    Volley.newRequestQueue(getActivity()).add(jsonRequest);
+
+
                     searchAdapter.setUsers(users);
                     if (searchAdapter != null) {
                         searchAdapter.notifyDataSetChanged();
@@ -269,49 +211,6 @@ public class SearchFragment extends Fragment {
         }
         return false;
     }
-
-    //calculate the weights assigned to Gender
-//    private void calculateWeight(ArrayList<ParseUser> listOfUsers){
-//        usersMap = new HashMap<>();
-//        weightedUsers = new ArrayList<>();
-//        for(int i = 0; i< listOfUsers.size();i++) {
-//            userToWeight = listOfUsers.get(i);
-//            weight = 1;
-//            String currentUserGender = currentUser.get("Gender").toString();
-//            String recommendedUserGender = userToWeight.get("Gender").toString();
-//            boolean currentUserPresent = verifyGender(currentUserGender);
-//            boolean weighedUserPresent = verifyGender(recommendedUserGender);
-//
-//            if (currentUserPresent) {
-//                if (weighedUserPresent) {
-//                    if (currentUserPresent && weighedUserPresent) {
-//                        if (currentUserGender.equals(recommendedUserGender)) {
-//                            weight += 3;
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//        sortbyWeights();
-//    }
-
-    //sort the Users based on the weights granted to them by verifying their
-    // City and gender.
-//    private void sortbyWeights(){
-//        List<Map.Entry<ParseUser,Integer>> list = new LinkedList<Map.Entry<ParseUser, Integer>>(usersMap.entrySet());
-//        Collections.sort(list, new Comparator<Map.Entry<ParseUser, Integer>>() {
-//            @Override
-//            public int compare(Map.Entry<ParseUser, Integer> lhs, Map.Entry<ParseUser, Integer> rhs) {
-//                return (rhs.getValue()).compareTo(lhs.getValue());
-//            }
-//        });
-//        Map<ParseUser,Integer> sortedUserList = new LinkedHashMap<ParseUser, Integer>();
-//        for(Map.Entry<ParseUser, Integer> entry : list){
-//            sortedUserList.put(entry.getKey(), entry.getValue());
-//            weightedUsers.add(entry.getKey());
-//        }
-//        //Collections.reverse(weightedUsers);
-//    }
 
     public void onButtonPressed(Uri uri) {
         if (listener != null) {

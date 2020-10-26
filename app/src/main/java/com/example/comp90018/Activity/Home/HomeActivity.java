@@ -60,33 +60,33 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
                 button_shake.setBackgroundColor(Color.parseColor("#ffffff"));
                 button_profile.setBackgroundColor(Color.parseColor("#ffffff"));
                 break;
-            case 1://同理如上
+            case 1:
                 button_search.setBackgroundColor(Color.parseColor("#fafaaf"));
-                //其他的文本颜色不变
+
                 button_home.setBackgroundColor(Color.parseColor("#ffffff"));
                 button_map.setBackgroundColor(Color.parseColor("#ffffff"));
                 button_shake.setBackgroundColor(Color.parseColor("#ffffff"));
                 button_profile.setBackgroundColor(Color.parseColor("#ffffff"));
                 break;
-            case 2://同理如上
+            case 2:
                 button_map.setBackgroundColor(Color.parseColor("#fafaaf"));
-                //其他的文本颜色不变
+
                 button_search.setBackgroundColor(Color.parseColor("#ffffff"));
                 button_home.setBackgroundColor(Color.parseColor("#ffffff"));
                 button_shake.setBackgroundColor(Color.parseColor("#ffffff"));
                 button_profile.setBackgroundColor(Color.parseColor("#ffffff"));
                 break;
-            case 3://同理如上
+            case 3:
                 button_shake.setBackgroundColor(Color.parseColor("#fafaaf"));
-                //其他的文本颜色不变
+
                 button_search.setBackgroundColor(Color.parseColor("#ffffff"));
                 button_home.setBackgroundColor(Color.parseColor("#ffffff"));
                 button_map.setBackgroundColor(Color.parseColor("#ffffff"));
                 button_profile.setBackgroundColor(Color.parseColor("#ffffff"));
                 break;
-            case 4://同理如上
+            case 4:
                 button_profile.setBackgroundColor(Color.parseColor("#fafaaf"));
-                //其他的文本颜色不变
+
                 button_search.setBackgroundColor(Color.parseColor("#ffffff"));
                 button_home.setBackgroundColor(Color.parseColor("#ffffff"));
                 button_shake.setBackgroundColor(Color.parseColor("#ffffff"));
