@@ -90,7 +90,7 @@ public class Post extends AppCompatActivity {
 
     private void createInstagramIntent(String filePath){
         Intent instagram = new Intent(android.content.Intent.ACTION_SEND);
-        instagram.setType("image/*");
+        instagram.setType("String");
         File file = new File(filePath);
         Uri uri = Uri.fromFile(file);
         instagram.putExtra(Intent.EXTRA_STREAM, uri);

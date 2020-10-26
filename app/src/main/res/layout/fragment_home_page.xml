@@ -26,12 +26,13 @@
         android:scaleType="centerInside"
         android:src="@drawable/add" />
 
-    <RecyclerView
+    <ListView
         android:id="@+id/browseListView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:divider="#33b5e5"
         android:dividerHeight="1dp"
+        android:layout_weight="1"
         android:layout_below="@+id/text_home"
         android:layout_alignParentTop="true"
         android:layout_marginBottom="5dp"

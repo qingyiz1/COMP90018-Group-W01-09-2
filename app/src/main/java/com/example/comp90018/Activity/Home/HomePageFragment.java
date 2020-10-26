@@ -36,7 +36,7 @@ public class HomePageFragment extends Fragment{
     private static ArrayList<Feed> new_feeds_array;
     private TextView text_home;
     private ImageButton post;
-    private RecyclerView mainListView;
+    private ListView mainListView;
     private HomePageAdapter homepageAdapter;
     private String [][] users = {{"Joyce", "Good Day", "This is the content."},{"Ann", "Bad Day", "I dont wanna talk."}};
     /**
@@ -80,7 +80,8 @@ public class HomePageFragment extends Fragment{
             gpsTracker.showSettingsAlert();
         }
         //loadFeeds();
-        mainListView = (RecyclerView) view.findViewById(R.id.browseListView);
+        //import adapter
+        mainListView = (ListView) view.findViewById(R.id.browseListView);
         homepageAdapter = new HomePageAdapter(getActivity(),getData());
         mainListView.setAdapter(homepageAdapter);
         //loadFeeds();
@@ -98,11 +99,6 @@ public class HomePageFragment extends Fragment{
             }
         });
         return view;
-    }
-
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
     }
 
     @Override

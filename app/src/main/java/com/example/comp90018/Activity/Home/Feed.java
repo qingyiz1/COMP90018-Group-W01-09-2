@@ -27,7 +27,7 @@ public class Feed{
     private double distance;
 
     public Feed(String displayName, String userProfileImgURL, String photoURL, String location, ArrayList<String> comment, ArrayList<String> like, String caption, Boolean user_has_liked) {
-        this.displayName = displayName;
+        this.displayName = displayName;//"Joyce";
         this.userProfileImgURL = userProfileImgURL;
         this.photoURL = photoURL;
         this.location = location;

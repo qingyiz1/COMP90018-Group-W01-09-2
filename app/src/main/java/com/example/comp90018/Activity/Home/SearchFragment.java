@@ -7,35 +7,20 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.ImageRequest;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
 import com.example.comp90018.R;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -61,14 +46,7 @@ public class SearchFragment extends Fragment {
     private ArrayList<Search> users;
     final private int SEARCH_COUNT = 10;
     private OnFragmentInteractionListener listener;
-    //ParseUser是Parse Server and Dashboard的功能，
-    // ParseUser是用户数据的本地表示形式，可以从Parse云中进行保存和检索user。
-    //可改动
-//    private ParseUser currentUser = ParseUser.getCurrentUser();
-//    private ArrayList<ParseUser> weightedUsers;
-//    private ParseUser userToWeight;
-//    private int weight;
-//    HashMap<ParseUser, Integer> usersMap;
+
 
     public SearchFragment() {
         // Required empty public constructor
@@ -105,56 +83,19 @@ public class SearchFragment extends Fragment {
         to process the data to assign weights and determine priority. Once the sorted list of users
         is returned, it passes the list to the adapter to display on the list view for search page.
          */
-//    public void recommendation(){
-//        if(currentUser.get("Gender").toString() != "Blank") {
-//            users = new ArrayList<>();
-//            ParseQuery<ParseUser> query = ParseUser.getQuery();
-//            query.whereNotEqualTo("username", currentUser.getUsername().toString());
-//            query.findInBackground(new FindCallback<ParseUser>() {
-//                public void done(List<ParseUser> objects, ParseException e) {
-//                    if (e == null) {
-//                        Log.e("Search", objects.toString());
-//                        calculateWeight((ArrayList<ParseUser>) objects);
-//                        ArrayList<ParseUser> parseUserDB = weightedUsers;
-//                        //pass the data into discovery user array list
-//                        for (int i = 0; i < parseUserDB.size(); i++) {
-//                            ParseUser tmpUser = parseUserDB.get(i);
-//                            String username = tmpUser.getUsername();
-//                            String gender = tmpUser.get("Gender").toString();
-//                            ParseFile imageFile = (ParseFile) tmpUser.get("Image");
-//                            Bitmap profileImage;
-//                            if (imageFile != null) {
-//                                byte[] bitmapdata = new byte[0];
-//                                try {
-//                                    bitmapdata = imageFile.getData();
-//                                } catch (ParseException eg) {
-//                                    eg.printStackTrace();
-//                                }
-//                                Bitmap bitmap = BitmapFactory.decodeByteArray(bitmapdata, 0, bitmapdata.length);
-//                                profileImage = bitmap;
-//                            } else {
-//                                Drawable myDrawable = getResources().getDrawable(R.drawable.default_profile_image);
-//                                Bitmap defaultImage = ((BitmapDrawable) myDrawable).getBitmap();
-//                                profileImage = defaultImage;
-//                            }
-//                            Search searchUser = new Search();
-//                            searchUser.setProfileImage(profileImage);
-//                            searchUser.setUserName(username);
-//                            searchUser.setGender(gender);
-//                            if(!currentUser.getUsername().equals(searchUser.getUserName())) {
-//                                users.add(searchUser);
-//                            }
-//                        }
-//                        searchAdapter.setUsers(users);
-//                        searchAdapter.notifyDataSetChanged();
-//                    } else {
-//                        // Something went wrong.
-//                        Log.e("Search", "Exception thrown");
-//                    }
-//                }
-//            });
-//        }
-//    }
+    public void recommendation() {
+        users = new ArrayList<>();
+        //pass the data into discovery user array list
+        byte[] bitmapdata = new byte[0];
+        Bitmap bitmap = BitmapFactory.decodeByteArray(bitmapdata, 0, bitmapdata.length);
+
+        Drawable myDrawable = getResources().getDrawable(R.drawable.default_profile_image);
+        Bitmap defaultImage = ((BitmapDrawable) myDrawable).getBitmap();
+
+        Search searchUser = new Search();
+        searchAdapter.setUsers(users);
+
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -165,10 +106,9 @@ public class SearchFragment extends Fragment {
         searchInput.getBackground().setColorFilter(getResources().getColor(R.color.actionbar_background), PorterDuff.Mode.SRC_ATOP);
         searchText = (TextView) view.findViewById(R.id.text_search);
         listView = (ListView) view.findViewById(R.id.searchList);
-        //if(users != null) {
+        //import adapter
         searchAdapter = new SearchAdapter(getActivity(), getData());
         listView.setAdapter(searchAdapter);
-        //}
 
         search.setOnClickListener(new View.OnClickListener() {
             public void onClick(View arg0) {
@@ -184,8 +124,6 @@ public class SearchFragment extends Fragment {
                             + SEARCH_COUNT;
                     System.out.println("Search URL: " + request_url);
                     users = new ArrayList<>();
-
-
                     searchAdapter.setUsers(users);
                     if (searchAdapter != null) {
                         searchAdapter.notifyDataSetChanged();
