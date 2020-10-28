@@ -1,20 +1,16 @@
 package com.example.comp90018.Activity.Home;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.comp90018.R;
 
@@ -65,20 +61,6 @@ public class HomePageFragment extends Fragment{
                              Bundle savedInstanceState){
         View view = inflater.inflate(R.layout.fragment_home_page, container, false);
 
-        //getting GPS location
-        GPSTracker gpsTracker = new GPSTracker(this.getActivity());
-        // check if GPS enabled
-        if (gpsTracker.getIsGPSTrackingEnabled()) {
-            latitudeCurrent = gpsTracker.latitude;
-            longitudeCurrent = gpsTracker.longitude;
-            System.out.println("Location: " + latitudeCurrent + ", " + longitudeCurrent);
-        }
-        else {
-            // can't get location
-            // GPS or Network is not enabled
-            // Ask user to enable GPS/network in settings
-            gpsTracker.showSettingsAlert();
-        }
         //loadFeeds();
         //import adapter
         mainListView = (ListView) view.findViewById(R.id.browseListView);

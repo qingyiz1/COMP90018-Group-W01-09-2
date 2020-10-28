@@ -30,7 +30,6 @@ public class Feed{
         this.displayName = displayName;//"Joyce";
         this.userProfileImgURL = userProfileImgURL;
         this.photoURL = photoURL;
-        this.location = location;
         this.comment = comment;
         this.like = like;
         this.caption = caption;
@@ -39,7 +38,6 @@ public class Feed{
     }
 
     public Feed(){
-
     }
 
     public String getCaption() {
@@ -48,30 +46,6 @@ public class Feed{
 
     public void setCaption(String caption) {
         this.caption = caption;
-    }
-
-    public double getLatitude() {
-        return latitude;
-    }
-
-    public void setLatitude(double latitude) {
-        this.latitude = latitude;
-    }
-
-    public double getLongitude() {
-        return longitude;
-    }
-
-    public void setLongitude(double longitude) {
-        this.longitude = longitude;
-    }
-
-    public double getDistance() {
-        return distance;
-    }
-
-    public void setDistance(double distance) {
-        this.distance = distance;
     }
 
     public Boolean getUser_has_liked() {
@@ -83,7 +57,6 @@ public class Feed{
     }
 
     public String getDisplayName() {
-
         return displayName;
     }
 
@@ -121,14 +94,6 @@ public class Feed{
 
     public void setPhoto(Bitmap photo) {
         this.photo = photo;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
     }
 
     public ArrayList<String> getComment() {

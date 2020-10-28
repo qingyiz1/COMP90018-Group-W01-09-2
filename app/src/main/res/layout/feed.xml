@@ -22,16 +22,6 @@
         android:layout_marginTop="20dp"
         android:layout_marginLeft="20dp"/>
 
-    <TextView
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/locationTextView"
-        android:layout_below="@+id/text_userName"
-        android:layout_alignLeft="@+id/text_userName"
-        android:layout_alignStart="@+id/text_userName"
-        android:layout_marginLeft="0dp"
-        android:layout_marginTop="5dp"/>
-
     <ImageView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -44,23 +34,10 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Caption"
-        android:id="@+id/captionText"
+        android:id="@+id/captionTextView"
         android:layout_below="@+id/photoImage"
         android:layout_alignLeft="@+id/userImage"
         android:layout_alignStart="@+id/userImage"
-        android:layout_marginTop="5dp"
-        android:textSize="16dp"
-        android:textColor="#ff33b5e5"
-        android:singleLine="false"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/captionTextView"
-        android:layout_below="@+id/captionText"
-        android:layout_alignLeft="@+id/captionText"
-        android:layout_alignStart="@+id/captionText"
         android:layout_marginTop="3dp"
         android:layout_marginBottom="3dp"/>
 

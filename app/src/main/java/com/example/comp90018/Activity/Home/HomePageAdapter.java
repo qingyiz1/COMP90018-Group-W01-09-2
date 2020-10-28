@@ -75,7 +75,6 @@ public class HomePageAdapter extends BaseAdapter {
         //find all UI elements
         ImageView userProfileImg = (ImageView) rowView.findViewById(R.id.userImage);
         TextView userName = (TextView) rowView.findViewById(R.id.text_userName);
-        TextView locationName = (TextView) rowView.findViewById(R.id.locationTextView);
         ImageView photoImg = (ImageView) rowView.findViewById(R.id.photoImage);
         final TextView likedText = (TextView) rowView.findViewById(R.id.likedTextView);
         TextView commentText = (TextView) rowView.findViewById(R.id.commentTextView);
@@ -84,8 +83,6 @@ public class HomePageAdapter extends BaseAdapter {
         TextView captionText = (TextView) rowView.findViewById(R.id.captionTextView);
 
         //set text view styles
-        TextView captionFixText = (TextView) rowView.findViewById(R.id.captionText);
-        captionFixText.setTypeface(captionFixText.getTypeface(), Typeface.BOLD);
         TextView likesFixText = (TextView) rowView.findViewById(R.id.likedText);
         likesFixText.setTypeface(likesFixText.getTypeface(), Typeface.BOLD);
         TextView commentFixText = (TextView) rowView.findViewById(R.id.commentText);
@@ -94,7 +91,6 @@ public class HomePageAdapter extends BaseAdapter {
         //set user profile image, user name, location name, photo image
         userProfileImg.setImageBitmap(oneFeed.getUserProfileImg());
         userName.setText(oneFeed.getDisplayName());
-        locationName.setText(oneFeed.getLocation());
         photoImg.setImageBitmap(oneFeed.getPhoto());
 
         //set visibility for button
