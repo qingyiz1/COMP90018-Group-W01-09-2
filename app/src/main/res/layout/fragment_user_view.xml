@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activity.Shake.UserViewFragment">
+
+    <ImageView
+        android:id="@+id/iv_personal_icon"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_centerInParent="false"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/touxiang" />
+
+    <ListView
+        android:id="@+id/browseListView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="#33b5e5"
+        android:dividerHeight="1dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="200dp"/>
+
+    <TextView
+        android:id="@+id/user_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="150dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="50dp"
+        android:fontFamily="@font/roboto_regular"
+        android:text="user name"
+        android:textSize="40sp" />
+
+    <TextView
+        android:id="@+id/user_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="150dp"
+        android:layout_marginTop="80dp"
+        android:layout_marginEnd="0dp"
+        android:fontFamily="@font/roboto_regular"
+        android:text="dog, 2 years old, female"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/user_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="150dp"
+        android:layout_marginEnd="0dp"
+        android:fontFamily="@font/roboto_regular"
+        android:text="want to find XX friends ............."
+        android:textSize="20sp" />
+
+
+</RelativeLayout>
