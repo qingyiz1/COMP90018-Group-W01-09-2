@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activity.Shake.UserViewFragment">
+    tools:context=".Activity.Shake.UserViewActivity">
 
     <ImageView
         android:id="@+id/iv_personal_icon"
@@ -15,7 +15,7 @@
         android:src="@drawable/touxiang" />
 
     <ListView
-        android:id="@+id/browseListView"
+        android:id="@+id/browserListView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:divider="#33b5e5"
