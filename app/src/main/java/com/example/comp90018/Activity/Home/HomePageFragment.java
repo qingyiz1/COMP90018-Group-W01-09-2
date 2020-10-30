@@ -60,13 +60,10 @@ public class HomePageFragment extends Fragment{
                              Bundle savedInstanceState){
         View view = inflater.inflate(R.layout.fragment_home_page, container, false);
 
-        //loadFeeds();
         //import adapter
         mainListView = (ListView) view.findViewById(R.id.browseListView);
         homepageAdapter = new HomePageAdapter(getActivity(),getData());
         mainListView.setAdapter(homepageAdapter);
-        //loadFeeds();
-        homepageAdapter.setFeed_array(getData());
         homepageAdapter.notifyDataSetChanged();
         text_home = (TextView) view.findViewById(R.id.text_home);
 

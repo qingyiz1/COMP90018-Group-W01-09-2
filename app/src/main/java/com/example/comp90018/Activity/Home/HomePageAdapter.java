@@ -25,6 +25,7 @@ public class HomePageAdapter extends BaseAdapter {
     private String finalLikeText;
     private String tmpLike;
     private int likePosition;
+    private ImageButton likeButton;
 
 
     public HomePageAdapter(Context c, ArrayList<Feed> data) {
@@ -78,8 +79,8 @@ public class HomePageAdapter extends BaseAdapter {
         ImageView photoImg = (ImageView) rowView.findViewById(R.id.photoImage);
         final TextView likedText = (TextView) rowView.findViewById(R.id.likedTextView);
         TextView commentText = (TextView) rowView.findViewById(R.id.commentTextView);
-        final ImageButton likeButton = (ImageButton) rowView.findViewById(R.id.likeButton);
-        final ImageButton commentButton = (ImageButton) rowView.findViewById(R.id.commentButton);
+        likeButton = (ImageButton) rowView.findViewById(R.id.likeButton);
+        ImageButton commentButton = (ImageButton) rowView.findViewById(R.id.commentButton);
         TextView captionText = (TextView) rowView.findViewById(R.id.captionTextView);
 
         //set text view styles
@@ -89,9 +90,9 @@ public class HomePageAdapter extends BaseAdapter {
         commentFixText.setTypeface(commentFixText.getTypeface(), Typeface.BOLD);
 
         //set user profile image, user name, location name, photo image
-        //userProfileImg.setImageBitmap(oneFeed.getUserProfileImg());
+        userProfileImg.setImageBitmap(oneFeed.getUserProfileImg());
         userName.setText(oneFeed.getDisplayName());
-        //photoImg.setImageBitmap(oneFeed.getPhoto());
+        photoImg.setImageBitmap(oneFeed.getPhoto());
 
         // implement the like function here. POST request to Instagram API
         likeButton.setOnClickListener(new View.OnClickListener() {
@@ -101,22 +102,18 @@ public class HomePageAdapter extends BaseAdapter {
                     oneFeed.setUser_has_liked(true);
                     tmpLike = likedText.getText().toString();
                     likePosition = position;
-                    String url = context.getResources().getString(R.string.instagram_api_url)
-                            + context.getResources().getString(R.string.instagram_api_media_method)
-                            + oneFeed.getMediaID().toString()
-                            + "/likes?access_token="
-                            + context.getResources().getString(R.string.instagram_access_token);
                     //update liked list
                     Toast.makeText(context.getApplicationContext(), "You liked!", Toast.LENGTH_LONG).show();
                     System.out.println("Like: " + tmpLike);
                     //updating the view
+                    //计算likes个数
                     if (tmpLike.equals(oneFeed.getLike().toString())) {
                         if (tmpLike.length() > 0) {
                             if (Character.isDigit(tmpLike.charAt(1))) {
                                 int likeNum = Integer.parseInt(tmpLike.replaceAll("[^0-9]", "")) + 1;
                                 finalLikeText = "[" + String.valueOf(likeNum) + " likes]";
                             } else {
-                                finalLikeText = tmpLike.replace("]", "") + ", carl_xs]";
+                                finalLikeText = tmpLike.replace("]", "") + "none]";
                             }
                         }
                         likedText.setText(finalLikeText);
