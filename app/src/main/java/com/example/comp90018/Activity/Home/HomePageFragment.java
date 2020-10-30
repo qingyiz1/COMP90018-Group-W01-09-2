@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
+import com.example.comp90018.Activity.Shake.Moment;
 import com.example.comp90018.R;
 
 import java.util.ArrayList;
@@ -25,16 +26,14 @@ public class HomePageFragment extends Fragment{
     private String mParam1;
     private String mParam2;
 
-    private double latitudeCurrent;
-    private double longitudeCurrent;
     private OnFragmentInteractionListener listener;
-    private static ArrayList<Feed> feeds_array;
-    private static ArrayList<Feed> new_feeds_array;
+    private static ArrayList<Feed> feeds_array=new ArrayList<>();
+    //private static ArrayList<Feed> new_feeds_array;
     private TextView text_home;
     private ImageButton post;
     private ListView mainListView;
     private HomePageAdapter homepageAdapter;
-    private String [][] users = {{"Joyce", "Good Day", "This is the content."},{"Ann", "Bad Day", "I dont wanna talk."}};
+
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
@@ -83,6 +82,20 @@ public class HomePageFragment extends Fragment{
         return view;
     }
 
+    private ArrayList<Feed> getData(){
+        String username="Ann";
+        String caption="text11111";
+        String userProfileImgURL="";
+        String photoURL="";
+        ArrayList<String> comment=new ArrayList<>();
+        ArrayList<String> like=new ArrayList<>();
+        Boolean user_has_liked=false;
+//        Boolean user_has_liked=true;
+        Feed feed=new Feed(username, userProfileImgURL, photoURL, comment, like, caption, user_has_liked);
+        feeds_array.add(feed);
+        return feeds_array;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -111,22 +124,6 @@ public class HomePageFragment extends Fragment{
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         public void onFragmentInteraction(Uri uri);
-    }
-    //main requesting data method
-//    public void loadFeeds() {
-//        String request_url = "https://api.instagram.com/v1/users/self/feed?access_token=25846960.1fb234f.1c7c1f3a4843498f88d0f559ff690eb2";
-//        //DEBUG
-//        System.out.println("Requesting from: " + request_url);
-//        //create a feed array list
-//        feeds_array = new ArrayList<>();
-//        final Feed feedObj = new Feed();
-//        if (homepageAdapter != null) {
-//            homepageAdapter.notifyDataSetChanged();
-//        }
-//    }
-
-    public ArrayList<Feed> getData(){
-        return feeds_array;
     }
 
 }

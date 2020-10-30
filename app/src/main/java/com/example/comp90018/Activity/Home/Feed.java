@@ -16,18 +16,15 @@ public class Feed{
     private String photoURL;
     private Bitmap userProfileImg;
     private Bitmap photo;
-    private String location;
     private String mediaID;
     private String caption;
     private Boolean user_has_liked;
     private ArrayList<String> comment;
     private ArrayList<String> like;
-    private double latitude;
-    private double longitude;
-    private double distance;
 
-    public Feed(String displayName, String userProfileImgURL, String photoURL, String location, ArrayList<String> comment, ArrayList<String> like, String caption, Boolean user_has_liked) {
-        this.displayName = displayName;//"Joyce";
+
+    public Feed(String displayName, String userProfileImgURL, String photoURL, ArrayList<String> comment, ArrayList<String> like, String caption, Boolean user_has_liked) {
+        this.displayName = displayName;
         this.userProfileImgURL = userProfileImgURL;
         this.photoURL = photoURL;
         this.comment = comment;

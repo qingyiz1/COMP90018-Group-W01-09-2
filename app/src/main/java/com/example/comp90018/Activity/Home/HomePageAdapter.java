@@ -62,7 +62,7 @@ public class HomePageAdapter extends BaseAdapter {
         return 0;
     }
 
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+    //@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     @Override
     //set the view of the list view in home page fragment
     public View getView(final int position, View view, ViewGroup viewGroup) {
@@ -89,19 +89,9 @@ public class HomePageAdapter extends BaseAdapter {
         commentFixText.setTypeface(commentFixText.getTypeface(), Typeface.BOLD);
 
         //set user profile image, user name, location name, photo image
-        userProfileImg.setImageBitmap(oneFeed.getUserProfileImg());
+        //userProfileImg.setImageBitmap(oneFeed.getUserProfileImg());
         userName.setText(oneFeed.getDisplayName());
-        photoImg.setImageBitmap(oneFeed.getPhoto());
-
-        //set visibility for button
-        if (oneFeed.getCaption() != null && oneFeed.getCaption().equals("#In Range")){
-            likeButton.setVisibility(View.GONE);
-            commentButton.setVisibility(View.GONE);
-            likesFixText.setVisibility(View.GONE);
-            commentFixText.setVisibility(View.GONE);
-            likedText.setVisibility(View.GONE);
-            commentText.setVisibility(View.GONE);
-        }
+        //photoImg.setImageBitmap(oneFeed.getPhoto());
 
         // implement the like function here. POST request to Instagram API
         likeButton.setOnClickListener(new View.OnClickListener() {
