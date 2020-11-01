@@ -1,4 +1,4 @@
-package com.example.comp90018.Activity;
+package com.example.comp90018.Activity.User;
 
 import androidx.appcompat.app.AppCompatActivity;
 
