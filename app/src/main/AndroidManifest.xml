@@ -35,12 +35,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity
+
+        <activity android:name=".Activity.Home.HomeActivity" />
             android:name=".Activity.Shake.UserViewActivity"
             android:exported="true"></activity>
         <activity
             android:name=".Activity.User.UsersActivity"
-            android:exported="true"></activity>
+            android:label="User"></activity>
         <activity
             android:name=".Activity.Home.HomeActivity"
             android:label="Home"></activity>
