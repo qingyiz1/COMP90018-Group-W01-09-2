@@ -31,7 +31,7 @@
             android:layout_marginLeft="20px"
             android:src="@drawable/grid" />
 
-        <Button
+        <ImageButton
             android:id="@+id/button1"
             android:layout_width="62dp"
             android:layout_height="62dp"
@@ -39,7 +39,7 @@
             android:layout_centerHorizontal="true"
             android:layout_gravity="bottom|center_vertical"
             android:layout_marginBottom="10dp"
-            android:background="@android:drawable/ic_menu_camera" />
+            android:background="@drawable/camera" />
 
         <ToggleButton
             android:layout_width="wrap_content"

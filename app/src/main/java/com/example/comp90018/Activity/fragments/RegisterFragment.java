@@ -155,8 +155,6 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View view) {
         if (view == btn_register) {
-            Log.d(TAG, "onClick: "+register_email.getText().toString());
-            Log.d(TAG, "onClick: "+register_password.getText().toString());
             createAccount(register_email.getText().toString(),register_password.getText().toString());
         }
     }

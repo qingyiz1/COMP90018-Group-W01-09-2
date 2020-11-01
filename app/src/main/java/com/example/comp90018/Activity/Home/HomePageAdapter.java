@@ -4,10 +4,7 @@ package com.example.comp90018.Activity.Home;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.Typeface;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,15 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
 import com.example.comp90018.R;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -36,6 +25,7 @@ public class HomePageAdapter extends BaseAdapter {
     private String finalLikeText;
     private String tmpLike;
     private int likePosition;
+    private ImageButton likeButton;
 
 
     public HomePageAdapter(Context c, ArrayList<Feed> data) {
@@ -73,7 +63,7 @@ public class HomePageAdapter extends BaseAdapter {
         return 0;
     }
 
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+    //@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     @Override
     //set the view of the list view in home page fragment
     public View getView(final int position, View view, ViewGroup viewGroup) {
@@ -86,17 +76,14 @@ public class HomePageAdapter extends BaseAdapter {
         //find all UI elements
         ImageView userProfileImg = (ImageView) rowView.findViewById(R.id.userImage);
         TextView userName = (TextView) rowView.findViewById(R.id.text_userName);
-        TextView locationName = (TextView) rowView.findViewById(R.id.locationTextView);
         ImageView photoImg = (ImageView) rowView.findViewById(R.id.photoImage);
         final TextView likedText = (TextView) rowView.findViewById(R.id.likedTextView);
         TextView commentText = (TextView) rowView.findViewById(R.id.commentTextView);
-        final ImageButton likeButton = (ImageButton) rowView.findViewById(R.id.likeButton);
-        final ImageButton commentButton = (ImageButton) rowView.findViewById(R.id.commentButton);
+        likeButton = (ImageButton) rowView.findViewById(R.id.likeButton);
+        ImageButton commentButton = (ImageButton) rowView.findViewById(R.id.commentButton);
         TextView captionText = (TextView) rowView.findViewById(R.id.captionTextView);
 
         //set text view styles
-        TextView captionFixText = (TextView) rowView.findViewById(R.id.captionText);
-        captionFixText.setTypeface(captionFixText.getTypeface(), Typeface.BOLD);
         TextView likesFixText = (TextView) rowView.findViewById(R.id.likedText);
         likesFixText.setTypeface(likesFixText.getTypeface(), Typeface.BOLD);
         TextView commentFixText = (TextView) rowView.findViewById(R.id.commentText);
@@ -105,18 +92,8 @@ public class HomePageAdapter extends BaseAdapter {
         //set user profile image, user name, location name, photo image
         userProfileImg.setImageBitmap(oneFeed.getUserProfileImg());
         userName.setText(oneFeed.getDisplayName());
-        locationName.setText(oneFeed.getLocation());
         photoImg.setImageBitmap(oneFeed.getPhoto());
 
-        //set visibility for button
-        if (oneFeed.getCaption() != null && oneFeed.getCaption().equals("#In Range")){
-            likeButton.setVisibility(View.GONE);
-            commentButton.setVisibility(View.GONE);
-            likesFixText.setVisibility(View.GONE);
-            commentFixText.setVisibility(View.GONE);
-            likedText.setVisibility(View.GONE);
-            commentText.setVisibility(View.GONE);
-        }
         // implement the like function here. POST request to Instagram API
         likeButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View arg0) {
@@ -125,59 +102,25 @@ public class HomePageAdapter extends BaseAdapter {
                     oneFeed.setUser_has_liked(true);
                     tmpLike = likedText.getText().toString();
                     likePosition = position;
-                    String url = context.getResources().getString(R.string.instagram_api_url)
-                            + context.getResources().getString(R.string.instagram_api_media_method)
-                            + oneFeed.getMediaID().toString()
-                            + "/likes?access_token="
-                            + context.getResources().getString(R.string.instagram_access_token);
-                    JsonObjectRequest postRequest = new JsonObjectRequest(Request.Method.POST, url,
-                            new Response.Listener<JSONObject>() {
-                                @Override
-                                public void onResponse(JSONObject response) {
-                                    try {
-                                        JSONObject jsonResponse = response.getJSONObject("meta");
-                                        int code = jsonResponse.getInt("code");
-                                        //update liked list
-                                        if (code == 200) {
-                                            Toast.makeText(context.getApplicationContext(),
-                                                    "You liked!",
-                                                    Toast.LENGTH_LONG).show();
-                                        }
-                                        System.out.println("Like: " + tmpLike);
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-                            },
-                            new Response.ErrorListener() {
-                                @Override
-                                public void onErrorResponse(VolleyError error) {
-                                    error.printStackTrace();
-                                    Toast.makeText(context,
-                                            "Network failure",
-                                            Toast.LENGTH_LONG).show();
-                                    likedText.setText(oneFeed.getLike().toString());
-                                }
-                            });
-                    Volley.newRequestQueue(context.getApplicationContext()).add(postRequest);
-
+                    //update liked list
+                    Toast.makeText(context.getApplicationContext(), "You liked!", Toast.LENGTH_LONG).show();
+                    System.out.println("Like: " + tmpLike);
                     //updating the view
+                    //计算likes个数
                     if (tmpLike.equals(oneFeed.getLike().toString())) {
                         if (tmpLike.length() > 0) {
                             if (Character.isDigit(tmpLike.charAt(1))) {
                                 int likeNum = Integer.parseInt(tmpLike.replaceAll("[^0-9]", "")) + 1;
                                 finalLikeText = "[" + String.valueOf(likeNum) + " likes]";
                             } else {
-                                finalLikeText = tmpLike.replace("]", "") + ", carl_xs]";
+                                finalLikeText = tmpLike.replace("]", "") + "none]";
                             }
                         }
                         likedText.setText(finalLikeText);
                     }
                     System.out.println("Like: " + finalLikeText);
                 } else {
-                    Toast.makeText(context,
-                            "You have already liked!",
-                            Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, "You have already liked!", Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -217,6 +160,7 @@ public class HomePageAdapter extends BaseAdapter {
         } else {
             likedText.setText("Nobody has liked yet.");
         }
+
         // set up the blank comment text in the view
         if (oneFeed.getComment() != null) {
             commentText.setText(oneFeed.getComment().toString().replace(',', ' ').substring(1,
