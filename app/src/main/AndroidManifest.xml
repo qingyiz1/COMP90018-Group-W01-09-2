@@ -40,9 +40,6 @@
             android:name=".Activity.Shake.UserViewActivity"
             android:exported="true" />
         <activity
-            android:name=".Activity.User.UsersActivity"
-            android:label="User" />
-        <activity
             android:name=".Activity.Home.HomeActivity"
             android:label="Home" />
         <activity
