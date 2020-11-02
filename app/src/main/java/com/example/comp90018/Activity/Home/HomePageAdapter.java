@@ -19,7 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.comp90018.R;
-
+import com.example.comp90018.DataModel.Feed;
 import java.util.ArrayList;
 
 public class HomePageAdapter extends BaseAdapter {
