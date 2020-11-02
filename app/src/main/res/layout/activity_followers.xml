@@ -6,4 +6,16 @@
     android:layout_height="match_parent"
     tools:context=".Activity.User.FollowersActivity">
 
+    <androidx.appcompat.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/toolbar"
+        android:background="@color/quantum_white_100"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/recycler_view"
+        android:layout_below="@id/toolbar"/>
+
 </RelativeLayout>
