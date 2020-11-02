@@ -41,7 +41,6 @@ import android.widget.ToggleButton;
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 
-import com.example.comp90018.DataModel.Post;
 import com.example.comp90018.R;
 
 import java.io.File;
