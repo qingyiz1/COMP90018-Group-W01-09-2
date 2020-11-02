@@ -35,13 +35,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
+        <activity
+            android:name=".Activity.User.EditProfileActivity"
+            android:exported="true"/>
+        <activity
+            android:name=".Activity.User.FollowersActivity"
+            android:exported="true"/>
         <activity
             android:name=".Activity.Shake.UserViewActivity"
             android:exported="true" />
-        <activity
-            android:name=".Activity.User.UsersActivity"
-            android:label="User" />
         <activity
             android:name=".Activity.Home.HomeActivity"
             android:label="Home" />
@@ -49,7 +51,7 @@
             android:name=".Activity.Home.CameraActivity"
             android:label="Camera" />
         <activity
-            android:name=".DataModel.Post"
+            android:name=".Activity.Home.Post"
             android:label="Post" />
         <activity
             android:name=".Activity.Home.CommentActivity"
