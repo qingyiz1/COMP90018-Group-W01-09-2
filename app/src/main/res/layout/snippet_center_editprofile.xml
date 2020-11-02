@@ -34,7 +34,7 @@
                 android:layout_height="50dp"
                 android:layout_below="@+id/changeProfilePhoto"
                 android:layout_marginTop="80dp"
-                android:background="">
+                >
 
             </RelativeLayout>
 

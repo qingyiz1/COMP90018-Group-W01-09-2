@@ -2,6 +2,8 @@ package com.example.comp90018.Activity.Home;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -84,8 +86,10 @@ public class HomePageFragment extends Fragment{
     private ArrayList<Feed> getData(){
         String username="Ann";
         String caption="Hello!";
-        Bitmap touxiang = null;
-        Bitmap postPhoto = null;
+        Drawable drawable = getResources().getDrawable(R.drawable.touxiang);
+        Bitmap touxiang = ((BitmapDrawable) drawable).getBitmap();
+        Drawable drawable1 = getResources().getDrawable(R.drawable.photo);
+        Bitmap postPhoto = ((BitmapDrawable) drawable1).getBitmap();
         ArrayList<String> comment=new ArrayList<>();
         ArrayList<String> like=new ArrayList<>();
         Boolean user_has_liked=false;

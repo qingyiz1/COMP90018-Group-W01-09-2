@@ -22,9 +22,6 @@ public class SearchAdapter extends BaseAdapter {
     private ImageView userImg;
     private TextView userName;
     private TextView gender;
-    //ParseFile是Parse Server and Dashboard的功能，
-    // ParseFile是用户数据的本地表示形式，可以从Parse云中进行保存和检索user的file。
-    //可改动
 
     public SearchAdapter(Context c, ArrayList<Search> user){
         context = c;
@@ -62,6 +59,7 @@ public class SearchAdapter extends BaseAdapter {
 
         View rowView = inflater.inflate(R.layout.search, null, true);
         Search userProfile = users.get(position);
+
         userImg = (ImageView) rowView.findViewById(R.id.userImg);
         userName = (TextView) rowView.findViewById(R.id.userName);
         userName.setTypeface(userName.getTypeface(), Typeface.BOLD);
@@ -69,14 +67,15 @@ public class SearchAdapter extends BaseAdapter {
         String[] fullUserName = userProfile.getUserName().toString().split("@");
         userName.setText(fullUserName[0]);
 
-        Bitmap profileImage = userProfile.getProfileImage();
-        if (profileImage != null) {
-            userImg.setImageBitmap(BitmapStore.getCroppedBitmap(profileImage));
-        }else{
-            Drawable drawable = rowView.getResources().getDrawable(R.drawable.default_profile_image);
-            Bitmap defaultImage = ((BitmapDrawable) drawable).getBitmap();
-            userImg.setImageBitmap(defaultImage);
-        }
+        userImg.setImageBitmap(userProfile.getProfileImage());
+//        Bitmap profileImage = userProfile.getProfileImage();
+//        if (profileImage != null) {
+//            userImg.setImageBitmap(BitmapStore.getCroppedBitmap(profileImage));
+//        }else{
+//            Drawable drawable = rowView.getResources().getDrawable(R.drawable.touxiang);
+//            Bitmap defaultImage = ((BitmapDrawable) drawable).getBitmap();
+//            userImg.setImageBitmap(defaultImage);
+//        }
 
         return rowView;
     }
