@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.comp90018.Activity.Home.Search">
+    tools:context="com.example.comp90018.DataModel.Search">
 
     <ImageView
         android:layout_width="40dp"

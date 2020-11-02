@@ -1,20 +1,18 @@
-package com.example.comp90018.Activity.Home;
+package com.example.comp90018.DataModel;
 
 import android.graphics.Bitmap;
 
 public class Search {
     private String userName;
     private String gender;
-    private String imgURL;
     private Bitmap profileImage;
     private String fullName;
 
     public Search() { }
 
-    public Search(String userName, String gender, String imgURL, Bitmap profileImage) {
+    public Search(String userName, String gender, Bitmap profileImage) {
         this.userName = userName;
         this.gender = gender;
-        this.imgURL = imgURL;
         this.profileImage = profileImage;
     }
 
@@ -48,14 +46,6 @@ public class Search {
 
     public void setGender(String gender) {
         this.gender = gender;
-    }
-
-    public String getImgURL() {
-        return imgURL;
-    }
-
-    public void setImgURL(String imgURL) {
-        this.imgURL = imgURL;
     }
 
 }

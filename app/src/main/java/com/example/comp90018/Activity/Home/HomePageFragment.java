@@ -1,6 +1,9 @@
 package com.example.comp90018.Activity.Home;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,7 +14,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
-
+import com.example.comp90018.DataModel.Feed;
 import com.example.comp90018.Activity.Shake.Moment;
 import com.example.comp90018.R;
 
@@ -65,6 +68,7 @@ public class HomePageFragment extends Fragment{
         homepageAdapter = new HomePageAdapter(getActivity(),getData());
         mainListView.setAdapter(homepageAdapter);
         homepageAdapter.notifyDataSetChanged();
+
         text_home = (TextView) view.findViewById(R.id.text_home);
 
         post = (ImageButton) view.findViewById(R.id.add_post);
@@ -81,14 +85,15 @@ public class HomePageFragment extends Fragment{
 
     private ArrayList<Feed> getData(){
         String username="Ann";
-        String caption="text11111";
-        String userProfileImgURL="";
-        String photoURL="";
+        String caption="Hello!";
+        Drawable drawable = getResources().getDrawable(R.drawable.touxiang);
+        Bitmap touxiang = ((BitmapDrawable) drawable).getBitmap();
+        Drawable drawable1 = getResources().getDrawable(R.drawable.photo);
+        Bitmap postPhoto = ((BitmapDrawable) drawable1).getBitmap();
         ArrayList<String> comment=new ArrayList<>();
         ArrayList<String> like=new ArrayList<>();
         Boolean user_has_liked=false;
-//        Boolean user_has_liked=true;
-        Feed feed=new Feed(username, userProfileImgURL, photoURL, comment, like, caption, user_has_liked);
+        Feed feed=new Feed(username, touxiang, postPhoto, comment, like, caption, user_has_liked);
         feeds_array.add(feed);
         return feeds_array;
     }

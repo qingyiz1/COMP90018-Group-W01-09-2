@@ -36,7 +36,6 @@ public class Post extends AppCompatActivity {
     private Button photoInsert;
     public ImageView imageview = null;
     private Bitmap rawBitmap = null;
-    private Bitmap thumbnail = null;
     private Button btnPost = null;
     private Button btnCancel =null;
     private String filePath = "";
@@ -50,14 +49,6 @@ public class Post extends AppCompatActivity {
         postTitle = (TextView) findViewById(R.id.text_post_text);
         textField = (EditText) findViewById(R.id.text_field);
         postText = textField.getText().toString();
-        imageview = (ImageView) findViewById(R.id.imageView1);
-
-        // get the bitmap from file
-        Intent intent = getIntent();
-        filePath = intent.getStringExtra("post_img");
-        rawBitmap = BitmapFactory.decodeFile(filePath);
-        thumbnail = rawBitmap;
-        imageview.setImageBitmap(thumbnail);
 
         photoInsert = (Button) findViewById(R.id.text_photo_text);
         photoInsert.setOnClickListener(new View.OnClickListener() {
@@ -78,6 +69,15 @@ public class Post extends AppCompatActivity {
             }
         });
 
+        // get the bitmap from file
+        imageview = (ImageView) findViewById(R.id.imageView1);
+        Intent intent = getIntent();
+        if (intent != null) {
+            filePath = intent.getStringExtra("post_img");
+            rawBitmap = BitmapFactory.decodeFile(filePath);
+            imageview.setImageBitmap(rawBitmap);
+        }
+
         //cancel button
         btnCancel = (Button) findViewById(R.id.button_cancel);
         btnCancel.setOnClickListener(new View.OnClickListener() {
@@ -89,15 +89,15 @@ public class Post extends AppCompatActivity {
 
 
     private void createInstagramIntent(String filePath){
-        Intent instagram = new Intent(android.content.Intent.ACTION_SEND);
-        instagram.setType("String");
+        Intent intent = new Intent(android.content.Intent.ACTION_SEND);
+        intent.setType("image/*");
         File file = new File(filePath);
         Uri uri = Uri.fromFile(file);
-        instagram.putExtra(Intent.EXTRA_STREAM, uri);
-        instagram.putExtra(Intent.EXTRA_TEXT, postText);
-        instagram.setPackage("com.instagram.android");
+        intent.putExtra(Intent.EXTRA_STREAM, uri);
+        intent.putExtra(Intent.EXTRA_TEXT, postText);
+        intent.setPackage("com.instagram.android");
 
-        startActivity(Intent.createChooser(instagram, "Share to"));
+        startActivity(Intent.createChooser(intent, "Share to"));
     }
 
 }
