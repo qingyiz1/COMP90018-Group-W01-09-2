@@ -36,7 +36,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".EditProfileActivity"
+            android:name=".Activity.User.EditProfileActivity"
             android:exported="true"/>
         <activity
             android:name=".Activity.User.FollowersActivity"
