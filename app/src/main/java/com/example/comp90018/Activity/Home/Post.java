@@ -50,14 +50,6 @@ public class Post extends AppCompatActivity {
         postTitle = (TextView) findViewById(R.id.text_post_text);
         textField = (EditText) findViewById(R.id.text_field);
         postText = textField.getText().toString();
-        imageview = (ImageView) findViewById(R.id.imageView1);
-
-        // get the bitmap from file
-        Intent intent = getIntent();
-        filePath = intent.getStringExtra("post_img");
-        rawBitmap = BitmapFactory.decodeFile(filePath);
-        thumbnail = rawBitmap;
-        imageview.setImageBitmap(thumbnail);
 
         photoInsert = (Button) findViewById(R.id.text_photo_text);
         photoInsert.setOnClickListener(new View.OnClickListener() {
@@ -77,6 +69,15 @@ public class Post extends AppCompatActivity {
                 createInstagramIntent(filePath);
             }
         });
+
+        // get the bitmap from file
+        imageview = (ImageView) findViewById(R.id.imageView1);
+        Intent intent = getIntent();
+        if (intent != null) {
+            filePath = intent.getStringExtra("post_img");
+            rawBitmap = BitmapFactory.decodeFile(filePath);
+            imageview.setImageBitmap(rawBitmap);
+        }
 
         //cancel button
         btnCancel = (Button) findViewById(R.id.button_cancel);
