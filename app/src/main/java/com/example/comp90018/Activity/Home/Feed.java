@@ -12,8 +12,6 @@ import java.util.ArrayList;
  */
 public class Feed{
     private String displayName;
-    private String userProfileImgURL;
-    private String photoURL;
     private Bitmap userProfileImg;
     private Bitmap photo;
     private String mediaID;
@@ -23,10 +21,10 @@ public class Feed{
     private ArrayList<String> like;
 
 
-    public Feed(String displayName, String userProfileImgURL, String photoURL, ArrayList<String> comment, ArrayList<String> like, String caption, Boolean user_has_liked) {
+    public Feed(String displayName, Bitmap profileImg, Bitmap postPhoto, ArrayList<String> comment, ArrayList<String> like, String caption, Boolean user_has_liked) {
         this.displayName = displayName;
-        this.userProfileImgURL = userProfileImgURL;
-        this.photoURL = photoURL;
+        this.userProfileImg=profileImg;
+        this.photo=postPhoto;
         this.comment = comment;
         this.like = like;
         this.caption = caption;
@@ -59,22 +57,6 @@ public class Feed{
 
     public void setDisplayName(String displayName) {
         this.displayName = displayName;
-    }
-
-    public String getUserProfileImgURL() {
-        return userProfileImgURL;
-    }
-
-    public void setUserProfileImgURL(String userProfileImgURL) {
-        this.userProfileImgURL = userProfileImgURL;
-    }
-
-    public String getPhotoURL() {
-        return photoURL;
-    }
-
-    public void setPhotoURL(String photoURL) {
-        this.photoURL = photoURL;
     }
 
     public Bitmap getUserProfileImg() {

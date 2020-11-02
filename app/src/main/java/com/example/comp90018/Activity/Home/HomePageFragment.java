@@ -1,6 +1,7 @@
 package com.example.comp90018.Activity.Home;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -65,6 +66,7 @@ public class HomePageFragment extends Fragment{
         homepageAdapter = new HomePageAdapter(getActivity(),getData());
         mainListView.setAdapter(homepageAdapter);
         homepageAdapter.notifyDataSetChanged();
+
         text_home = (TextView) view.findViewById(R.id.text_home);
 
         post = (ImageButton) view.findViewById(R.id.add_post);
@@ -81,14 +83,13 @@ public class HomePageFragment extends Fragment{
 
     private ArrayList<Feed> getData(){
         String username="Ann";
-        String caption="text11111";
-        String userProfileImgURL="";
-        String photoURL="";
+        String caption="Hello!";
+        Bitmap touxiang = null;
+        Bitmap postPhoto = null;
         ArrayList<String> comment=new ArrayList<>();
         ArrayList<String> like=new ArrayList<>();
         Boolean user_has_liked=false;
-//        Boolean user_has_liked=true;
-        Feed feed=new Feed(username, userProfileImgURL, photoURL, comment, like, caption, user_has_liked);
+        Feed feed=new Feed(username, touxiang, postPhoto, comment, like, caption, user_has_liked);
         feeds_array.add(feed);
         return feeds_array;
     }

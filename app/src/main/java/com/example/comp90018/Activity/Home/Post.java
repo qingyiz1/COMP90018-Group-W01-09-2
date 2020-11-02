@@ -36,7 +36,6 @@ public class Post extends AppCompatActivity {
     private Button photoInsert;
     public ImageView imageview = null;
     private Bitmap rawBitmap = null;
-    private Bitmap thumbnail = null;
     private Button btnPost = null;
     private Button btnCancel =null;
     private String filePath = "";
@@ -90,15 +89,15 @@ public class Post extends AppCompatActivity {
 
 
     private void createInstagramIntent(String filePath){
-        Intent instagram = new Intent(android.content.Intent.ACTION_SEND);
-        instagram.setType("String");
+        Intent intent = new Intent(android.content.Intent.ACTION_SEND);
+        intent.setType("image/*");
         File file = new File(filePath);
         Uri uri = Uri.fromFile(file);
-        instagram.putExtra(Intent.EXTRA_STREAM, uri);
-        instagram.putExtra(Intent.EXTRA_TEXT, postText);
-        instagram.setPackage("com.instagram.android");
+        intent.putExtra(Intent.EXTRA_STREAM, uri);
+        intent.putExtra(Intent.EXTRA_TEXT, postText);
+        intent.setPackage("com.instagram.android");
 
-        startActivity(Intent.createChooser(instagram, "Share to"));
+        startActivity(Intent.createChooser(intent, "Share to"));
     }
 
 }

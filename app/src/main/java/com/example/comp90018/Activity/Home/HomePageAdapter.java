@@ -89,7 +89,7 @@ public class HomePageAdapter extends BaseAdapter {
         TextView commentFixText = (TextView) rowView.findViewById(R.id.commentText);
         commentFixText.setTypeface(commentFixText.getTypeface(), Typeface.BOLD);
 
-        //set user profile image, user name, location name, photo image
+        //set user profile image, user name, photo image
         userProfileImg.setImageBitmap(oneFeed.getUserProfileImg());
         userName.setText(oneFeed.getDisplayName());
         photoImg.setImageBitmap(oneFeed.getPhoto());
