@@ -37,7 +37,6 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name=".Activity.Home.HomeActivity"
             android:name=".Activity.Shake.UserViewActivity"
             android:exported="true"></activity>
         <activity
