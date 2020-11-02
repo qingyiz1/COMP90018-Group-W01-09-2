@@ -1,18 +1,32 @@
 package com.example.comp90018.Activity.Home;
 
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import com.example.comp90018.Activity.fragments.ProfileFragment;
+import com.example.comp90018.DataModel.UserModel;
 import com.example.comp90018.R;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 
 public class HomeActivity extends FragmentActivity implements View.OnClickListener {
+    private static final String TAG = "HomeActivity";
     private RelativeLayout main_body;
     private ImageButton button_home;
     private ImageButton button_search;
@@ -20,12 +34,23 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
     private ImageButton button_shake;
     private ImageButton button_profile;
     private LinearLayout nav_bottons;
+
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    private FirebaseUser mUser;
+    private UserModel user;
+
+    public UserModel getUser(){
+        return this.user;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         initView();
         setMain();
+        getUserdata();
     }
 
     private void initView(){
@@ -95,6 +120,28 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
         }
     }
 
+
+    private void getUserdata(){
+        DocumentReference docRef = db.collection("users").document(mAuth.getUid());
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                        user = new UserModel(document.getData().get("nickName").toString(),document.getData().get("sex").toString(),
+                                document.getData().get("specie").toString(),document.getData().get("age").toString(),document.getData().get("signature").toString());
+                    } else {
+                        Log.d(TAG, "No such document");
+                    }
+                } else {
+                    Log.d(TAG, "get failed with ", task.getException());
+                }
+            }
+        });
+    }
+
     @Override
     public void onClick(View view) {
         switch (view.getId()){
@@ -114,10 +161,13 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
 //                getSupportFragmentManager().beginTransaction().replace(R.id.main_body,new Fragement3()).commit();
 //                setSelectStatus(3);
 //                break;
-//            case R.id.button_profile://////////////////////////////////////////////////////输入fragment文件名字/////////////
-//                getSupportFragmentManager().beginTransaction().replace(R.id.main_body,new Fragement3()).commit();
-//                setSelectStatus(4);
-//                break;
+            case R.id.button_profile://////////////////////////////////////////////////////输入fragment文件名字/////////////
+                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                Fragment fragment = ProfileFragment.newInstance(user);
+                ft.replace(R.id.main_body, fragment);
+                ft.commit();
+                setSelectStatus(4);
+                break;
         }
     }
 

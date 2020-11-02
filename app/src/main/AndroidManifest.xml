@@ -49,7 +49,7 @@
             android:name=".Activity.Home.CameraActivity"
             android:label="Camera"></activity>
         <activity
-            android:name=".Activity.Home.Post"
+            android:name=".DataModel.Post"
             android:label="Post"></activity>
         <activity
             android:name=".Activity.Home.CommentActivity"

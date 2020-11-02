@@ -12,7 +12,8 @@ import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
-import com.example.comp90018.Activity.Shake.Moment;
+import com.example.comp90018.DataModel.Feed;
+import com.example.comp90018.DataModel.Post;
 import com.example.comp90018.R;
 
 import java.util.ArrayList;
@@ -61,13 +62,13 @@ public class HomePageFragment extends Fragment{
         View view = inflater.inflate(R.layout.fragment_home_page, container, false);
 
         //import adapter
-        mainListView = (ListView) view.findViewById(R.id.browseListView);
+        mainListView = view.findViewById(R.id.browseListView);
         homepageAdapter = new HomePageAdapter(getActivity(),getData());
         mainListView.setAdapter(homepageAdapter);
         homepageAdapter.notifyDataSetChanged();
-        text_home = (TextView) view.findViewById(R.id.text_home);
+        text_home = view.findViewById(R.id.text_home);
 
-        post = (ImageButton) view.findViewById(R.id.add_post);
+        post = view.findViewById(R.id.add_post);
         post.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
