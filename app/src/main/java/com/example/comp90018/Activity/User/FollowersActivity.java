@@ -51,6 +51,31 @@ public class FollowersActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         userList = new ArrayList<>();
+        userAdapter = new UserAdapter(this, userList);
+        recyclerView.setAdapter(userAdapter);
+
+        idList = new ArrayList<>();
+
+//        switch (title) {
+//            case "likes":
+//                getLikes();
+//            case "following":
+//                getFollowing();
+//            case "followers":
+//                getFollowers();
+//                break;
+//        }
+
+
+
+//        private void getLikes();
+//        private void getFollowing();
+//        private void getFollowers();
+
+
+//        private void showUsers();
+
+
 
     }
 }
