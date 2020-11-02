@@ -112,31 +112,31 @@ public class SearchFragment extends Fragment {
 
         search.setOnClickListener(new View.OnClickListener() {
             public void onClick(View arg0) {
-                final String searchQuery = searchInput.getText().toString();
-                if (searchQuery.length() != 0) {
-                    String request_url = view.getResources().getString(R.string.instagram_api_url)
-                            + view.getResources().getString(R.string.instagram_api_users_method)
-                            + "search?access_token="
-                            + view.getResources().getString(R.string.instagram_access_token)
-                            + "&q="
-                            + searchQuery
-                            + "&count="
-                            + SEARCH_COUNT;
-                    System.out.println("Search URL: " + request_url);
-                    users = new ArrayList<>();
-                    searchAdapter.setUsers(users);
-                    if (searchAdapter != null) {
-                        searchAdapter.notifyDataSetChanged();
-                    }
-                } else {
-                    Toast.makeText(getActivity(),
-                            "Input is empty, showing recommended users",
-                            Toast.LENGTH_LONG).show();
-                    //recommendation();
-                    if (searchAdapter != null) {
-                        searchAdapter.notifyDataSetChanged();
-                    }
-                }
+//                final String searchQuery = searchInput.getText().toString();
+//                if (searchQuery.length() != 0) {
+//                    String request_url = view.getResources().getString(R.string.instagram_api_url)
+//                            + view.getResources().getString(R.string.instagram_api_users_method)
+//                            + "search?access_token="
+//                            + view.getResources().getString(R.string.instagram_access_token)
+//                            + "&q="
+//                            + searchQuery
+//                            + "&count="
+//                            + SEARCH_COUNT;
+//                    System.out.println("Search URL: " + request_url);
+//                    users = new ArrayList<>();
+//                    searchAdapter.setUsers(users);
+//                    if (searchAdapter != null) {
+//                        searchAdapter.notifyDataSetChanged();
+//                    }
+//                } else {
+//                    Toast.makeText(getActivity(),
+//                            "Input is empty, showing recommended users",
+//                            Toast.LENGTH_LONG).show();
+//                    //recommendation();
+//                    if (searchAdapter != null) {
+//                        searchAdapter.notifyDataSetChanged();
+//                    }
+//                }
             }
         });
         return view;
