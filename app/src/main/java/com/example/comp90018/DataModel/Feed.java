@@ -1,4 +1,4 @@
-package com.example.comp90018.Activity.Home;
+package com.example.comp90018.DataModel;
 
 import android.graphics.Bitmap;
 import android.widget.ImageView;

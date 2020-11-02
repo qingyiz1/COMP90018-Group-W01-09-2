@@ -38,22 +38,22 @@
 
         <activity
             android:name=".Activity.Shake.UserViewActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity
             android:name=".Activity.User.UsersActivity"
-            android:label="User"></activity>
+            android:label="User" />
         <activity
             android:name=".Activity.Home.HomeActivity"
-            android:label="Home"></activity>
+            android:label="Home" />
         <activity
             android:name=".Activity.Home.CameraActivity"
-            android:label="Camera"></activity>
+            android:label="Camera" />
         <activity
-            android:name=".Activity.Home.Post"
-            android:label="Post"></activity>
+            android:name=".DataModel.Post"
+            android:label="Post" />
         <activity
             android:name=".Activity.Home.CommentActivity"
-            android:label="@string/title_activity_comment"></activity>
+            android:label="@string/title_activity_comment" />
         <activity android:name=".Activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -74,7 +74,7 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".Activity.Map.MapsActivity"
+            android:name=".Activity.Map.MapActivity"
             android:label="@string/title_activity_maps">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

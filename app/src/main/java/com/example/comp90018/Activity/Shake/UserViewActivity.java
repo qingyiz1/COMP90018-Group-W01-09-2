@@ -12,8 +12,6 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.example.comp90018.Activity.Home.Feed;
-import com.example.comp90018.Activity.Home.HomePageAdapter;
 import com.example.comp90018.R;
 
 import java.util.ArrayList;
