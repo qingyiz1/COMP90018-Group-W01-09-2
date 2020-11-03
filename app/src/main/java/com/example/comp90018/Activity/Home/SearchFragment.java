@@ -39,7 +39,6 @@ import java.util.List;
 public class SearchFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
@@ -76,11 +75,6 @@ public class SearchFragment extends Fragment {
         return fragment;
     }
 
-    /*
-        This method queries the data stored in the parse database and passes on the list obtained
-        to process the data to assign weights and determine priority. Once the sorted list of users
-        is returned, it passes the list to the adapter to display on the list view for search page.
-         */
 //    public void recommendation() {
 //        users = new ArrayList<>();
 //        //pass the data into discovery user array list
@@ -106,22 +100,7 @@ public class SearchFragment extends Fragment {
 
 //        search.setOnClickListener(new View.OnClickListener() {
 //            public void onClick(View arg0) {
-//                final String searchQuery = searchInput.getText().toString();
-//                if (searchQuery.length() != 0) {
-//                    users = new ArrayList<>();
-//                    searchAdapter.setUsers(users);
-////                    if (searchAdapter != null) {
-////                        searchAdapter.notifyDataSetChanged();
-////                    }
-////                } else {
-////                    Toast.makeText(getActivity(),
-////                            "Input is empty, showing recommended users",
-////                            Toast.LENGTH_LONG).show();
-////                    //recommendation();
-////                    if (searchAdapter != null) {
-////                        searchAdapter.notifyDataSetChanged();
-////                    }
-//                }
+//
 //            }
 //        });
         return view;
