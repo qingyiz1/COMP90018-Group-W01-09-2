@@ -153,15 +153,23 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
                 getSupportFragmentManager().beginTransaction().replace(R.id.main_body,new SearchFragment()).commit();
                 setSelectStatus(1);
                 break;
-//            case R.id.button_map://////////////////////////////////////////////////////输入fragment文件名字/////////////
+//            case R.id.button_map://////////////////////////////////////////////////////输入fragment或者activity文件名字/////////////
+//                //fragment
 //                getSupportFragmentManager().beginTransaction().replace(R.id.main_body,new Fragement3()).commit();
 //                setSelectStatus(2);
+//                //activity
+//                Intent intent = new Intent(HomeActivity.this, 名字.class)
+//                startActivity(intent);
 //                break;
-//            case R.id.button_shake://////////////////////////////////////////////////////输入fragment文件名字/////////////
+//            case R.id.button_shake://////////////////////////////////////////////////////输入fragment或者activity文件名字/////////////
+//                //fragment
 //                getSupportFragmentManager().beginTransaction().replace(R.id.main_body,new Fragement3()).commit();
 //                setSelectStatus(3);
+                  //activity
+//                Intent intent = new Intent(HomeActivity.this, 名字.class)
+//                startActivity(intent);
 //                break;
-            case R.id.button_profile://////////////////////////////////////////////////////输入fragment文件名字/////////////
+            case R.id.button_profile:
                 FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
                 Fragment fragment = ProfileFragment.newInstance(user);
                 ft.replace(R.id.main_body, fragment);
