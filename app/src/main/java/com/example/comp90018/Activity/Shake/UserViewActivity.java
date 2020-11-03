@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -21,12 +22,14 @@ import com.example.comp90018.R;
 
 import java.util.ArrayList;
 
-public class UserViewActivity extends AppCompatActivity {
+public class UserViewActivity extends AppCompatActivity implements View.OnClickListener{
     private  ListView browser_list;
     private View view;
     private ImageView image;
     private TextView user_name, user_info, user_description;
+    private Button followButton;
     private ArrayList<Moment> feeds_array=new ArrayList<>();
+    private boolean followOrNot;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,10 +43,19 @@ public class UserViewActivity extends AppCompatActivity {
         user_info = findViewById(R.id.user_info);
         user_description = findViewById(R.id.user_description);
         browser_list=findViewById(R.id.browserListView);
+        followButton=findViewById(R.id.follow_button);
+        followButton.setOnClickListener(this);
         //TODO: 从数据库获取用户名、用户信息、用户交友描述
         user_name.setText("user name");
         user_info.setText("user info");
         user_description.setText("user description");
+        followOrNot=false;
+        if(followOrNot){
+            followButton.setText("Following");
+        }else{
+            followButton.setText("Follow");
+        }
+
         //TODO: END
         browser_list=findViewById(R.id.browserListView);
         browser_list.setAdapter(new MyBaseAdapter(getFeeds_array()));
@@ -51,6 +63,7 @@ public class UserViewActivity extends AppCompatActivity {
     }
     private ArrayList<Moment> getFeeds_array(){
         //TODO:  BEGIN 从数据库中，获取
+        feeds_array=new ArrayList<>();
         String username="name";
         String context="context";
         String location="location";
@@ -75,6 +88,22 @@ public class UserViewActivity extends AppCompatActivity {
         // feeds_array.add(feed);
         return feeds_array;
     }
+
+    @Override
+    public void onClick(View view) {
+        if(view==followButton){
+            if(followOrNot){
+                followOrNot=false;
+                followButton.setText("Follow");
+            }else {
+                followOrNot=true;
+                followButton.setText("Following");
+            }
+            //TODO: 客户端传输给服务器，取消关注/关注
+
+        }
+    }
+
     class MyBaseAdapter extends BaseAdapter{
         private ArrayList<Moment> feed_array;
         public MyBaseAdapter(ArrayList<Moment> feed_array){
@@ -158,14 +187,14 @@ public class UserViewActivity extends AppCompatActivity {
                         likeButton.setImageDrawable(rowView.getResources().getDrawable(R.drawable.filled_heart));
                         //TODO: 方法一：
                         //TODO: 客户端传输数据给服务端，update点赞信息；客户端获取服务端传送的likelist，更新到UI上
-                        feed_array=getFeeds_array();//获取最新的feeds_array
-                        oneFeed.update(feed_array.get(position));
-                        if (oneFeed.getLikelist().size() != 0) {
-                            String likelist=oneFeed.getLikelist().toString();
-                            likedText.setText(likelist.substring(1, likelist.length()-1));
-                        } else {
-                            likedText.setText("Nobody has liked yet.");
-                        }
+//                        feed_array=getFeeds_array();//获取最新的feeds_array
+//                        oneFeed.update(feed_array.get(position));
+//                        if (oneFeed.getLikelist().size() != 0) {
+//                            String likelist=oneFeed.getLikelist().toString();
+//                            likedText.setText(likelist.substring(1, likelist.length()-1));
+//                        } else {
+//                            likedText.setText("Nobody has liked yet.");
+//                        }
                         ///////////////////////////////////////////
                         //TODO: 方法二：本地更新（不推荐，仅本地测试）
                         oneFeed.setUser_has_liked(true);
