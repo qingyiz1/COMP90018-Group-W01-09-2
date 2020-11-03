@@ -1,6 +1,5 @@
 package com.example.comp90018.Activity.Home;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.PorterDuff;
@@ -8,21 +7,14 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.comp90018.DataModel.Search;
@@ -38,6 +30,7 @@ import java.util.ArrayList;
 public class SearchFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
+    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
@@ -45,13 +38,15 @@ public class SearchFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-//    private CommolySearchView<Search> mCsvShow;
+    private TextView searchText;
+    private EditText searchInput;
+    private Button search;
     private ListView listView;
     private SearchAdapter searchAdapter;
     private ArrayList<Search> users;
-
     final private int SEARCH_COUNT = 10;
     private OnFragmentInteractionListener listener;
+
 
     public SearchFragment() {
         // Required empty public constructor
@@ -74,19 +69,6 @@ public class SearchFragment extends Fragment {
         return fragment;
     }
 
-//    public void recommendation() {
-//        users = new ArrayList<>();
-//        //pass the data into discovery user array list
-//        byte[] bitmapdata = new byte[0];
-//        Bitmap bitmap = BitmapFactory.decodeByteArray(bitmapdata, 0, bitmapdata.length);
-//
-//        Drawable myDrawable = getResources().getDrawable(R.drawable.default_profile_image);
-//        Bitmap defaultImage = ((BitmapDrawable) myDrawable).getBitmap();
-//
-//        Search searchUser = new Search();
-//        searchAdapter.setUsers(users);
-//
-//    }
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,27 +76,78 @@ public class SearchFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-//        initData();
-//        initView();
-//        initAdapter();
-//        initSearch();
+//        recommendation();
+    }
+    /*
+        This method queries the data stored in the parse database and passes on the list obtained
+        to process the data to assign weights and determine priority. Once the sorted list of users
+        is returned, it passes the list to the adapter to display on the list view for search page.
+         */
+    public void recommendation() {
+        users = new ArrayList<>();
+        //pass the data into discovery user array list
+        byte[] bitmapdata = new byte[0];
+        Bitmap bitmap = BitmapFactory.decodeByteArray(bitmapdata, 0, bitmapdata.length);
+
+        Drawable myDrawable = getResources().getDrawable(R.drawable.default_profile_image);
+        Bitmap defaultImage = ((BitmapDrawable) myDrawable).getBitmap();
+
+        Search searchUser = new Search();
+        searchAdapter.setUsers(users);
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_search, container, false);
+//        search = (Button) view.findViewById(R.id.searchButton);
+//        searchInput = (EditText) view.findViewById(R.id.editText);
+//        searchInput.getBackground().setColorFilter(getResources().getColor(R.color.actionbar_background), PorterDuff.Mode.SRC_ATOP);
+//        searchText = (TextView) view.findViewById(R.id.text_search);
         listView = (ListView) view.findViewById(R.id.searchList);
         //import adapter
         searchAdapter = new SearchAdapter(getActivity(), getData());
         listView.setAdapter(searchAdapter);
 
-//        search.setOnClickListener(new View.OnClickListener() {
-//            public void onClick(View arg0) {
-//
-//            }
-//        });
+        search.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View arg0) {
+//                final String searchQuery = searchInput.getText().toString();
+//                if (searchQuery.length() != 0) {
+//                    String request_url = view.getResources().getString(R.string.instagram_api_url)
+//                            + view.getResources().getString(R.string.instagram_api_users_method)
+//                            + "search?access_token="
+//                            + view.getResources().getString(R.string.instagram_access_token)
+//                            + "&q="
+//                            + searchQuery
+//                            + "&count="
+//                            + SEARCH_COUNT;
+//                    System.out.println("Search URL: " + request_url);
+//                    users = new ArrayList<>();
+//                    searchAdapter.setUsers(users);
+//                    if (searchAdapter != null) {
+//                        searchAdapter.notifyDataSetChanged();
+//                    }
+//                } else {
+//                    Toast.makeText(getActivity(),
+//                            "Input is empty, showing recommended users",
+//                            Toast.LENGTH_LONG).show();
+//                    //recommendation();
+//                    if (searchAdapter != null) {
+//                        searchAdapter.notifyDataSetChanged();
+//                    }
+//                }
+            }
+        });
         return view;
+    }
+
+    //verify whether the person has specified a valid gender
+    private boolean verifyGender(String userGender){
+        if((userGender.equals("Male")) || (userGender.equals("Female"))) {
+            return true;
+        }
+        return false;
     }
 
     public void onButtonPressed(Uri uri) {
@@ -140,97 +173,4 @@ public class SearchFragment extends Fragment {
         }
         else {  }
     }
-
-    //////////////////////////////////////////////////////
-    /**
-     * 初始化适配器,一般的扩展只需修改该方法即可
-     */
-//    private void initAdapter() {
-//        searchAdapter = new SearchAdapter(getActivity(), (ArrayList<Search>) users);
-//        // 点击事件
-////        searchAdapter.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-////            @Override
-////            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-////                Toast.makeText(getActivity(), mCsvShow.getFilterDatas().get(i).getUserName() + "\n" + mCsvShow.getFilterDatas().get(i).getGender(), Toast.LENGTH_SHORT).show();
-////            }
-////        });
-//    }
-
-    /**
-     * 初始化数据
-     */
-//    private void initData() {
-//        users = new ArrayList<Search>();
-//        Search search1 = new Search();
-//        search1.setUserName("Cindy");
-//        search1.setProfileImageNo(R.drawable.touxiang);
-//        search1.setGender("Girl");
-//        Search search2 = new Search();
-//        search2.setUserName("Ben");
-//        search2.setProfileImageNo(R.drawable.gallery);
-//        search2.setGender("Boy");
-//        users.add(search1);
-//        users.add(search2);
-//    }
-
-    /**
-     * 初始化view
-     */
-    private void initView() {
-//        mCsvShow = (CommolySearchView) getActivity().findViewById(R.id.csv_show);
-//        listView = (ListView) getActivity().findViewById(R.id.searchList);
-//        searchAdapter = new SearchAdapter(getActivity(), users);
-//        listView.setAdapter(searchAdapter);
-        // 设置数据源
-//        mCsvShow.setDatas(users);
-//        mCsvShow.setAdapter(searchAdapter);
-//        // 设置筛选数据
-//        mCsvShow.setSearchDataListener(new CommolySearchView.SearchDatas<Search>() {
-//            @Override
-//            public ArrayList<Search> filterDatas(ArrayList<Search> datas, ArrayList<Search> filterdatas, String inputstr) {
-//                for (int i = 0; i < datas.size(); i++) {
-//                    // 筛选条件
-//                    if ((datas.get(i).getUserName()).contains(inputstr) || datas.get(i).getGender().contains(inputstr)) {
-//                        filterdatas.add(datas.get(i));
-//                    }
-//                }
-//                return filterdatas;
-//            }
-//        });
-//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-//                Toast.makeText(getActivity(), mCsvShow.getFilterDatas().get(i).getUserName() + "\n" + mCsvShow.getFilterDatas().get(i).getGender(), Toast.LENGTH_SHORT).show();
-//            }
-//        });
-    }
-
-    /**
-     * 初始化搜索
-     */
-//    private void initSearch() {
-//        listView.setAdapter(searchAdapter);
-//        // 设置数据源
-//        mCsvShow.setDatas(users);
-//        mCsvShow.setAdapter(searchAdapter);
-//        // 设置搜索
-//        mCsvShow.setSearchDataListener(new CommolySearchView.SearchDatas<Search>() {
-//            @Override
-//            public ArrayList<Search> filterDatas(ArrayList<Search> datas, ArrayList<Search> filterdatas, String inputstr) {
-//                for (int i = 0; i < datas.size(); i++) {
-//                    // 筛选条件
-//                    if ((datas.get(i).getUserName()).contains(inputstr) || datas.get(i).getGender().contains(inputstr)) {
-//                        filterdatas.add(datas.get(i));
-//                    }
-//                }
-//                return filterdatas;
-//            }
-//        });
-//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-//                Toast.makeText(getActivity(), mCsvShow.getFilterDatas().get(i).getUserName() + "\n" + mCsvShow.getFilterDatas().get(i).getGender(), Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//    }
 }
