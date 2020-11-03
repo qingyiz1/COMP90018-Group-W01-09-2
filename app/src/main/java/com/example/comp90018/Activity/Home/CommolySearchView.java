@@ -1,14 +1,17 @@
 package com.example.comp90018.Activity.Home;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.PorterDuff;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.RelativeLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.comp90018.DataModel.Search;
@@ -17,7 +20,7 @@ import com.example.comp90018.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CommolySearchView<T> extends RelativeLayout {
+public class CommolySearchView<T> extends LinearLayout {
     private Context mContext;
     private TextView searchText;
     private EditText mEditText;
@@ -69,15 +72,7 @@ public class CommolySearchView<T> extends RelativeLayout {
     }
 
     public CommolySearchView(Context context) {
-        this(context, null);
-    }
-
-    public CommolySearchView(Context context, AttributeSet attrs) {
-        this(context, attrs, 0);
-    }
-
-    public CommolySearchView(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
+        super(context);
         mContext = context;
         // 绑定布局文件
         LayoutInflater.from(context).inflate(R.layout.searchview_layout, this);
@@ -89,10 +84,9 @@ public class CommolySearchView<T> extends RelativeLayout {
      */
     private void initView() {
         mEditText = (EditText) findViewById(R.id.editText);
-        search = (Button) findViewById(R.id.searchButton);
         mEditText.getBackground().setColorFilter(getResources().getColor(R.color.actionbar_background), PorterDuff.Mode.SRC_ATOP);
         searchText = (TextView) findViewById(R.id.text_search);
-
+        search = (Button) findViewById(R.id.searchButton);
         // 搜索栏处理事件
         mEditText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -176,20 +170,20 @@ public class CommolySearchView<T> extends RelativeLayout {
      * @param drawable
      * @return
      */
-//        private Bitmap drawableToBitamp(Drawable drawable) {
-//            if (null == drawable) {
-//                return null;
-//            }
-//            if (drawable instanceof BitmapDrawable) {
-//                BitmapDrawable bd = (BitmapDrawable) drawable;
-//                return bd.getBitmap();
-//            }
-//            int w = drawable.getIntrinsicWidth();
-//            int h = drawable.getIntrinsicHeight();
-//            Bitmap bitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
-//            Canvas canvas = new Canvas(bitmap);
-//            drawable.setBounds(0, 0, w, h);
-//            drawable.draw(canvas);
-//            return bitmap;
-//        }
+        private Bitmap drawableToBitamp(Drawable drawable) {
+            if (null == drawable) {
+                return null;
+            }
+            if (drawable instanceof BitmapDrawable) {
+                BitmapDrawable bd = (BitmapDrawable) drawable;
+                return bd.getBitmap();
+            }
+            int w = drawable.getIntrinsicWidth();
+            int h = drawable.getIntrinsicHeight();
+            Bitmap bitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
+            Canvas canvas = new Canvas(bitmap);
+            drawable.setBounds(0, 0, w, h);
+            drawable.draw(canvas);
+            return bitmap;
+        }
 }

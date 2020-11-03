@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
-    tools:context="com.example.comp90018.Activity.Home.CommolySearchView">
+    >
 
 
 
@@ -17,8 +17,13 @@
             android:textSize="20dp"
             android:textStyle="bold"
             android:layout_marginTop="0dp"/>
-
         <!-- TODO: Update blank fragment layout -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:orientation="horizontal">
+
+
 
         <EditText
             android:layout_width="250dp"
@@ -28,7 +33,7 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="10dp"
             />
 
         <Button
@@ -43,5 +48,5 @@
             android:layout_toRightOf="@+id/editText"
             android:layout_toEndOf="@+id/editText"
             android:layout_marginLeft="20dp"/>
-
-</RelativeLayout>
+        </LinearLayout>
+</LinearLayout>
