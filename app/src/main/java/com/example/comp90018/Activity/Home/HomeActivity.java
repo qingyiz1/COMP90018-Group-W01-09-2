@@ -50,7 +50,7 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
         setContentView(R.layout.activity_home);
         initView();
         setMain();
-        getUserdata();
+//        getUserdata();
     }
 
     private void initView(){
@@ -121,26 +121,26 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
     }
 
 
-    private void getUserdata(){
-        DocumentReference docRef = db.collection("users").document(mAuth.getUid());
-        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
-                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
-                        user = new UserModel(document.getData().get("nickName").toString(),document.getData().get("sex").toString(),
-                                document.getData().get("specie").toString(),document.getData().get("age").toString(),document.getData().get("signature").toString());
-                    } else {
-                        Log.d(TAG, "No such document");
-                    }
-                } else {
-                    Log.d(TAG, "get failed with ", task.getException());
-                }
-            }
-        });
-    }
+//    private void getUserdata(){
+//        DocumentReference docRef = db.collection("users").document(mAuth.getUid());
+//        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+//            @Override
+//            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+//                if (task.isSuccessful()) {
+//                    DocumentSnapshot document = task.getResult();
+//                    if (document.exists()) {
+//                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+//                        user = new UserModel(document.getData().get("nickName").toString(),document.getData().get("sex").toString(),
+//                                document.getData().get("specie").toString(),document.getData().get("age").toString(),document.getData().get("signature").toString());
+//                    } else {
+//                        Log.d(TAG, "No such document");
+//                    }
+//                } else {
+//                    Log.d(TAG, "get failed with ", task.getException());
+//                }
+//            }
+//        });
+//    }
 
     @Override
     public void onClick(View view) {

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    tools:context="com.example.comp90018.Activity.Home.CommolySearchView">
+
+        <TextView
+            android:id="@+id/text_search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="Search Users"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:layout_marginTop="0dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:orientation="horizontal">
+
+                <!-- TODO: Update blank fragment layout -->
+                <EditText
+                    android:layout_width="250dp"
+                    android:layout_height="40dp"
+                    android:id="@+id/editText"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    />
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="search"
+                    android:id="@+id/searchButton"
+                    android:background="#ff33b5e5"
+                    android:textColor="#ffffff"
+                    android:minHeight="30dp"
+                    android:layout_alignTop="@+id/editText"
+                    android:layout_toRightOf="@+id/editText"
+                    android:layout_toEndOf="@+id/editText"
+                    android:layout_marginLeft="20dp"/>
+        </LinearLayout>
+</LinearLayout>

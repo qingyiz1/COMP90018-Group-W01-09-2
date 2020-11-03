@@ -7,7 +7,7 @@ public class Search {
     private String gender;
     private Bitmap profileImage;
     private String fullName;
-//    private int profileImageNo;
+    private int profileImageNo;
 
     public Search() { }
 
@@ -25,13 +25,13 @@ public class Search {
         this.fullName = fullName;
     }
 
-//    public int getProfileImageNo() {
-//        return profileImageNo;
-//    }
-//
-//    public void setProfileImageNo(int profileImageNo) {
-//        this.profileImageNo = profileImageNo;
-//    }
+    public int getProfileImageNo() {
+        return profileImageNo;
+    }
+
+    public void setProfileImageNo(int profileImageNo) {
+        this.profileImageNo = profileImageNo;
+    }
 
     public Bitmap getProfileImage() {
         return profileImage;
@@ -56,5 +56,15 @@ public class Search {
     public void setGender(String gender) {
         this.gender = gender;
     }
-
+    /**
+     * 搜索条件
+     *
+     * @return
+     */
+    public String getSearchCondition() {
+        StringBuilder searchStr = new StringBuilder();
+        searchStr.append(userName);
+        searchStr.append(gender);
+        return searchStr.toString();
+    }
 }

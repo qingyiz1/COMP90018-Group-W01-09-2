@@ -1,45 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.example.comp90018.Activity.Home.SearchFragment">
 
-    <TextView
-        android:id="@+id/text_search"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:text="Search Users"
-        android:textSize="20dp"
-        android:textStyle="bold"
-        android:layout_marginTop="0dp"/>
-
-    <!-- TODO: Update blank fragment layout -->
-
-    <EditText
-        android:layout_width="250dp"
-        android:layout_height="40dp"
-        android:id="@+id/editText"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="30dp"
-        />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="search"
-        android:id="@+id/searchButton"
-        android:background="#ff33b5e5"
-        android:textColor="#ffffff"
-        android:minHeight="30dp"
-        android:layout_alignTop="@+id/editText"
-        android:layout_toRightOf="@+id/editText"
-        android:layout_toEndOf="@+id/editText"
-        android:layout_marginLeft="20dp"/>
+    <com.example.comp90018.Activity.Home.CommolySearchView
+        android:id="@+id/csv_show"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_margin="8dip">
+    </com.example.comp90018.Activity.Home.CommolySearchView>
 
     <ListView
         android:id="@+id/searchList"
@@ -49,7 +21,8 @@
         android:layout_marginRight="10dp"
         android:layout_below="@+id/editText"
         android:padding="5dp"
-        android:layout_marginTop="10dp"/>
+        android:layout_marginTop="10dp">
+    </ListView>
 
 
-</RelativeLayout>
+</LinearLayout>

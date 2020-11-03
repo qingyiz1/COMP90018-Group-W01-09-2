@@ -50,24 +50,16 @@
             android:exported="true" />
         <activity
             android:name=".Activity.Home.HomeActivity"
-            android:label="Home"
-             >
-        </activity>
+            android:label="Home" />
         <activity
             android:name=".Activity.Home.CameraActivity"
-            android:label="Camera"
-            >
-        </activity>
+            android:label="Camera" />
         <activity
             android:name=".Activity.Home.Post"
-            android:label="Post"
-             >
-        </activity>
+            android:label="Post" />
         <activity
             android:name=".Activity.Home.CommentActivity"
-            android:label="@string/title_activity_comment"
-            >
-        </activity>
+            android:label="@string/title_activity_comment" />
         <activity android:name=".Activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

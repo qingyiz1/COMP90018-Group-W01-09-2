@@ -40,12 +40,12 @@ public class SearchAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int position) {
-        return null;
+        return users.get(position);
     }
 
     @Override
     public long getItemId(int position) {
-        return 0;
+        return position;
     }
     /*
     sets the Profile image of the recommended users, their username, gender
@@ -64,6 +64,8 @@ public class SearchAdapter extends BaseAdapter {
         gender = (TextView) rowView.findViewById(R.id.gender);
         String[] fullUserName = userProfile.getUserName().toString().split("@");
         userName.setText(fullUserName[0]);
+        String[] putGender = userProfile.getGender().toString().split("@");
+        gender.setText(putGender[0]);
 
         userImg.setImageBitmap(userProfile.getProfileImage());
 //        Bitmap profileImage = userProfile.getProfileImage();
