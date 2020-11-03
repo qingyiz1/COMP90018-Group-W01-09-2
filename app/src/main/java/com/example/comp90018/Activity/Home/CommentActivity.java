@@ -50,7 +50,7 @@ public class CommentActivity extends AppCompatActivity {
         });
     }
     private void createIntent(String string){
-        Intent intent = new Intent(CommentActivity.this, HomePageAdapter.class);
+        Intent intent = new Intent(CommentActivity.this, HomePageFragment.class);
         intent.setType("String");
         intent.putExtra(Intent.EXTRA_TEXT, string);
         startActivity(Intent.createChooser(intent, "Share to"));

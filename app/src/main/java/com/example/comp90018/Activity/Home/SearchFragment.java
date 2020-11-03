@@ -92,7 +92,7 @@ public class SearchFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.fragment_search, container, false);
+        View view = inflater.inflate(R.layout.fragment_search, container, false);
         listView = (ListView) view.findViewById(R.id.searchList);
         //import adapter
 //        searchAdapter = new SearchAdapter(getActivity(), getData());
@@ -141,23 +141,23 @@ public class SearchFragment extends Fragment {
         }
         initData();
         initView();
-        initAdapter();
-        initSearch();
+//        initAdapter();
+//        initSearch();
     }
 
     /**
      * 初始化适配器,一般的扩展只需修改该方法即可
      */
-    private void initAdapter() {
-        searchAdapter = new SearchAdapter(getActivity(), (ArrayList<Search>) users);
-        // 点击事件
-//        searchAdapter.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-//                Toast.makeText(getActivity(), mCsvShow.getFilterDatas().get(i).getUserName() + "\n" + mCsvShow.getFilterDatas().get(i).getGender(), Toast.LENGTH_SHORT).show();
-//            }
-//        });
-    }
+//    private void initAdapter() {
+//        searchAdapter = new SearchAdapter(getActivity(), (ArrayList<Search>) users);
+//        // 点击事件
+////        searchAdapter.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+////            @Override
+////            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+////                Toast.makeText(getActivity(), mCsvShow.getFilterDatas().get(i).getUserName() + "\n" + mCsvShow.getFilterDatas().get(i).getGender(), Toast.LENGTH_SHORT).show();
+////            }
+////        });
+//    }
 
     /**
      * 初始化数据
@@ -211,29 +211,29 @@ public class SearchFragment extends Fragment {
     /**
      * 初始化搜索
      */
-    private void initSearch() {
-        listView.setAdapter(searchAdapter);
-        // 设置数据源
-        mCsvShow.setDatas(users);
-        mCsvShow.setAdapter(searchAdapter);
-        // 设置搜索
-        mCsvShow.setSearchDataListener(new CommolySearchView.SearchDatas<Search>() {
-            @Override
-            public ArrayList<Search> filterDatas(ArrayList<Search> datas, ArrayList<Search> filterdatas, String inputstr) {
-                for (int i = 0; i < datas.size(); i++) {
-                    // 筛选条件
-                    if ((datas.get(i).getUserName()).contains(inputstr) || datas.get(i).getGender().contains(inputstr)) {
-                        filterdatas.add(datas.get(i));
-                    }
-                }
-                return filterdatas;
-            }
-        });
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Toast.makeText(getActivity(), mCsvShow.getFilterDatas().get(i).getUserName() + "\n" + mCsvShow.getFilterDatas().get(i).getGender(), Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
+//    private void initSearch() {
+//        listView.setAdapter(searchAdapter);
+//        // 设置数据源
+//        mCsvShow.setDatas(users);
+//        mCsvShow.setAdapter(searchAdapter);
+//        // 设置搜索
+//        mCsvShow.setSearchDataListener(new CommolySearchView.SearchDatas<Search>() {
+//            @Override
+//            public ArrayList<Search> filterDatas(ArrayList<Search> datas, ArrayList<Search> filterdatas, String inputstr) {
+//                for (int i = 0; i < datas.size(); i++) {
+//                    // 筛选条件
+//                    if ((datas.get(i).getUserName()).contains(inputstr) || datas.get(i).getGender().contains(inputstr)) {
+//                        filterdatas.add(datas.get(i));
+//                    }
+//                }
+//                return filterdatas;
+//            }
+//        });
+//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+//                Toast.makeText(getActivity(), mCsvShow.getFilterDatas().get(i).getUserName() + "\n" + mCsvShow.getFilterDatas().get(i).getGender(), Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//    }
 }

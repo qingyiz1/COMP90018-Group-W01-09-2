@@ -9,10 +9,12 @@ import android.graphics.drawable.Drawable;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.comp90018.DataModel.Search;
 import com.example.comp90018.R;
@@ -87,6 +89,13 @@ public class CommolySearchView<T> extends LinearLayout {
         mEditText.getBackground().setColorFilter(getResources().getColor(R.color.actionbar_background), PorterDuff.Mode.SRC_ATOP);
         searchText = (TextView) findViewById(R.id.text_search);
         search = (Button) findViewById(R.id.searchButton);
+
+        search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(), "Cheat!", Toast.LENGTH_SHORT).show();
+            }
+        });
         // 搜索栏处理事件
         mEditText.addTextChangedListener(new TextWatcher() {
             @Override
