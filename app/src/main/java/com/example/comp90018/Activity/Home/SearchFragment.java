@@ -101,10 +101,10 @@ public class SearchFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_search, container, false);
-//        search = (Button) view.findViewById(R.id.searchButton);
-//        searchInput = (EditText) view.findViewById(R.id.editText);
-//        searchInput.getBackground().setColorFilter(getResources().getColor(R.color.actionbar_background), PorterDuff.Mode.SRC_ATOP);
-//        searchText = (TextView) view.findViewById(R.id.text_search);
+        search = (Button) view.findViewById(R.id.searchButton);
+        searchInput = (EditText) view.findViewById(R.id.editText);
+        searchInput.getBackground().setColorFilter(getResources().getColor(R.color.actionbar_background), PorterDuff.Mode.SRC_ATOP);
+        searchText = (TextView) view.findViewById(R.id.text_search);
         listView = (ListView) view.findViewById(R.id.searchList);
         //import adapter
         searchAdapter = new SearchAdapter(getActivity(), getData());
