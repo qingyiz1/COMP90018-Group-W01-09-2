@@ -29,7 +29,6 @@ import com.example.comp90018.DataModel.Search;
 import com.example.comp90018.R;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -46,7 +45,7 @@ public class SearchFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    private CommolySearchView<Search> mCsvShow;
+//    private CommolySearchView<Search> mCsvShow;
     private ListView listView;
     private SearchAdapter searchAdapter;
     private ArrayList<Search> users;
@@ -180,32 +179,32 @@ public class SearchFragment extends Fragment {
      * 初始化view
      */
     private void initView() {
-        mCsvShow = (CommolySearchView) getActivity().findViewById(R.id.csv_show);
+//        mCsvShow = (CommolySearchView) getActivity().findViewById(R.id.csv_show);
         listView = (ListView) getActivity().findViewById(R.id.searchList);
         searchAdapter = new SearchAdapter(getActivity(), users);
         listView.setAdapter(searchAdapter);
         // 设置数据源
-        mCsvShow.setDatas(users);
-        mCsvShow.setAdapter(searchAdapter);
-        // 设置筛选数据
-        mCsvShow.setSearchDataListener(new CommolySearchView.SearchDatas<Search>() {
-            @Override
-            public ArrayList<Search> filterDatas(ArrayList<Search> datas, ArrayList<Search> filterdatas, String inputstr) {
-                for (int i = 0; i < datas.size(); i++) {
-                    // 筛选条件
-                    if ((datas.get(i).getUserName()).contains(inputstr) || datas.get(i).getGender().contains(inputstr)) {
-                        filterdatas.add(datas.get(i));
-                    }
-                }
-                return filterdatas;
-            }
-        });
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Toast.makeText(getActivity(), mCsvShow.getFilterDatas().get(i).getUserName() + "\n" + mCsvShow.getFilterDatas().get(i).getGender(), Toast.LENGTH_SHORT).show();
-            }
-        });
+//        mCsvShow.setDatas(users);
+//        mCsvShow.setAdapter(searchAdapter);
+//        // 设置筛选数据
+//        mCsvShow.setSearchDataListener(new CommolySearchView.SearchDatas<Search>() {
+//            @Override
+//            public ArrayList<Search> filterDatas(ArrayList<Search> datas, ArrayList<Search> filterdatas, String inputstr) {
+//                for (int i = 0; i < datas.size(); i++) {
+//                    // 筛选条件
+//                    if ((datas.get(i).getUserName()).contains(inputstr) || datas.get(i).getGender().contains(inputstr)) {
+//                        filterdatas.add(datas.get(i));
+//                    }
+//                }
+//                return filterdatas;
+//            }
+//        });
+//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+//                Toast.makeText(getActivity(), mCsvShow.getFilterDatas().get(i).getUserName() + "\n" + mCsvShow.getFilterDatas().get(i).getGender(), Toast.LENGTH_SHORT).show();
+//            }
+//        });
     }
 
     /**
