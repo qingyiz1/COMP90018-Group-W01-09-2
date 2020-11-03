@@ -2,7 +2,11 @@ package com.example.comp90018.Activity.Shake;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+//import androidx.fragment.app.Fragment;
 
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.hardware.Sensor;
@@ -42,17 +46,18 @@ public class ShakeActivity extends AppCompatActivity implements SensorEventListe
 
     private boolean isShake = false;
 
-
     private LinearLayout mLayout;
 
     private MyHandler mHandler;
     private int mWeiChatAudio;
+    FragmentManager fm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_shake);
+        fm=getFragmentManager();
 
         ImageView shakePic = findViewById(R.id.shakepicture);
         mLayout=findViewById(R.id.main_linear);
@@ -81,19 +86,12 @@ public class ShakeActivity extends AppCompatActivity implements SensorEventListe
 
     @Override
     protected void onPause() {
-        // 务必要在pause中注销 mSensorManager
-        // 否则会造成界面退出后摇一摇依旧生效的bug
         if (mSensorManager != null) {
             mSensorManager.unregisterListener(this);
         }
         super.onPause();
     }
 
-
-
-    ///////////////////////////////////////////////////////////////////////////
-    // SensorEventListener回调方法
-    ///////////////////////////////////////////////////////////////////////////
     @Override
     public void onSensorChanged(SensorEvent event) {
         int type = event.sensor.getType();
@@ -112,7 +110,7 @@ public class ShakeActivity extends AppCompatActivity implements SensorEventListe
                     public void run() {
                         super.run();
                         try {
-                            Log.d(TAG, "onSensorChanged: 摇动");
+                            Log.d(TAG, "onSensorChanged: shake");
 
                             mHandler.obtainMessage(START_SHAKE).sendToTarget();
                             Thread.sleep(500);
@@ -135,7 +133,7 @@ public class ShakeActivity extends AppCompatActivity implements SensorEventListe
     }
 
 
-    private static class MyHandler extends Handler {
+    private class MyHandler extends Handler {
         private WeakReference<ShakeActivity> mReference;
         private ShakeActivity mActivity;
         public MyHandler(ShakeActivity activity) {
@@ -160,6 +158,7 @@ public class ShakeActivity extends AppCompatActivity implements SensorEventListe
                 case END_SHAKE:
                     mActivity.isShake = false;
                     mActivity.startAnimation(true);
+                    fm.beginTransaction().replace(R.id.activity_shake, new ShakeResultFragment()).commit();
                     break;
             }
         }

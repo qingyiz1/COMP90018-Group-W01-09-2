@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activity.Shake.ShakeResultFragment">
+
+    <TextView
+        android:id="@+id/shakingpeopletitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="20dp"
+        android:text="Person shaking with you"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        />
+
+    <ImageButton
+        android:id="@+id/shakeImageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="80dp"
+        android:layout_marginTop="86dp"
+        android:src="@drawable/touxiang" />
+
+    <TextView
+        android:id="@+id/shakePersonInformation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="350dp"
+        android:layout_marginEnd="100dp"
+        android:text="Shake Person Information" />
+
+</RelativeLayout>

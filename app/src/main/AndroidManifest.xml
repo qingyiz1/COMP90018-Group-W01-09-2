@@ -38,25 +38,32 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".Activity.Shake.ShakeActivity"
-            android:exported="true" />
+            android:exported="true" >
+        </activity>
         <activity
             android:name=".Activity.Shake.UserViewActivity"
-            android:exported="true" />
+            android:exported="true" >
+        </activity>
         <activity
             android:name=".Activity.User.UsersActivity"
-            android:label="User" />
+            android:label="User">
+        </activity>
         <activity
             android:name=".Activity.Home.HomeActivity"
-            android:label="Home" />
+            android:label="Home">
+        </activity>
         <activity
             android:name=".Activity.Home.CameraActivity"
-            android:label="Camera" />
+            android:label="Camera">
+        </activity>
         <activity
             android:name=".Activity.Home.Post"
-            android:label="Post" />
+            android:label="Post">
+        </activity>
         <activity
             android:name=".Activity.Home.CommentActivity"
-            android:label="@string/title_activity_comment" />
+            android:label="@string/title_activity_comment" >
+        </activity>
         <activity android:name=".Activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
