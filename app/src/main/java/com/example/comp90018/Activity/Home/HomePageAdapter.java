@@ -4,7 +4,10 @@ package com.example.comp90018.Activity.Home;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Typeface;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,7 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.comp90018.R;
-
+import com.example.comp90018.DataModel.Feed;
 import java.util.ArrayList;
 
 public class HomePageAdapter extends BaseAdapter {
@@ -89,10 +92,27 @@ public class HomePageAdapter extends BaseAdapter {
         TextView commentFixText = (TextView) rowView.findViewById(R.id.commentText);
         commentFixText.setTypeface(commentFixText.getTypeface(), Typeface.BOLD);
 
-        //set user profile image, user name, location name, photo image
+        //set user profile image, user name, photo image
         userProfileImg.setImageBitmap(oneFeed.getUserProfileImg());
+//        Bitmap profileImage = oneFeed.getUserProfileImg();
+//        if (profileImage != null) {
+//            userProfileImg.setImageBitmap(BitmapStore.getCroppedBitmap(profileImage));
+//        }else{
+//            Drawable drawable = rowView.getResources().getDrawable(R.drawable.touxiang);
+//            Bitmap defaultImage = ((BitmapDrawable) drawable).getBitmap();
+//            userProfileImg.setImageBitmap(defaultImage);
+//        }
         userName.setText(oneFeed.getDisplayName());
         photoImg.setImageBitmap(oneFeed.getPhoto());
+//        Bitmap postImage = oneFeed.getPhoto();
+//        if (postImage != null) {
+//            photoImg.setImageBitmap(BitmapStore.getCroppedBitmap(postImage));
+//        }else{
+//            Drawable drawable1 = rowView.getResources().getDrawable(R.drawable.photo);
+//            Bitmap defaultImage1 = ((BitmapDrawable) drawable1).getBitmap();
+//            photoImg.setImageBitmap(defaultImage1);
+//        }
+
 
         // implement the like function here. POST request to Instagram API
         likeButton.setOnClickListener(new View.OnClickListener() {

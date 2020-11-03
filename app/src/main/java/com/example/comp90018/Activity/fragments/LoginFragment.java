@@ -16,8 +16,6 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.example.comp90018.Activity.Home.HomeActivity;
-import com.example.comp90018.Activity.Shake.UserViewActivity;
-import com.example.comp90018.Activity.User.UsersActivity;
 import com.example.comp90018.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;

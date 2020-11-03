@@ -13,13 +13,14 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class UserModel {
+public class UserModel implements Serializable {
 
-    public String birthday,email,nickName,password;
+    public String birthday,email,nickName,password,sex,specie,age,signature;
     protected static final String TAG = "UserModel";
     public Timestamp dateCreated;
     public int avatarID;
@@ -32,6 +33,14 @@ public class UserModel {
 
     public UserModel() {
         // Default constructor required for calls to DataSnapshot.getValue(UserModel.class)
+    }
+
+    public UserModel(String nickName,String sex,String specie,String age,String signature){
+        this.nickName = nickName;
+        this.sex = sex;
+        this.specie = specie;
+        this.age = age;
+        this.signature = signature;
     }
 
     public UserModel(String email, String password, String nickName,Timestamp dateCreated){
