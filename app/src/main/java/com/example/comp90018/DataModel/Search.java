@@ -2,11 +2,14 @@ package com.example.comp90018.DataModel;
 
 import android.graphics.Bitmap;
 
+import java.io.Serializable;
+
 public class Search {
     private String userName;
     private String gender;
     private Bitmap profileImage;
     private String fullName;
+    private int profileImageNo;
 
     public Search() { }
 
@@ -22,6 +25,14 @@ public class Search {
 
     public void setFullName(String fullName) {
         this.fullName = fullName;
+    }
+
+    public int getProfileImageNo() {
+        return profileImageNo;
+    }
+
+    public void setProfileImageNo(int profileImageNo) {
+        this.profileImageNo = profileImageNo;
     }
 
     public Bitmap getProfileImage() {
@@ -47,5 +58,15 @@ public class Search {
     public void setGender(String gender) {
         this.gender = gender;
     }
-
+    /**
+     * 搜索条件
+     *
+     * @return
+     */
+    public String getSearchCondition() {
+        StringBuilder searchStr = new StringBuilder();
+        searchStr.append(userName);
+        searchStr.append(gender);
+        return searchStr.toString();
+    }
 }
