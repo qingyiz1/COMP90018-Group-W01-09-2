@@ -51,22 +51,22 @@
         <activity
             android:name=".Activity.Home.HomeActivity"
             android:label="Home"
-            android:exported="true" >
+             >
         </activity>
         <activity
             android:name=".Activity.Home.CameraActivity"
             android:label="Camera"
-            android:exported="true" >
+            >
         </activity>
         <activity
             android:name=".Activity.Home.Post"
             android:label="Post"
-            android:exported="true" >
+             >
         </activity>
         <activity
             android:name=".Activity.Home.CommentActivity"
             android:label="@string/title_activity_comment"
-            android:exported="true" >
+            >
         </activity>
         <activity android:name=".Activity.MainActivity">
             <intent-filter>

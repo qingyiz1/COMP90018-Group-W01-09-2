@@ -58,15 +58,5 @@ public class Search {
     public void setGender(String gender) {
         this.gender = gender;
     }
-    /**
-     * 搜索条件
-     *
-     * @return
-     */
-    public String getSearchCondition() {
-        StringBuilder searchStr = new StringBuilder();
-        searchStr.append(userName);
-        searchStr.append(gender);
-        return searchStr.toString();
-    }
+
 }

@@ -12,7 +12,7 @@
 <!--        android:layout_height="80dp"-->
 <!--        android:layout_margin="8dip">-->
 <!--    </com.example.comp90018.Activity.Home.CommolySearchView>-->
-
+    <!-- TODO: Update blank fragment layout -->
     <ListView
         android:id="@+id/searchList"
         android:layout_width="match_parent"

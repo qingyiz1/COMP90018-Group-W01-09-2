@@ -40,12 +40,12 @@ public class SearchAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int position) {
-        return users.get(position);
+        return null;
     }
 
     @Override
     public long getItemId(int position) {
-        return position;
+        return 0;
     }
     /*
     sets the Profile image of the recommended users, their username, gender

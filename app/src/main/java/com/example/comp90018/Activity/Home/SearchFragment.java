@@ -51,7 +51,7 @@ public class SearchFragment extends Fragment {
     private ArrayList<Search> users;
 
     final private int SEARCH_COUNT = 10;
-//    private OnFragmentInteractionListener listener;
+    private OnFragmentInteractionListener listener;
 
     public SearchFragment() {
         // Required empty public constructor
@@ -87,15 +87,27 @@ public class SearchFragment extends Fragment {
 //        searchAdapter.setUsers(users);
 //
 //    }
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            mParam1 = getArguments().getString(ARG_PARAM1);
+            mParam2 = getArguments().getString(ARG_PARAM2);
+        }
+//        initData();
+//        initView();
+//        initAdapter();
+//        initSearch();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_search, container, false);
+        final View view = inflater.inflate(R.layout.fragment_search, container, false);
         listView = (ListView) view.findViewById(R.id.searchList);
         //import adapter
-//        searchAdapter = new SearchAdapter(getActivity(), getData());
-//        listView.setAdapter(searchAdapter);
+        searchAdapter = new SearchAdapter(getActivity(), getData());
+        listView.setAdapter(searchAdapter);
 
 //        search.setOnClickListener(new View.OnClickListener() {
 //            public void onClick(View arg0) {
@@ -105,45 +117,31 @@ public class SearchFragment extends Fragment {
         return view;
     }
 
-//    public void onButtonPressed(Uri uri) {
-//        if (listener != null) {
-//            listener.onFragmentInteraction(uri);
-//        }
-//    }
-//
-//    public ArrayList<Search> getData(){
-//        return users;
-//    }
-//
-//    public interface OnFragmentInteractionListener {
-//        // TODO: Update argument type and name
-//        void onFragmentInteraction(Uri uri);
-//    }
-//
-//    @Override
-//    public void setUserVisibleHint(boolean isVisibleToUser) {
-//        super.setUserVisibleHint(isVisibleToUser);
-//        if (isVisibleToUser) {
-//            //recommendation();
-//        }
-//        else {  }
-//    }
-
-    //////////////////////////////////////////////////////
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+    public void onButtonPressed(Uri uri) {
+        if (listener != null) {
+            listener.onFragmentInteraction(uri);
         }
-        initData();
-        initView();
-//        initAdapter();
-//        initSearch();
     }
 
+    public ArrayList<Search> getData(){
+        return users;
+    }
+
+    public interface OnFragmentInteractionListener {
+        // TODO: Update argument type and name
+        void onFragmentInteraction(Uri uri);
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser) {
+            //recommendation();
+        }
+        else {  }
+    }
+
+    //////////////////////////////////////////////////////
     /**
      * 初始化适配器,一般的扩展只需修改该方法即可
      */
@@ -161,28 +159,28 @@ public class SearchFragment extends Fragment {
     /**
      * 初始化数据
      */
-    private void initData() {
-        users = new ArrayList<Search>();
-        Search search1 = new Search();
-        search1.setUserName("Cindy");
-        search1.setProfileImageNo(R.drawable.touxiang);
-        search1.setGender("Girl");
-        Search search2 = new Search();
-        search2.setUserName("Ben");
-        search2.setProfileImageNo(R.drawable.gallery);
-        search2.setGender("Boy");
-        users.add(search1);
-        users.add(search2);
-    }
+//    private void initData() {
+//        users = new ArrayList<Search>();
+//        Search search1 = new Search();
+//        search1.setUserName("Cindy");
+//        search1.setProfileImageNo(R.drawable.touxiang);
+//        search1.setGender("Girl");
+//        Search search2 = new Search();
+//        search2.setUserName("Ben");
+//        search2.setProfileImageNo(R.drawable.gallery);
+//        search2.setGender("Boy");
+//        users.add(search1);
+//        users.add(search2);
+//    }
 
     /**
      * 初始化view
      */
     private void initView() {
 //        mCsvShow = (CommolySearchView) getActivity().findViewById(R.id.csv_show);
-        listView = (ListView) getActivity().findViewById(R.id.searchList);
-        searchAdapter = new SearchAdapter(getActivity(), users);
-        listView.setAdapter(searchAdapter);
+//        listView = (ListView) getActivity().findViewById(R.id.searchList);
+//        searchAdapter = new SearchAdapter(getActivity(), users);
+//        listView.setAdapter(searchAdapter);
         // 设置数据源
 //        mCsvShow.setDatas(users);
 //        mCsvShow.setAdapter(searchAdapter);
