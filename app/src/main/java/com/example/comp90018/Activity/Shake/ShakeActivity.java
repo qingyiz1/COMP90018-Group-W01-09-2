@@ -171,6 +171,11 @@ public class ShakeActivity extends AppCompatActivity implements SensorEventListe
                 case END_SHAKE:
                     mActivity.isShake = false;
                     mActivity.startAnimation(true);
+                    try {
+                        Thread.sleep(500);
+                    }catch (InterruptedException ie){
+
+                    }
                     shakePic.setVisibility(View.GONE);
                     mButton.setVisibility(View.VISIBLE);
                     break;
@@ -185,11 +190,11 @@ public class ShakeActivity extends AppCompatActivity implements SensorEventListe
         float fromY;
         float toY;
         if (isBack) {
-            fromY = -0.5f;
+            fromY = -0.1f;
             toY = 0;
         } else {
             fromY = 0;
-            toY = -0.5f;
+            toY = -0.1f;
         }
 
         TranslateAnimation anim = new TranslateAnimation(
