@@ -48,7 +48,6 @@
     <string name="title_activity_camera">CameraActivity</string>
     <string name="title_activity_post">Post</string>
     <string name="title_activity_comment">CommentActivity</string>
-    <string name="cancel">Cancel</string>
     <string name="GPSAlertDialogTitle">GPS Enabling Alert</string>
     <string name="GPSAlertDialogMessage">Please enable GPS to use this service</string>
     <string name="title_activity_swipe">SwipeActivity</string>
@@ -56,7 +55,12 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="swipe_left_for_register">Swipe Left for Register</string>
+    <string name="nickname">Nickname</string>
+    <string name="age">Age</string>
+    <string name="species">Species</string>
+    <string name="select_avatar">Select Avatar</string>
     <string name="login">Login</string>
+    <string name="save">Save</string>
     <string name="password">Password</string>
     <string name="e_mail">Email</string>
     <string name="tag">Join us and \nBuild your relationship in AnimalSociety</string>
@@ -153,4 +157,9 @@
         "For example, position the FAB to one side of stream of a cards so the FAB won’t interfere "
         "when a user tries to pick up one of cards.\n\n"
     </string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="cancel">Cancel</string>
+    <string name="sex">Sex</string>
+    <string name="bio">Bio</string>
+    <string name="follow">Follow</string>
 </resources>

@@ -47,10 +47,20 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getUserdata();
         setContentView(R.layout.activity_home);
         initView();
-        setMain();
-//        getUserdata();
+        if (savedInstanceState == null) {
+            Bundle extras = getIntent().getExtras();
+            if(extras != null) {
+                if(getIntent().getExtras().getBoolean("backToProfile")) {
+                    backToProfile();
+                }
+            } else{
+                setMain();
+            }
+        }
+
     }
 
     private void initView(){
@@ -121,26 +131,26 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
     }
 
 
-//    private void getUserdata(){
-//        DocumentReference docRef = db.collection("users").document(mAuth.getUid());
-//        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-//            @Override
-//            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-//                if (task.isSuccessful()) {
-//                    DocumentSnapshot document = task.getResult();
-//                    if (document.exists()) {
-//                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
-//                        user = new UserModel(document.getData().get("nickName").toString(),document.getData().get("sex").toString(),
-//                                document.getData().get("specie").toString(),document.getData().get("age").toString(),document.getData().get("signature").toString());
-//                    } else {
-//                        Log.d(TAG, "No such document");
-//                    }
-//                } else {
-//                    Log.d(TAG, "get failed with ", task.getException());
-//                }
-//            }
-//        });
-//    }
+    private void getUserdata(){
+        DocumentReference docRef = db.collection("users").document(mAuth.getUid());
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                        user = new UserModel(document.getData().get("nickName").toString(),document.getData().get("sex").toString(),
+                                document.getData().get("species").toString(),document.getData().get("age").toString(),document.getData().get("bio").toString());
+                    } else {
+                        Log.d(TAG, "No such document");
+                    }
+                } else {
+                    Log.d(TAG, "get failed with ", task.getException());
+                }
+            }
+        });
+    }
 
     @Override
     public void onClick(View view) {
@@ -182,5 +192,13 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
     private void setMain() {
         this.getSupportFragmentManager().beginTransaction().add(R.id.main_body,new HomePageFragment()).commit();
         setSelectStatus(0);
+    }
+
+    public void backToProfile(){
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        Fragment fragment = ProfileFragment.newInstance(user);
+        ft.replace(R.id.main_body, fragment);
+        ft.commit();
+        setSelectStatus(4);
     }
 }

@@ -2,6 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Activity.User.EditProfileActivity"
@@ -29,12 +31,13 @@
                     android:src="@drawable/ic_close"
                     android:id="@+id/close"
                     android:layout_centerVertical="true"
-                    android:layout_alignParentStart="true"/>
+                    android:layout_alignParentStart="true"
+                    android:contentDescription="@string/cancel" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Edit Profile"
+                    android:text="@string/edit_profile"
                     android:layout_centerVertical="true"
                     android:layout_marginStart="10dp"
                     android:textStyle="bold"
@@ -42,17 +45,7 @@
                     android:textColor="@color/colorPrimaryDark"
                     android:layout_toEndOf="@id/close"/>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="SAVE"
-                    android:layout_marginRight="10dp"
-                    android:id="@+id/save"
-                    android:textSize="16sp"
-                    android:layout_centerVertical="true"
-                    android:textColor="@color/colorPrimary"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentEnd="true"/>
+
 
 
 
@@ -76,40 +69,63 @@
             android:layout_margin="10dp"
             android:src="@mipmap/ic_launcher"/>
 
-        <TextView
+        <Button
+            android:id="@+id/chooseBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Change Photo"
             android:layout_gravity="center"
-            android:id="@+id/tv_change"
+            android:background="#00FFFFFF"
+            android:text="@string/select_avatar"
             android:textColor="@color/colorPrimary"
-            android:textSize="16sp"/>
+            android:textSize="16sp" />
 
         <com.rengwuxian.materialedittext.MaterialEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/fullname"
-            android:hint="Full Name"
+            android:id="@+id/nickname"
+            android:hint="@string/nickname"
             android:layout_marginTop="20dp"
             app:met_floatingLabel="normal"/>
 
         <com.rengwuxian.materialedittext.MaterialEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/username"
-            android:hint="Username"
+            android:id="@+id/species"
+            android:hint="@string/species"
+            app:met_floatingLabel="normal"/>
+
+        <com.rengwuxian.materialedittext.MaterialEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/age"
+            android:hint="@string/age"
+            app:met_floatingLabel="normal"/>
+
+        <com.rengwuxian.materialedittext.MaterialEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/sex"
+            android:hint="@string/sex"
             app:met_floatingLabel="normal"/>
 
         <com.rengwuxian.materialedittext.MaterialEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/bio"
-            android:hint="Bio"
+            android:hint="@string/bio"
             app:met_floatingLabel="normal"/>
-
-
 
 
     </LinearLayout>
 
+    <Button
+        android:layout_gravity="center"
+        android:id="@+id/save"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:background="#00FFFFFF"
+        android:text="@string/save"
+        android:textColor="@color/colorPrimary"
+        android:textSize="16sp" />
 </LinearLayout>

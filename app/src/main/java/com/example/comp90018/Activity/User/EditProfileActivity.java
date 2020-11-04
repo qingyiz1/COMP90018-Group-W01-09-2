@@ -3,144 +3,227 @@ package com.example.comp90018.Activity.User;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.ClipData;
 import android.content.ContentResolver;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.webkit.MimeTypeMap;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.comp90018.Activity.BaseActivity;
+import com.example.comp90018.Activity.Home.HomeActivity;
+import com.example.comp90018.Activity.Home.HomePageFragment;
+import com.example.comp90018.Activity.fragments.ProfileFragment;
+import com.example.comp90018.DataModel.UserModel;
 import com.example.comp90018.R;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
+import com.google.firebase.storage.UploadTask;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
-public class EditProfileActivity extends AppCompatActivity {
+import java.io.IOException;
+
+public class EditProfileActivity extends BaseActivity implements View.OnClickListener {
+
+    private static final String TAG = "EditProfileActivity";
+    private static final int PICK_IMAGE_REQUEST = 234;
 
     ImageView close, image_profile;
-    TextView save, tv_change;
-    MaterialEditText fullname, username, bio;
-
+    MaterialEditText nickname, species, age,sex,bio;
+    Button chooseBtn,saveBtn;
     FirebaseUser firebaseUser;
+    private Uri filePath;
+    private UploadTask uploadTask;
 
-    private Uri mImageUri;
-    private StorageTask uploadTask;
-    StorageReference storageRef;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
 
-        close = findViewById(R.id.close);
         image_profile = findViewById(R.id.image_profile);
-        save = findViewById(R.id.save);
-        tv_change = findViewById(R.id.tv_change);
-        fullname = findViewById(R.id.fullname);
-        username = findViewById(R.id.username);
+        close = findViewById(R.id.close);
+        saveBtn = findViewById(R.id.save);
+        chooseBtn = findViewById(R.id.chooseBtn);
+
+        nickname = findViewById(R.id.nickname);
+        species = findViewById(R.id.species);
+        age = findViewById(R.id.age);
+        sex = findViewById(R.id.sex);
         bio = findViewById(R.id.bio);
 
-        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        storageRef = FirebaseStorage.getInstance().getReference("uploads");
+        close.setOnClickListener(this);
+        chooseBtn.setOnClickListener(this);
+        saveBtn.setOnClickListener(this);
+        getUserdata();
+    }
 
-        // Get reference from Database
-
-        close.setOnClickListener(new View.OnClickListener() {
+    private void getUserdata(){
+        DocumentReference docRef = db.collection("users").document(mAuth.getUid());
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
-            public void onClick(View view) {
-                finish();
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                        UserModel user = new UserModel(document.getData().get("nickName").toString(),document.getData().get("sex").toString(),
+                                document.getData().get("species").toString(),document.getData().get("age").toString(),document.getData().get("bio").toString());
+                        if(user.nickName != null){
+                            nickname.setText(user.nickName);
+                        }
+                        if(user.species != null){
+                            species.setText(user.species);
+                        }
+                        if(user.age != null){
+                            age.setText(user.age);
+                        }
+                        if(user.sex != null){
+                            sex.setText(user.sex);
+                        }
+                        if(user.bio != null){
+                            bio.setText(user.bio);
+                        }
+                    } else {
+                        Log.d(TAG, "No such document");
+                    }
+                } else {
+                    Log.d(TAG, "get failed with ", task.getException());
+                }
             }
         });
-
-//        tv_change.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//
-//            }
-//        });
-
-//        image_profile.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//
-//            }
-//        });
-
-//        save.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                updateProfile(fullname.getText().toString(),
-//                        username.getText().toString(),
-//                        bio.getText().toString());
-//            }
-//
-//            private void updateProfile(String fullname, String username, String bio) {
-//            }
-//        });
-
-
     }
 
-    private String getFileExtension(Uri uri) {
-        ContentResolver contentResolver = getContentResolver();
-        MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
-        return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri));
-    }
-
-    private void uploadImage() {
-        ProgressDialog pd = new ProgressDialog(this);
-        pd.setMessage("Uploading");
-        pd.show();
-
-        if (mImageUri != null) {
-            final StorageReference filereference = storageRef.child(System.currentTimeMillis()
-            + "." + getFileExtension(mImageUri));
-
-            uploadTask = filereference.putFile(mImageUri);
-            uploadTask.continueWithTask(new Continuation() {
-                @Override
-                public Object then(@NonNull Task task) throws Exception {
-                    if (!task.isSuccessful()) {
-                        throw task.getException();
+    private void updateDatabase(){
+        UserModel user = new UserModel(nickname.getText().toString(),species.getText().toString(),age.getText().toString(),sex.getText().toString(),bio.getText().toString());
+        db.collection("users").document(mAuth.getUid())
+                .update(user.toMap())
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        uploadImg();
                     }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error writing document", e);
+                    }
+                });
+    }
 
-                    return filereference.getDownloadUrl();
+    private void uploadImg(){
+        if(filePath!=null){
+            final ProgressDialog progressDialog = new ProgressDialog(this);
+            progressDialog.setTitle("Uploading...");
+            progressDialog.show();
+
+            StorageReference uploadRef = mStorageImagesRef.child(mAuth.getUid());
+            uploadTask = uploadRef.putFile(filePath);
+
+            // Register observers to listen for when the download is done or if it fails
+            uploadTask.addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception exception) {
+                    progressDialog.dismiss();
+                    Toast.makeText(getApplicationContext(),exception.getMessage(),Toast.LENGTH_LONG).show();
+                }
+            }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
+                    progressDialog.dismiss();
+
+                    new AlertDialog.Builder(EditProfileActivity.this)
+                            .setTitle("Success!")
+                            .setMessage("Successfully posted new item!")
+                            // Specifying a listener allows you to take an action before dismissing the dialog.
+                            // The dialog is automatically dismissed when a dialog button is clicked.
+                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // Direct to Homepage
+                                    finish();
+                                }
+                            })
+                            // A null listener allows the button to dismiss the dialog and take no further action.
+                            //.setNegativeButton(android.R.string.no, null)
+                            .setIcon(R.drawable.ic_create_success)
+                            .show();
+
 
                 }
-            }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+            }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
                 @Override
-                public void onComplete(@NonNull Task<Uri> task) {
-                    if (task.isSuccessful()) {
-                        Uri downloadUri = task.getResult();
-                        String myUrl = downloadUri.toString();
-
-                        // Database
-                    } else {
-                        Toast.makeText(EditProfileActivity.this, "Failed", Toast.LENGTH_SHORT).show();
-                    }
+                public void onProgress(@NonNull UploadTask.TaskSnapshot taskSnapshot) {
+                    double progress = (100* taskSnapshot.getBytesTransferred())/taskSnapshot.getTotalByteCount();
+                    progressDialog.setMessage((int) progress+"% finished");
                 }
             });
-        } else {
-            Toast.makeText(this,"No Image Selected",Toast.LENGTH_SHORT).show();
         }
 
+
+    }
+
+    private void chooseFile(){
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent,"Select an Image"),PICK_IMAGE_REQUEST);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == PICK_IMAGE_REQUEST && data.getData() != null){
+            filePath = data.getData();
+            try{
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),filePath);
+                image_profile.setImageBitmap(bitmap);
+            }catch (IOException e){
+                e.printStackTrace();
+            }
+        }
+    }
 
-        // To do
+    @Override
+    public void onBackPressed() {
+        finish();
+    }
+
+
+    @Override
+    public void onClick(View view){
+        if(view == chooseBtn){
+            // open file chooser
+            chooseFile();
+        }else if(view == saveBtn){
+            updateDatabase();
+        }else if(view == close){
+            finish();
+        }
     }
 }

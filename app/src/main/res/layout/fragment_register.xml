@@ -33,7 +33,7 @@
         android:id="@+id/register_name"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:hint="@string/your_name"
+        android:hint="@string/nickname"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginBottom="10dp"

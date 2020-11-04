@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import com.example.comp90018.Activity.Home.HomeActivity;
+import com.example.comp90018.Activity.User.EditProfileActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
@@ -83,7 +84,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
                                     // The dialog is automatically dismissed when a dialog button is clicked.
                                     .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog, int which) {
-                                            Intent intent = new Intent(getActivity(),HomeActivity.class);
+                                            Intent intent = new Intent(getActivity(), EditProfileActivity.class);
                                             startActivity(intent);
                                             getActivity().finish();
                                         }
