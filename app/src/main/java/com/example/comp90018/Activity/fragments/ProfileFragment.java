@@ -1,5 +1,6 @@
 package com.example.comp90018.Activity.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,6 +15,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.comp90018.Activity.Home.HomeActivity;
+import com.example.comp90018.Activity.MainActivity;
+import com.example.comp90018.Activity.User.EditProfileActivity;
 import com.example.comp90018.DataModel.UserModel;
 import com.example.comp90018.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -31,9 +34,8 @@ public class ProfileFragment extends Fragment implements View.OnClickListener  {
     private static final String TAG = "ProfileFragment";
     View view;
     TextView user_name,user_info,user_description;
-    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    Button signOutBtn,editBtn;
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
-    private FirebaseUser mUser;
     private UserModel user;
 
     private static final String USER_DATA = "user_data";
@@ -61,12 +63,25 @@ public class ProfileFragment extends Fragment implements View.OnClickListener  {
         user_info = view.findViewById(R.id.user_info);
         user_description = view.findViewById(R.id.user_description);
         user_name.setText(user.nickName);
+
+        editBtn = view.findViewById(R.id.edit_button);
+        signOutBtn = view.findViewById(R.id.follow_button);
+        editBtn.setOnClickListener(this);
+        signOutBtn.setOnClickListener(this);
         return view;
     }
 
     @Override
     public void onClick(View view) {
-
+        if(view == signOutBtn){
+            mAuth.signOut();
+            Intent intent = new Intent(getActivity(), MainActivity.class);
+            startActivity(intent);
+        }else if(view == editBtn){
+            Intent intent = new Intent(getActivity(), EditProfileActivity.class);
+            startActivity(intent);
+            this.onPause();
+        }
     }
 
 

@@ -9,7 +9,7 @@
     <com.example.comp90018.Activity.Home.CommolySearchView
         android:id="@+id/csv_show"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="80dp"
         android:layout_margin="8dip">
     </com.example.comp90018.Activity.Home.CommolySearchView>
 
@@ -21,7 +21,8 @@
         android:layout_marginRight="10dp"
         android:layout_below="@+id/editText"
         android:padding="5dp"
-        android:layout_marginTop="10dp"/>
+        android:layout_marginTop="10dp">
+    </ListView>
 
 
 </LinearLayout>

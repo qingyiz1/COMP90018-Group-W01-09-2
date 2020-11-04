@@ -2,8 +2,6 @@ package com.example.comp90018.DataModel;
 
 import android.graphics.Bitmap;
 
-import java.io.Serializable;
-
 public class Search {
     private String userName;
     private String gender;

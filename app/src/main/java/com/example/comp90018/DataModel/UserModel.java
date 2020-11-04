@@ -15,18 +15,14 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.io.Serializable;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class UserModel implements Serializable {
 
-    public String birthday,email,nickName,password,sex,specie,age,signature;
+    public String birthday,email,nickName,password,sex, species,age, bio;
     protected static final String TAG = "UserModel";
     public Timestamp dateCreated;
     public int avatarID;
-
-    protected FirebaseFirestore db = FirebaseFirestore.getInstance();
-
     String uid;
 
     String image;
@@ -35,12 +31,12 @@ public class UserModel implements Serializable {
         // Default constructor required for calls to DataSnapshot.getValue(UserModel.class)
     }
 
-    public UserModel(String nickName,String sex,String specie,String age,String signature){
+    public UserModel(String nickName, String species, String age, String sex, String bio){
         this.nickName = nickName;
         this.sex = sex;
-        this.specie = specie;
+        this.species = species;
         this.age = age;
-        this.signature = signature;
+        this.bio = bio;
     }
 
     public UserModel(String email, String password, String nickName,Timestamp dateCreated){
@@ -61,32 +57,32 @@ public class UserModel implements Serializable {
         }
     }
 
-    public void getNickname() {
-
-        DocumentReference docRef = db.collection("users").document(FirebaseAuth.getInstance().getCurrentUser().getUid());
-        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
-                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
-                        nickName =document.getString("nickName");
-                        setNickName(nickName);
-                    } else {
-                        Log.d(TAG, "No such document");
-                    }
-                } else {
-                    Log.d(TAG, "get failed with ", task.getException());
-                }
-
-
-            }
-
-        });
-
-    }
+//    public void getNickname() {
+//
+//        DocumentReference docRef = db.collection("users").document(FirebaseAuth.getInstance().getCurrentUser().getUid());
+//        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+//
+//            @Override
+//            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+//                if (task.isSuccessful()) {
+//                    DocumentSnapshot document = task.getResult();
+//                    if (document.exists()) {
+//                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+//                        nickName =document.getString("nickName");
+//                        setNickName(nickName);
+//                    } else {
+//                        Log.d(TAG, "No such document");
+//                    }
+//                } else {
+//                    Log.d(TAG, "get failed with ", task.getException());
+//                }
+//
+//
+//            }
+//
+//        });
+//
+//    }
 
     public Map<String, Object> toMap() {
         // Create a new user with a first and last name

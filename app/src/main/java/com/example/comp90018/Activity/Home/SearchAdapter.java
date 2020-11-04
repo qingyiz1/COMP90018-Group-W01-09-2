@@ -64,6 +64,8 @@ public class SearchAdapter extends BaseAdapter {
         gender = (TextView) rowView.findViewById(R.id.gender);
         String[] fullUserName = userProfile.getUserName().toString().split("@");
         userName.setText(fullUserName[0]);
+        String[] putGender = userProfile.getGender().toString().split("@");
+        gender.setText(putGender[0]);
 
         userImg.setImageBitmap(userProfile.getProfileImage());
 //        Bitmap profileImage = userProfile.getProfileImage();
