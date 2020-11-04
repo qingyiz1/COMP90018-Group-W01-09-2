@@ -164,4 +164,8 @@
     <string name="follow">Follow</string>
     <string name="loading">loading...</string>
     <string name="sign_out">Sign out</string>
+    <string name="post">Post</string>
+    <string name="post_text">Post Text</string>
+    <string name="input_your_text_here">Input your text here</string>
+    <string name="insert_photo">Insert Photo</string>
 </resources>
