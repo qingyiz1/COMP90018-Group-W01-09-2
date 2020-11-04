@@ -26,6 +26,7 @@ import android.view.animation.AnimationSet;
 import android.view.animation.AnimationUtils;
 import android.view.animation.Transformation;
 import android.view.animation.TranslateAnimation;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -44,6 +45,8 @@ public class ShakeActivity extends AppCompatActivity implements SensorEventListe
     private Vibrator mVibrator;//手机震动
     private SoundPool mSoundPool;//摇一摇音效
 
+    private Button mButton;
+    private ImageView shakePic;
     private boolean isShake = false;
 
     private LinearLayout mLayout;
@@ -59,9 +62,17 @@ public class ShakeActivity extends AppCompatActivity implements SensorEventListe
         setContentView(R.layout.activity_shake);
         fm=getFragmentManager();
 
-        ImageView shakePic = findViewById(R.id.shakepicture);
+        shakePic = findViewById(R.id.shakepicture);
         mLayout=findViewById(R.id.main_linear);
         mHandler = new MyHandler(this);
+        mButton=findViewById(R.id.shakeresultbutton);
+        mButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View arg0) {
+                Intent intent = new Intent(ShakeActivity.this, ShakeResultActivity.class);
+                startActivity(intent);
+            }
+        });
+        mButton.setVisibility(View.GONE);
 
         mSoundPool = new SoundPool(1, AudioManager.STREAM_SYSTEM, 5);
         mWeiChatAudio = mSoundPool.load(this, R.raw.weichat_audio, 1);
@@ -158,7 +169,8 @@ public class ShakeActivity extends AppCompatActivity implements SensorEventListe
                 case END_SHAKE:
                     mActivity.isShake = false;
                     mActivity.startAnimation(true);
-                    fm.beginTransaction().replace(R.id.activity_shake, new ShakeResultFragment()).commit();
+                    shakePic.setVisibility(View.GONE);
+                    mButton.setVisibility(View.VISIBLE);
                     break;
             }
         }

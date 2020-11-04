@@ -233,7 +233,7 @@ public class UserViewActivity extends AppCompatActivity implements View.OnClickL
             });
             commentButton.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View arg0) {
-                    Intent intent = new Intent(UserViewActivity.this, CommentActivity.class);
+                    Intent intent = new Intent(UserViewActivity.this, CommActivity.class);
                     UserViewActivity.this.startActivity(intent);
                     //TODO: 传输数据给服务端
                     //.....

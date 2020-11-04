@@ -19,7 +19,13 @@
             android:layout_marginTop="20dp"
             android:text="Shake new friends out"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"/>
-
+        <Button
+            android:id="@+id/shakeresultbutton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="Click to find friends"
+            />
         <LinearLayout
             android:layout_width="wrap_content"
             android:id="@+id/main_linear"
@@ -43,5 +49,6 @@
                 android:src="@drawable/shakepicture" />
 
         </LinearLayout>
+
     </RelativeLayout>
 </LinearLayout>

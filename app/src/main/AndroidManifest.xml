@@ -36,34 +36,33 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".Activity.Shake.ShakeResultActivity"
+            android:exported="true"/>
+        <activity android:name=".Activity.Shake.CommActivity" />
         <activity
             android:name=".Activity.Shake.ShakeActivity"
             android:exported="true" />
         <activity
             android:name=".Activity.User.EditProfileActivity"
-            android:exported="true"/>
+            android:exported="true" />
         <activity
             android:name=".Activity.User.FollowersActivity"
-            android:exported="true"/>
+            android:exported="true" />
         <activity
             android:name=".Activity.Shake.UserViewActivity"
             android:exported="true" />
         <activity
             android:name=".Activity.Home.HomeActivity"
-            android:label="Home">
-        </activity>
+            android:exported="true" />
         <activity
             android:name=".Activity.Home.CameraActivity"
-            android:label="Camera">
-        </activity>
+            android:label="Camera" />
         <activity
             android:name=".Activity.Home.Post"
-            android:label="Post">
-        </activity>
+            android:label="Post" />
         <activity
             android:name=".Activity.Home.CommentActivity"
-            android:label="@string/title_activity_comment" >
-        </activity>
+            android:label="@string/title_activity_comment" />
         <activity android:name=".Activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

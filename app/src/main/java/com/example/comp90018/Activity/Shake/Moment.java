@@ -49,7 +49,7 @@ public class Moment {
     public void update(Moment m){
         this.username=m.getUsername();
         this.context=m.getContext();
-        this.location=m.location;
+        this.location=m.getLocation();
         this.likelist=m.getLikelist();
         this.commentlist=m.getCommentList();
         this.user_has_liked = m.getUser_has_liked();
