@@ -38,7 +38,7 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private FirebaseUser mUser;
-    private UserModel user;
+    private UserModel user = new UserModel();
 
     public UserModel getUser(){
         return this.user;
@@ -47,7 +47,6 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getUserdata();
         setContentView(R.layout.activity_home);
         initView();
         if (savedInstanceState == null) {
@@ -131,26 +130,7 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
     }
 
 
-    private void getUserdata(){
-        DocumentReference docRef = db.collection("users").document(mAuth.getUid());
-        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
-                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
-                        user = new UserModel(document.getData().get("nickName").toString(),document.getData().get("sex").toString(),
-                                document.getData().get("species").toString(),document.getData().get("age").toString(),document.getData().get("bio").toString());
-                    } else {
-                        Log.d(TAG, "No such document");
-                    }
-                } else {
-                    Log.d(TAG, "get failed with ", task.getException());
-                }
-            }
-        });
-    }
+
 
     @Override
     public void onClick(View view) {
@@ -181,7 +161,7 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
 //                break;
             case R.id.button_profile:
                 FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                Fragment fragment = ProfileFragment.newInstance(user);
+                Fragment fragment = new ProfileFragment(mAuth.getUid());
                 ft.replace(R.id.main_body, fragment);
                 ft.commit();
                 setSelectStatus(4);
@@ -196,7 +176,7 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
 
     public void backToProfile(){
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        Fragment fragment = ProfileFragment.newInstance(user);
+        Fragment fragment = new ProfileFragment(mAuth.getUid());
         ft.replace(R.id.main_body, fragment);
         ft.commit();
         setSelectStatus(4);

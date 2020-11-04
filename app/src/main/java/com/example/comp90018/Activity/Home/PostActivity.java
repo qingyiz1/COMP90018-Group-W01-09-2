@@ -2,33 +2,22 @@ package com.example.comp90018.Activity.Home;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Dialog;
-import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothDevice;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.comp90018.R;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Set;
 
-public class Post extends AppCompatActivity {
+public class PostActivity extends AppCompatActivity {
     private TextView pagePost;
     private TextView postTitle;
     private EditText textField=null;
@@ -55,7 +44,7 @@ public class Post extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
-                intent.setClass(Post.this, CameraActivity.class);
+                intent.setClass(PostActivity.this, CameraActivity.class);
                 startActivity(intent);
             }
         });

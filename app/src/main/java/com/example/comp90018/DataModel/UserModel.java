@@ -19,13 +19,9 @@ import java.util.Map;
 
 public class UserModel implements Serializable {
 
-    public String birthday,email,nickName,password,sex, species,age, bio;
+    public String birthday,email,nickName,password,sex, species,age, bio,uid;
     protected static final String TAG = "UserModel";
     public Timestamp dateCreated;
-    public int avatarID;
-    String uid;
-
-    String image;
 
     public UserModel() {
         // Default constructor required for calls to DataSnapshot.getValue(UserModel.class)
@@ -44,17 +40,6 @@ public class UserModel implements Serializable {
         this.password = password;
         this.nickName = nickName;
         this.dateCreated = dateCreated;
-    }
-
-    public UserModel(int avatarID,String birthday, String email, String nickName, Timestamp dateCreated) {
-        this.avatarID = avatarID;
-        this.birthday = birthday;
-        this.email = email;
-        this.nickName = nickName;
-        this.dateCreated = dateCreated;
-        if(this.uid == null){
-            this.uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        }
     }
 
 //    public void getNickname() {
@@ -87,12 +72,33 @@ public class UserModel implements Serializable {
     public Map<String, Object> toMap() {
         // Create a new user with a first and last name
         Map<String, Object> newUser = new HashMap<>();
-        newUser.put("birthday", this.birthday);
-        newUser.put("avatarID",this.avatarID);
-        newUser.put("email", this.email);
-        newUser.put("nickName", this.nickName);
-        newUser.put("dateCreated",this.dateCreated);
-        newUser.put("password",this.password);
+        if(this.birthday != null){
+            newUser.put("birthday", this.birthday);
+        }
+        if(this.birthday != null){
+            newUser.put("email", this.email);
+        }
+        if(this.birthday != null){
+            newUser.put("nickName", this.nickName);
+        }
+        if(this.birthday != null){
+            newUser.put("dateCreated", this.dateCreated);
+        }
+        if(this.birthday != null){
+            newUser.put("password", this.password);
+        }
+        if(this.sex != null){
+            newUser.put("sex",this.sex);
+        }
+        if(this.species != null){
+            newUser.put("species",this.species);
+        }
+        if(this.age != null){
+            newUser.put("age",this.age);
+        }
+        if(this.bio != null){
+            newUser.put("bio",this.bio);
+        }
         return newUser;
     }
 

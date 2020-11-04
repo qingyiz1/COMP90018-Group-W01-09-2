@@ -75,7 +75,7 @@ public class HomePageFragment extends Fragment{
             @Override
             public void onClick(View v) {
                 //go to post activity;
-                Intent intent = new Intent(getActivity(), Post.class);
+                Intent intent = new Intent(getActivity(), PostActivity.class);
                 startActivity(intent);
             }
         });
@@ -85,7 +85,7 @@ public class HomePageFragment extends Fragment{
     private ArrayList<Feed> getData(){
         String username="Ann";
         String caption="Hello!";
-        Drawable drawable = getResources().getDrawable(R.drawable.touxiang);
+        Drawable drawable = getResources().getDrawable(R.drawable.default_avatar);
         Bitmap touxiang = ((BitmapDrawable) drawable).getBitmap();
         Drawable drawable1 = getResources().getDrawable(R.drawable.photo);
         Bitmap postPhoto = ((BitmapDrawable) drawable1).getBitmap();

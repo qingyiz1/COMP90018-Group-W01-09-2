@@ -303,7 +303,7 @@ public class CameraActivity extends Activity {
             super.onCaptureFailed(session, request, failure);
             Toast.makeText(getApplicationContext(), "Fail to take photo", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent();
-            intent.setClass(CameraActivity.this, Post.class);
+            intent.setClass(CameraActivity.this, PostActivity.class);
             startActivity(intent);
 
         }
@@ -381,7 +381,7 @@ public class CameraActivity extends Activity {
         BitmapStore.setBitmap(scaledBitmap);
         Intent intent = new Intent();
         intent.putExtra("post_img", outputImage.toString());
-        intent.setClass(CameraActivity.this, Post.class);
+        intent.setClass(CameraActivity.this, PostActivity.class);
         startActivity(intent);
     }
 

@@ -162,4 +162,6 @@
     <string name="sex">Sex</string>
     <string name="bio">Bio</string>
     <string name="follow">Follow</string>
+    <string name="loading">loading...</string>
+    <string name="sign_out">Sign out</string>
 </resources>

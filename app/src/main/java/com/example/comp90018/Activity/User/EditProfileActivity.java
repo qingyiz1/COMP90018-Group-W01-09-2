@@ -39,6 +39,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
@@ -91,21 +92,25 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
                         Log.d(TAG, "DocumentSnapshot data: " + document.getData());
-                        UserModel user = new UserModel(document.getData().get("nickName").toString(),document.getData().get("sex").toString(),
-                                document.getData().get("species").toString(),document.getData().get("age").toString(),document.getData().get("bio").toString());
-                        if(user.nickName != null){
+                        UserModel user = new UserModel();
+                        if(document.getData().get("nickName") != null){
+                            user.nickName = document.getData().get("nickName").toString();
                             nickname.setText(user.nickName);
                         }
-                        if(user.species != null){
-                            species.setText(user.species);
-                        }
-                        if(user.age != null){
-                            age.setText(user.age);
-                        }
-                        if(user.sex != null){
+                        if(document.getData().get("sex") != null){
+                            user.sex = document.getData().get("sex").toString();
                             sex.setText(user.sex);
                         }
-                        if(user.bio != null){
+                        if(document.getData().get("species") != null){
+                            user.species = document.getData().get("species").toString();
+                            species.setText(user.species);
+                        }
+                        if(document.getData().get("age") != null){
+                            user.age = document.getData().get("age").toString();
+                            age.setText(user.age);
+                        }
+                        if(document.getData().get("bio") != null){
+                            user.bio = document.getData().get("bio").toString();
                             bio.setText(user.bio);
                         }
                     } else {
@@ -119,6 +124,7 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
     }
 
     private void updateDatabase(){
+
         UserModel user = new UserModel(nickname.getText().toString(),species.getText().toString(),age.getText().toString(),sex.getText().toString(),bio.getText().toString());
         db.collection("users").document(mAuth.getUid())
                 .update(user.toMap())
@@ -160,7 +166,7 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
 
                     new AlertDialog.Builder(EditProfileActivity.this)
                             .setTitle("Success!")
-                            .setMessage("Successfully posted new item!")
+                            .setMessage("Successfully updated Profile!")
                             // Specifying a listener allows you to take an action before dismissing the dialog.
                             // The dialog is automatically dismissed when a dialog button is clicked.
                             .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
@@ -183,6 +189,22 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
                     progressDialog.setMessage((int) progress+"% finished");
                 }
             });
+        }else{
+            new AlertDialog.Builder(EditProfileActivity.this)
+                    .setTitle("Success!")
+                    .setMessage("Successfully updated Profile!")
+                    // Specifying a listener allows you to take an action before dismissing the dialog.
+                    // The dialog is automatically dismissed when a dialog button is clicked.
+                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            // Direct to Homepage
+                            finish();
+                        }
+                    })
+                    // A null listener allows the button to dismiss the dialog and take no further action.
+                    //.setNegativeButton(android.R.string.no, null)
+                    .setIcon(R.drawable.ic_create_success)
+                    .show();
         }
 
 
@@ -223,7 +245,7 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
         }else if(view == saveBtn){
             updateDatabase();
         }else if(view == close){
-            finish();
+            onBackPressed();
         }
     }
 }
