@@ -5,41 +5,40 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingTop="30dp"
-    tools:context="com.example.comp90018.DataModel.Post">
+    tools:context="com.example.comp90018.Activity.Home.PostActivity">
 
     <TextView
         android:id="@+id/page_post"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:text="Post"
-        android:textSize="20dp"
+        android:layout_marginStart="10dp"
+        android:text="@string/post"
+        android:textSize="20sp"
         android:textStyle="bold"
         android:layout_marginTop="0dp"/>
 
     <TextView
-        android:id="@+id/text_post_text"
+        android:id="@+id/post_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:text="Post Text"
+        android:layout_marginStart="10dp"
+        android:text="@string/post_text"
         android:textStyle="bold"
         android:layout_marginTop="5dp"
         android:layout_below="@+id/page_post"/>
 
     <EditText
-        android:id="@+id/text_field"
+        android:id="@+id/post_content"
         android:layout_width="match_parent"
         android:layout_height="70dp"
-        android:layout_below="@+id/text_post_text"
+        android:layout_below="@+id/post_text"
         android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
         android:layout_marginStart="10dp"
-        android:layout_marginLeft="10dp"
+        android:layout_marginEnd="10dp"
         android:layout_marginTop="5dp"
         android:ems="10"
         android:gravity="top"
-        android:hint="Input your text here"
+        android:hint="@string/input_your_text_here"
         android:inputType="textMultiLine"
         android:overScrollMode="always"
         android:scrollbarStyle="insideInset"
@@ -49,25 +48,25 @@
         />
 
     <Button
-        android:id="@+id/text_photo_text"
+        android:id="@+id/button_insert"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:text="Insert a Photo"
+        android:layout_marginStart="10dp"
+        android:text="@string/insert_photo"
+        android:layout_centerHorizontal="true"
         android:textStyle="bold"
         android:layout_marginTop="5dp"
-        android:layout_below="@+id/text_field"/>
+        android:layout_below="@+id/post_content"/>
 
     <ImageView
-        android:id="@+id/imageView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/text_photo_text"
-        android:layout_alignLeft="@+id/surfaceView1"
-        android:layout_marginStart="10dp"
-        android:layout_marginLeft="10dp"
+        android:id="@+id/post_picture"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_below="@+id/button_insert"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="5dp"
-        android:background="@drawable/border"/>
+        android:background="@drawable/border"
+        app:srcCompat="@drawable/default_avatar" />
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -77,10 +76,8 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:text="Post to Instagram"
+            android:text="@string/post"
             android:id="@+id/button_post"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
             android:background="#ff33b5e5"
             android:textColor="#ffffff"/>
 
@@ -88,11 +85,9 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:text="Cancel"
+            android:text="@string/cancel"
             android:id="@+id/button_cancel"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginLeft="50dp"
+            android:layout_marginStart="50dp"
             android:background="#ff33b5e5"
             android:textColor="#ffffff"/>
     </LinearLayout>

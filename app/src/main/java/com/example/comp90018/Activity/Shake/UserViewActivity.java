@@ -13,7 +13,6 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 
 import com.example.comp90018.Activity.Home.CommentActivity;
@@ -163,7 +162,7 @@ public class UserViewActivity extends AppCompatActivity implements View.OnClickL
             captionText.setText(oneFeed.getContext());
 
             //TODO: BEGIN 从数据库中，设置头像，发布的照片
-            userProfileImg.setImageDrawable(getResources().getDrawable(R.drawable.touxiang));
+            userProfileImg.setImageDrawable(getResources().getDrawable(R.drawable.default_avatar));
             photoImg.setImageDrawable(getResources().getDrawable(R.drawable.next));
             //TODO: END
 

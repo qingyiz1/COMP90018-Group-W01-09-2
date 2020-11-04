@@ -61,7 +61,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
     public void updateDatabase(String filePath){
         UserModel newUser = new UserModel(register_email.getText().toString(),register_password.getText().toString(), register_name.getText().toString(),Timestamp.now());
         db.collection("users").document(filePath)
-                .set(newUser.toMap());
+                .set(newUser);
     }
 
     protected void createAccount(String email, String password) {

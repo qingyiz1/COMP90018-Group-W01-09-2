@@ -158,7 +158,7 @@ public class SearchFragment extends Fragment {
 
         Search search1 = new Search();
         search1.setUserName("Cindy");
-        Drawable drawable1 = getResources().getDrawable(R.drawable.touxiang);
+        Drawable drawable1 = getResources().getDrawable(R.drawable.default_avatar);
         Bitmap touxiang1 = ((BitmapDrawable) drawable1).getBitmap();
         search1.setProfileImage(touxiang1);
         search1.setGender("Girl");

@@ -24,7 +24,7 @@ public class ShakeResultActivity extends AppCompatActivity{
         image=findViewById(R.id.shakeImageButton);
         //TODO: 数据库传头像，个人信息
         information.setText("name, age, dog, female");
-        image.setImageDrawable(getResources().getDrawable(R.drawable.touxiang));
+        image.setImageDrawable(getResources().getDrawable(R.drawable.default_avatar));
 
         image.setOnClickListener(new View.OnClickListener() {
             public void onClick(View arg0) {
