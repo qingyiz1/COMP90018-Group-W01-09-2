@@ -70,6 +70,8 @@ public class ShakeActivity extends AppCompatActivity implements SensorEventListe
             public void onClick(View arg0) {
                 Intent intent = new Intent(ShakeActivity.this, ShakeResultActivity.class);
                 startActivity(intent);
+                shakePic.setVisibility(View.VISIBLE);
+                mButton.setVisibility(View.GONE);
             }
         });
         mButton.setVisibility(View.GONE);

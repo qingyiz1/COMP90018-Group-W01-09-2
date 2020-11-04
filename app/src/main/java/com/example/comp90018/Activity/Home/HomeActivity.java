@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,6 +14,7 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import com.example.comp90018.Activity.Shake.ShakeActivity;
 import com.example.comp90018.Activity.fragments.ProfileFragment;
 import com.example.comp90018.DataModel.UserModel;
 import com.example.comp90018.R;
@@ -171,14 +173,14 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
 //                Intent intent = new Intent(HomeActivity.this, 名字.class)
 //                startActivity(intent);
 //                break;
-//            case R.id.button_shake://////////////////////////////////////////////////////输入fragment或者activity文件名字/////////////
+            case R.id.button_shake://////////////////////////////////////////////////////输入fragment或者activity文件名字/////////////
 //                //fragment
 //                getSupportFragmentManager().beginTransaction().replace(R.id.main_body,new Fragement3()).commit();
 //                setSelectStatus(3);
                   //activity
-//                Intent intent = new Intent(HomeActivity.this, 名字.class)
-//                startActivity(intent);
-//                break;
+                Intent intent = new Intent(HomeActivity.this, ShakeActivity.class);
+                startActivity(intent);
+                break;
             case R.id.button_profile:
                 FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
                 Fragment fragment = ProfileFragment.newInstance(user);
