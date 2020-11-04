@@ -27,12 +27,14 @@ import com.example.comp90018.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.Timestamp;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Objects;
 
 public class PostActivity extends BaseActivity implements View.OnClickListener{
 
@@ -65,9 +67,9 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
 
     private void submitPost(){
         this.post = new Post(mAuth.getUid(),postContent.getText().toString() ,Timestamp.now());
-
+        post.setId(db.collection("posts").document().getId());
         db.collection("posts").document(post.getId())
-                .set(post)
+                .set(post.toMap())
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
@@ -80,6 +82,8 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
                         Log.w(TAG, "Error writing document", e);
                     }
                 });
+
+        db.collection("users").document(Objects.requireNonNull(mAuth.getUid())).update("posts", FieldValue.arrayUnion(post.getId()));
     }
 
     private void uploadImg(){
