@@ -109,16 +109,17 @@
         android:layout_alignStart="@+id/likedTextView"
         android:layout_marginTop="3dp"
         android:layout_marginBottom="3dp"
-        android:textSize="16dp"
+        android:textSize="16sp"
         android:textColor="#ff33b5e5"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/commentTextView"
+        android:id="@+id/commentList"
         android:layout_below="@+id/commentText"
-        android:layout_alignLeft="@+id/commentText"
         android:layout_alignStart="@+id/commentText"
         android:layout_marginTop="3dp"
+        android:layout_marginEnd="5dp"
         android:layout_marginBottom="7dp"/>
+
 </RelativeLayout>

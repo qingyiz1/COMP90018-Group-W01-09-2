@@ -33,6 +33,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 public class HomePageFragment extends Fragment{
     // TODO: Rename parameter arguments, choose names that match
@@ -120,8 +121,50 @@ public class HomePageFragment extends Fragment{
                         }
                         posts.clear();
                         for (QueryDocumentSnapshot doc : value) {
-                            ArrayList<Comment> comments = (ArrayList<Comment>) doc.getData().get("comments");
-                            ArrayList<String> likes = (ArrayList<String>) doc.getData().get("likes");
+                            ArrayList<Map<String,String>> commentTemp = (ArrayList<Map<String, String>>) doc.getData().get("comments");
+                            final ArrayList<Comment> comments = new ArrayList<>();
+                            final ArrayList<String> likes = new ArrayList<>();
+
+                            for(final Map<String,String> comment: commentTemp){
+                                db.collection("users").document(comment.get("author")).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                        if (task.isSuccessful()) {
+                                            DocumentSnapshot document = task.getResult();
+                                            if (document.exists()) {
+                                                Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                                                String nickname = document.getData().get("nickName").toString();
+                                                comments.add(new Comment(nickname,comment.get("content")));
+                                            } else {
+                                                Log.d(TAG, "No such document");
+                                            }
+                                        } else {
+                                            Log.d(TAG, "get failed with ", task.getException());
+                                        }
+                                    }
+                                });
+                            }
+                            ArrayList<String> tempLikes = (ArrayList<String>) doc.getData().get("likes");
+                            for(String user : tempLikes){
+                                db.collection("users").document(user).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                        if (task.isSuccessful()) {
+                                            DocumentSnapshot document = task.getResult();
+                                            if (document.exists()) {
+                                                Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                                                String nickname = document.getData().get("nickName").toString();
+                                                likes.add(nickname);
+                                            } else {
+                                                Log.d(TAG, "No such document");
+                                            }
+                                        } else {
+                                            Log.d(TAG, "get failed with ", task.getException());
+                                        }
+                                    }
+                                });
+                            }
+
                             Post post = new Post(doc.getData().get("authorUid").toString(),doc.getData().get("authorName").toString(),doc.getData().get("id").toString(),
                                     doc.getData().get("content").toString(),comments,likes, (Timestamp) doc.getData().get("dateCreated"));
                             posts.add(post);
@@ -135,6 +178,7 @@ public class HomePageFragment extends Fragment{
                                     if (document.exists()) {
                                         Log.d(TAG, "DocumentSnapshot data: " + document.getData());
                                         user = document.toObject(UserModel.class);
+                                        Log.d(TAG, "onComplete: "+user.nickName);
                                         int index = mainListView.getFirstVisiblePosition();
                                         View v = mainListView.getChildAt(0);
                                         int top = (v == null) ? 0 : (v.getTop() - mainListView.getPaddingTop());

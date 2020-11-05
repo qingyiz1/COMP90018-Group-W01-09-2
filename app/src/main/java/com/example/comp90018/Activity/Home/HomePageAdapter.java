@@ -4,17 +4,21 @@ package com.example.comp90018.Activity.Home;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.comp90018.Activity.Shake.UserViewActivity;
+import com.example.comp90018.DataModel.Comment;
 import com.example.comp90018.DataModel.Post;
 import com.example.comp90018.DataModel.UserModel;
 import com.example.comp90018.R;
@@ -26,17 +30,18 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class HomePageAdapter extends BaseAdapter {
+    private static final String TAG = "HomePageAdapter";
     private Context context;
     private ArrayList<Post> posts;
     private String tmpLike;
     private int likePosition;
     private ImageButton userProfileImg,likeButton,commentButton;
-    TextView userName, likedText, commentText,content, likesFixText, commentFixText;
+    TextView userName, likedText,content, likesFixText, commentFixText, commentTextView,commentList;
     UserModel user;
     View rowView;
-
     protected FirebaseFirestore db = FirebaseFirestore.getInstance();
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     // image storage
@@ -86,12 +91,12 @@ public class HomePageAdapter extends BaseAdapter {
         //find all UI elements
         userProfileImg = rowView.findViewById(R.id.userImage);
         userName = (TextView) rowView.findViewById(R.id.text_userName);
-        likedText = (TextView) rowView.findViewById(R.id.likedTextView);
-        commentText = (TextView) rowView.findViewById(R.id.commentTextView);
+        likedText = rowView.findViewById(R.id.likedTextView);
+        commentList =  rowView.findViewById(R.id.commentList);
         likeButton = (ImageButton) rowView.findViewById(R.id.likeButton);
         commentButton = (ImageButton) rowView.findViewById(R.id.button_comment);
         content = (TextView) rowView.findViewById(R.id.content_text);
-
+        commentTextView = rowView.findViewById(R.id.commentTextView);
         //set text view styles
         likesFixText = (TextView) rowView.findViewById(R.id.likedText);
         likesFixText.setTypeface(likesFixText.getTypeface(), Typeface.BOLD);
@@ -123,7 +128,7 @@ public class HomePageAdapter extends BaseAdapter {
         loadWithGlide(rowView,R.id.photoImage,post.getId());
 
         // set up like image
-        if(post.HasLiked(mAuth.getUid())){
+        if(post.HasLiked(user.nickName)){
             likeButton.setImageDrawable(rowView.getResources().getDrawable(R.drawable.filled_heart));
         }else {
             likeButton.setImageDrawable(rowView.getResources().getDrawable(R.drawable.empty_heart));
@@ -136,10 +141,12 @@ public class HomePageAdapter extends BaseAdapter {
         } else {
             likedText.setText("Nobody has liked yet.");
         }
-
+        
         likeButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View arg0) {
-                if (!post.HasLiked(mAuth.getUid())) {
+                if (!post.HasLiked(user.nickName)) {
+                    likeButton.setImageDrawable(rowView.getResources().getDrawable(R.drawable.filled_heart));
+
                     db.collection("posts").document(post.getId()).update("likes", FieldValue.arrayUnion(mAuth.getUid()));
                     likePosition = position;
                     //update liked list
@@ -148,7 +155,6 @@ public class HomePageAdapter extends BaseAdapter {
                     if (post.getLikes().size() != 0) {
                         String likeList = post.getLikes().toString();
                         likedText.setText(likeList.substring(1, likeList.length()-1));
-
                     } else {
                         likedText.setText("Nobody has liked yet.");
                     }
@@ -169,10 +175,15 @@ public class HomePageAdapter extends BaseAdapter {
 
         // set up the blank comment text in the view
         if (post.getComments().size() != 0) {
-            String commentList = post.getComments().toString().replace(',', '\n');
-            commentText.setText(commentList.substring(1, commentList.length() - 1));
+            StringBuilder commentString = new StringBuilder("");
+            Log.d(TAG, "getView: "+commentString.toString());
+            for(int i = 0;i<post.getComments().size();i++){
+                commentString.append(post.getComments().get(i).author+": "+post.getComments().get(i).content+'\n');
+                Log.d(TAG, "getView: "+post.getComments().size());
+            }
+            commentList.setText(commentString.toString());
         } else {
-            commentText.setText("Nobody has commented yet.");
+            commentList.setText("Nobody has commented yet.");
         }
 
         commentButton.setOnClickListener(new View.OnClickListener() {

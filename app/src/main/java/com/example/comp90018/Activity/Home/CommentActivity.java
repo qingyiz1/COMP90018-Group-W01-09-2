@@ -1,5 +1,6 @@
 package com.example.comp90018.Activity.Home;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -17,7 +18,9 @@ import android.widget.TextView;
 import com.example.comp90018.Activity.BaseActivity;
 import com.example.comp90018.DataModel.Comment;
 import com.example.comp90018.R;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FieldValue;
@@ -25,6 +28,7 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.storage.UploadTask;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 public class CommentActivity extends BaseActivity implements View.OnClickListener {
     private static final String TAG = "CommentActivity";
@@ -62,8 +66,27 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
                 }
 
                 if (snapshot != null && snapshot.exists()) {
-                    Log.d(TAG, "Current data: " + snapshot.getData());
-                    commentData = (ArrayList<Comment>) snapshot.getData().get("comments");
+                    ArrayList<Map<String,String>> commentTemp = (ArrayList<Map<String, String>>) snapshot.getData().get("comments");
+                    final ArrayList<Comment> commentData = new ArrayList<>();
+                    for(final Map<String,String> comment: commentTemp){
+                        db.collection("users").document(comment.get("author")).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    DocumentSnapshot document = task.getResult();
+                                    if (document.exists()) {
+                                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                                        String nickname = document.getData().get("nickName").toString();
+                                        commentData.add(new Comment(nickname,comment.get("content")));
+                                    } else {
+                                        Log.d(TAG, "No such document");
+                                    }
+                                } else {
+                                    Log.d(TAG, "get failed with ", task.getException());
+                                }
+                            }
+                        });
+                    }
                     comments.setAdapter(new ArrayAdapter<Comment>(CommentActivity.this, R.layout.comments, R.id.comments_comment, commentData));
                 } else {
                     Log.d(TAG, "Current data: null");
@@ -87,7 +110,7 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
                                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {
                                         // Direct to Homepage
-                                        finish();
+                                        commentContent.setText("");
                                     }
                                 })
                                 // A null listener allows the button to dismiss the dialog and take no further action.
