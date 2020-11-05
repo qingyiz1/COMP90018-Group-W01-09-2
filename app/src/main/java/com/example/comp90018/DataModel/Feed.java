@@ -1,9 +1,6 @@
 package com.example.comp90018.DataModel;
 
 import android.graphics.Bitmap;
-import android.widget.ImageView;
-
-import com.example.comp90018.Activity.Shake.Moment;
 
 import java.util.ArrayList;
 
@@ -79,7 +76,7 @@ public class Feed{
         return comment;
     }
 
-    public void setComment(String comment) {
+    public void addComment(String comment) {
         this.comment.add(comment);
     }
 
@@ -87,7 +84,7 @@ public class Feed{
         return like;
     }
 
-    public void setLike(String name) {
+    public void addLike(String name) {
         this.like.add(name);
     }
 

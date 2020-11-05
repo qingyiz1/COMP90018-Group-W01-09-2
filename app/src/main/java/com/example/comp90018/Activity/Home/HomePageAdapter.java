@@ -13,7 +13,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.comp90018.Activity.Shake.CommActivity;
 import com.example.comp90018.Activity.Shake.ShakeResultActivity;
 import com.example.comp90018.Activity.Shake.UserViewActivity;
 import com.example.comp90018.DataModel.Feed;
@@ -147,7 +146,7 @@ public class HomePageAdapter extends BaseAdapter {
                     //update liked list
                     Toast.makeText(context.getApplicationContext(), "You liked!", Toast.LENGTH_LONG).show();
                     System.out.println("Like: " + tmpLike);
-                    oneFeed.setLike("user3");
+                    oneFeed.addLike("user3");
                     if (oneFeed.getLike().size() != 0) {
                         String likelist=oneFeed.getLike().toString();
                         likedText.setText(likelist.substring(1, likelist.length()-1));

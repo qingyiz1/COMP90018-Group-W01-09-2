@@ -4,7 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Typeface;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -22,6 +25,7 @@ import android.widget.TextView;
 
 import com.example.comp90018.Activity.Home.CommentActivity;
 
+import com.example.comp90018.DataModel.Feed;
 import com.example.comp90018.R;
 
 import java.util.ArrayList;
@@ -32,7 +36,7 @@ public class UserViewActivity extends AppCompatActivity implements View.OnClickL
     private ImageView image;
     private TextView user_name, user_info, user_description;
     private Button followButton;
-    private ArrayList<Moment> feeds_array=new ArrayList<>();
+    private ArrayList<Feed> feeds_array=new ArrayList<>();
     private boolean followOrNot;
     private EditText mAmEtMsg;
     private Button send;
@@ -71,7 +75,7 @@ public class UserViewActivity extends AppCompatActivity implements View.OnClickL
         browser_list.setAdapter(new MyBaseAdapter(getFeeds_array()));
 
     }
-    private ArrayList<Moment> getFeeds_array(){
+    private ArrayList<Feed> getFeeds_array(){
         //TODO:  BEGIN 从数据库中，获取
         feeds_array=new ArrayList<>();
         String username="name";
@@ -89,9 +93,13 @@ public class UserViewActivity extends AppCompatActivity implements View.OnClickL
         //用户是否已经点赞
         Boolean user_has_liked=false;
         //TODO: END
+        Drawable drawable = getResources().getDrawable(R.drawable.default_avatar);
+        Bitmap touxiang = ((BitmapDrawable) drawable).getBitmap();
+        Drawable drawable1 = getResources().getDrawable(R.drawable.photo);
+        Bitmap postPhoto = ((BitmapDrawable) drawable1).getBitmap();
 
         //第一条动态
-        Moment feed=new Moment(username, context, location, likelist, comment, user_has_liked);
+        Feed feed=new Feed(username, touxiang, postPhoto, comment, likelist,context, user_has_liked);
         //第二条动态....
         feeds_array.add(feed);
         String username2="name2";
@@ -105,10 +113,12 @@ public class UserViewActivity extends AppCompatActivity implements View.OnClickL
 
         likelist2.add("user1222");
         likelist2.add("user22222");
+        Bitmap touxiang2 = ((BitmapDrawable) drawable).getBitmap();
+        Bitmap postPhoto2 = ((BitmapDrawable) drawable1).getBitmap();
 
         //用户是否已经点赞
         Boolean user_has_liked2=false;
-        Moment feed2=new Moment(username2, context2, location2, likelist2, comment2, user_has_liked2);
+        Feed feed2=new Feed(username2, touxiang2, postPhoto2, comment2, likelist2,context2, user_has_liked2);
         feeds_array.add(feed2);
         return feeds_array;
     }
@@ -149,8 +159,8 @@ public class UserViewActivity extends AppCompatActivity implements View.OnClickL
     }
 
     class MyBaseAdapter extends BaseAdapter{
-        private ArrayList<Moment> feed_array;
-        public MyBaseAdapter(ArrayList<Moment> feed_array){
+        private ArrayList<Feed> feed_array;
+        public MyBaseAdapter(ArrayList<Feed> feed_array){
             this.feed_array=feed_array;
         }
         @Override
@@ -176,7 +186,7 @@ public class UserViewActivity extends AppCompatActivity implements View.OnClickL
         public View getView(final int position, View convertView, ViewGroup parent) {//组装数据
             //final View rowView = mInflater.inflate(R.layout.feed,null);
             final View rowView=View.inflate(UserViewActivity.this,R.layout.feed,null);//在list_item中有两个id,现在要把他们拿过来
-            final Moment oneFeed = feed_array.get(position);
+            final Feed oneFeed = feed_array.get(position);
 
             //find all UI elements
             ImageView userProfileImg = (ImageView) rowView.findViewById(R.id.userImage);
@@ -203,25 +213,25 @@ public class UserViewActivity extends AppCompatActivity implements View.OnClickL
             likesFixText.setTypeface(likesFixText.getTypeface(), Typeface.BOLD);
             TextView commentFixText = (TextView) rowView.findViewById(R.id.commentText);
             commentFixText.setTypeface(commentFixText.getTypeface(), Typeface.BOLD);
-            userName.setText(oneFeed.getUsername());
+            userName.setText(oneFeed.getDisplayName());
             //locationName.setText(oneFeed.getLocation());
-            captionText.setText(oneFeed.getContext());
+            captionText.setText(oneFeed.getCaption());
 
             //TODO: BEGIN 从数据库中，设置头像，发布的照片
             userProfileImg.setImageDrawable(getResources().getDrawable(R.drawable.default_avatar));
             photoImg.setImageDrawable(getResources().getDrawable(R.drawable.next));
             //TODO: END
 
-            if (oneFeed.getLikelist().size() != 0) {
-                String likelist=oneFeed.getLikelist().toString();
+            if (oneFeed.getLike().size() != 0) {
+                String likelist=oneFeed.getLike().toString();
                 likedText.setText(likelist.substring(1, likelist.length()-1));
             } else {
                 likedText.setText("Nobody has liked yet.");
             }
 
             // set up the blank comment text in the view
-            if (oneFeed.getCommentList().size() != 0) {
-                String commentlist=oneFeed.getCommentList().toString().replace(',', '\n');
+            if (oneFeed.getComment().size() != 0) {
+                String commentlist=oneFeed.getComment().toString().replace(',', '\n');
                 commentText.setText(commentlist.substring(1, commentlist.length() - 1));
             } else {
                 commentText.setText("Nobody has commented yet.");
@@ -243,9 +253,9 @@ public class UserViewActivity extends AppCompatActivity implements View.OnClickL
                         ///////////////////////////////////////////
                         //TODO: 方法二：本地更新（不推荐，仅本地测试）
                         oneFeed.setUser_has_liked(true);
-                        oneFeed.addLikeList("user3");
-                        if (oneFeed.getLikelist().size() != 0) {
-                            String likelist=oneFeed.getLikelist().toString();
+                        oneFeed.addLike("user3");
+                        if (oneFeed.getLike().size() != 0) {
+                            String likelist=oneFeed.getLike().toString();
                             likedText.setText(likelist.substring(1, likelist.length()-1));
                         } else {
                             likedText.setText("Nobody has liked yet.");
@@ -266,9 +276,9 @@ public class UserViewActivity extends AppCompatActivity implements View.OnClickL
                         ///////////////////////////////////////////
                         //TODO: 方法二：本地更新（不推荐，仅本地测试）
                         oneFeed.setUser_has_liked(false);
-                        oneFeed.deleteLikeList("user3");
-                        if (oneFeed.getLikelist().size() != 0) {
-                            String likelist=oneFeed.getLikelist().toString();
+                        oneFeed.deleteLike("user3");
+                        if (oneFeed.getLike().size() != 0) {
+                            String likelist=oneFeed.getLike().toString();
                             likedText.setText(likelist.substring(1, likelist.length()-1));
                         } else {
                             likedText.setText("Nobody has liked yet.");
@@ -301,9 +311,9 @@ public class UserViewActivity extends AppCompatActivity implements View.OnClickL
                         //TODO: 把comment传给服务器
                         feed_array = getFeeds_array();//获取最新的feeds_array
                         oneFeed.update(feed_array.get(position));
-                        if (oneFeed.getCommentList().size() != 0) {
-                            oneFeed.addCommentList(comment);
-                            String commentlist = oneFeed.getCommentList().toString().replace(',', '\n');
+                        if (oneFeed.getComment().size() != 0) {
+                            oneFeed.addComment(comment);
+                            String commentlist = oneFeed.getComment().toString().replace(',', '\n');
                             commentlist = commentlist.substring(1, commentlist.length() - 1);
                             commentText.setText(commentlist);
                         } else {
