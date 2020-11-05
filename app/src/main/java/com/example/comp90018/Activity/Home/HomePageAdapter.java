@@ -13,30 +13,49 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+<<<<<<< Updated upstream
 import com.example.comp90018.Activity.Shake.ShakeResultActivity;
+=======
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+>>>>>>> Stashed changes
 import com.example.comp90018.Activity.Shake.UserViewActivity;
 import com.example.comp90018.DataModel.Feed;
+import com.example.comp90018.DataModel.Post;
+import com.example.comp90018.DataModel.UserModel;
 import com.example.comp90018.R;
+import com.example.comp90018.utils.GlideApp;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.auth.User;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 
 public class HomePageAdapter extends BaseAdapter {
     private Context context;
-    private ArrayList<Feed> feed_array;
+    private ArrayList<Post> posts;
     private String tmpLike;
     private int likePosition;
     private ImageButton likeButton;
     TextView likedText;
     TextView commentText;
+    UserModel user;
 
-    public HomePageAdapter(Context c, ArrayList<Feed> data) {
+    protected FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    // image storage
+    private StorageReference mStorageImagesRef = FirebaseStorage.getInstance().getReference().child("images");
+
+    public HomePageAdapter(Context c, ArrayList<Post> data, UserModel user) {
         context = c;
-        feed_array = data;
+        posts = data;
+        this.user = user;
     }
 
     //setter method to pass the data from fragment to here
-    public void HomePageAdapter(ArrayList<Feed> feed_array) {
-        this.feed_array = feed_array;
+    public void HomePageAdapter(ArrayList<Post> posts) {
+        this.posts = posts;
     }
 
     //this method updates the list view when the array has been changed
@@ -47,8 +66,8 @@ public class HomePageAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        if(feed_array != null) {
-            return feed_array.size();
+        if(posts != null) {
+            return posts.size();
         } else {
             return 0;
         }
@@ -56,7 +75,7 @@ public class HomePageAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int i) {
-        return null;
+        return posts.get(i);
     }
 
     @Override
@@ -71,11 +90,8 @@ public class HomePageAdapter extends BaseAdapter {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         final View rowView = inflater.inflate(R.layout.feed, null, true);
 
-//        //获取最新的feeds_array
-//        feed_array=new ArrayList<>();
-
         //get the feed with location
-        final Feed oneFeed = feed_array.get(position);
+        final Post post = posts.get(position);
 
         //find all UI elements
         ImageButton userProfileImg = rowView.findViewById(R.id.userImage);
@@ -94,26 +110,27 @@ public class HomePageAdapter extends BaseAdapter {
         commentFixText.setTypeface(commentFixText.getTypeface(), Typeface.BOLD);
 
         // set up the name
-        userName.setText(oneFeed.getDisplayName());
+        userName.setText(post.getAuthorName());
 
         // set up the blank caption text in the view
-        if (oneFeed.getCaption() != null) {
-            captionText.setText(oneFeed.getCaption());
+        if (post.getContent() != null) {
+            captionText.setText(post.getContent());
         } else {
-            captionText.setText("No caption.");
+            captionText.setText("No content.");
         }
 
         //TODO: BEGIN 从数据库中，设置头像，发布的照片
-        userProfileImg.setImageBitmap(oneFeed.getUserProfileImg());
-        userProfileImg.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View arg0) {
-                Intent intent = new Intent(context, UserViewActivity.class);
-                context.startActivity(intent);
-            }
-        });
+        loadWithGlide(rowView,R.id.userImage,post.getAuthorUid());
+//        userProfileImg.setImageBitmap(post.getUserProfileImg());
+//        userProfileImg.setOnClickListener(new View.OnClickListener() {
+//            public void onClick(View arg0) {
+//                Intent intent = new Intent(context, UserViewActivity.class);
+//                context.startActivity(intent);
+//            }
+//        });
+        loadWithGlide(rowView,R.id.photoImage,post.getId());
 
-        photoImg.setImageBitmap(oneFeed.getPhoto());
-//        Bitmap postImage = oneFeed.getPhoto();
+//        Bitmap postImage = post.getPhoto();
 //        if (postImage != null) {
 //            photoImg.setImageBitmap(BitmapStore.getCroppedBitmap(postImage));
 //        }else{
@@ -123,44 +140,51 @@ public class HomePageAdapter extends BaseAdapter {
 //        }
 
         // set up like image
-        if(oneFeed.getUser_has_liked()){
+        if(post.HasLiked(mAuth.getUid())){
             likeButton.setImageDrawable(rowView.getResources().getDrawable(R.drawable.filled_heart));
         }else {
             likeButton.setImageDrawable(rowView.getResources().getDrawable(R.drawable.empty_heart));
         }
         // set up the blank like text in the view
-        if (oneFeed.getLike().size() != 0) {
-            String likelist=oneFeed.getLike().toString();
-            likedText.setText(likelist.substring(1, likelist.length()-1));
+        if (post.getLikes().size() != 0) {
+            String likeList = post.getLikes().toString();
+            likedText.setText(likeList.substring(1, likeList.length()-1));
         } else {
             likedText.setText("Nobody has liked yet.");
         }
 
         likeButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View arg0) {
-                if (!oneFeed.getUser_has_liked()) {
+                if (!post.HasLiked(mAuth.getUid())) {
                     likeButton.setImageDrawable(rowView.getResources().getDrawable(R.drawable.filled_heart));
-                    oneFeed.setUser_has_liked(true);
+                    post.setHasLiked(true);
                     tmpLike = likedText.getText().toString();
                     likePosition = position;
                     //update liked list
                     Toast.makeText(context.getApplicationContext(), "You liked!", Toast.LENGTH_LONG).show();
                     System.out.println("Like: " + tmpLike);
+<<<<<<< Updated upstream
                     oneFeed.addLike("user3");
                     if (oneFeed.getLike().size() != 0) {
                         String likelist=oneFeed.getLike().toString();
                         likedText.setText(likelist.substring(1, likelist.length()-1));
+=======
+                    post.setLikes(user.nickName);
+                    if (post.getLikes().size() != 0) {
+                        String likeList = post.getLikes().toString();
+                        likedText.setText(likeList.substring(1, likeList.length()-1));
+>>>>>>> Stashed changes
                     } else {
                         likedText.setText("Nobody has liked yet.");
                     }
                 } else {
                     likeButton.setImageDrawable(rowView.getResources().getDrawable(R.drawable.empty_heart));
-                    oneFeed.setUser_has_liked(false);
+                    post.setHasLiked(false);
                     Toast.makeText(context.getApplicationContext(), "Cancel like", Toast.LENGTH_LONG).show();
-                    oneFeed.deleteLike("user3");
-                    if (oneFeed.getLike().size() != 0) {
-                        String likelist=oneFeed.getLike().toString();
-                        likedText.setText(likelist.substring(1, likelist.length()-1));
+                    post.deleteLikes(user.nickName);
+                    if (post.getLikes().size() != 0) {
+                        String likeList = post.getLikes().toString();
+                        likedText.setText(likeList.substring(1, likeList.length()-1));
                     } else {
                         likedText.setText("Nobody has liked yet.");
                     }
@@ -169,9 +193,9 @@ public class HomePageAdapter extends BaseAdapter {
         });
 
         // set up the blank comment text in the view
-        if (oneFeed.getComment().size() != 0) {
-            String commentlist=oneFeed.getComment().toString().replace(',', '\n');
-            commentText.setText(commentlist.substring(1, commentlist.length() - 1));
+        if (post.getComments().size() != 0) {
+            String commentList = post.getComments().toString().replace(',', '\n');
+            commentText.setText(commentList.substring(1, commentList.length() - 1));
         } else {
             commentText.setText("Nobody has commented yet.");
         }
@@ -184,6 +208,23 @@ public class HomePageAdapter extends BaseAdapter {
         });
 
         return rowView;
+    }
+
+    public void loadWithGlide(View container, int ID, String picId) {
+        // [START storage_load_with_glide]
+        // Reference to an image file in Cloud Storage
+        StorageReference profileReference = mStorageImagesRef.child(picId);
+
+        // ImageView in your Activity
+        ImageView imageView = container.findViewById(ID);
+
+        // Download directly from StorageReference using Glide
+        // (See MyAppGlideModule for Loader registration)
+        GlideApp.with(context /* context */)
+                .load(profileReference)
+                .placeholder(R.drawable.default_avatar)
+                .into(imageView);
+        // [END storage_load_with_glide]
     }
 
 }
