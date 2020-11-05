@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".Activity.Shake.ShakeActivity">
+    tools:context=".Activity.Shake.ShakeFragment">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -18,18 +18,19 @@
             android:layout_marginLeft="24dp"
             android:layout_marginTop="20dp"
             android:text="Shake new friends out"
-            android:textStyle="bold"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"/>
+            android:textSize="30dp"
+            android:textStyle="bold" />
+
         <Button
-            android:id="@+id/shakeresultbutton"
+            android:id="@+id/shakeresultbtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="Click to find friends"
-            />
+            android:visibility="gone" />
 
         <LinearLayout
-            android:id="@+id/main_linear"
+            android:id="@+id/shake_linear"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
@@ -42,7 +43,7 @@
             android:orientation="vertical">
 
             <ImageView
-                android:id="@+id/shakepicture"
+                android:id="@+id/shakePhoto"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="0dp"
