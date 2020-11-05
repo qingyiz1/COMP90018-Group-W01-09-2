@@ -11,8 +11,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.comp90018.Activity.MainActivity;
 import com.example.comp90018.Activity.User.EditProfileActivity;
 import com.example.comp90018.DataModel.UserModel;
@@ -22,8 +24,10 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.auth.User;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -74,7 +78,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener  {
         signOutBtn = view.findViewById(R.id.sign_out_button);
         editBtn.setOnClickListener(this);
         signOutBtn.setOnClickListener(this);
-        loadWithGlide(view,R.id.profile_avatar);
+        followBtn.setOnClickListener(this);
         return view;
     }
 
@@ -87,7 +91,6 @@ public class ProfileFragment extends Fragment implements View.OnClickListener  {
         }else if(view == editBtn){
             Intent intent = new Intent(getActivity(), EditProfileActivity.class);
             startActivity(intent);
-            this.onPause();
         }else if(view == followBtn){
             db.collection("users").document(mAuth.getUid()).update("following", FieldValue.arrayUnion(user.uid));
         }
@@ -106,6 +109,8 @@ public class ProfileFragment extends Fragment implements View.OnClickListener  {
         GlideApp.with(this /* context */)
                 .load(profileReference)
                 .placeholder(R.drawable.default_avatar)
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .skipMemoryCache(true)
                 .into(imageView);
         // [END storage_load_with_glide]
     }
@@ -113,32 +118,34 @@ public class ProfileFragment extends Fragment implements View.OnClickListener  {
 
     private void getUserdata(String uid){
         DocumentReference docRef = db.collection("users").document(uid);
-        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        docRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
-                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
-                        if(document.getData().get("nickName") != null){
-                            user.nickName = document.getData().get("nickName").toString();
-                            user_name.setText(user.nickName);
-                        }
-                        if(document.getData().get("sex") != null && document.getData().get("species") != null && document.getData().get("age") != null){
-                            user.sex = document.getData().get("sex").toString();
-                            user.species = document.getData().get("species").toString();
-                            user.age = document.getData().get("age").toString();
-                            user_info.setText(user.sex+" "+user.species+", "+user.age+" years old");
-                        }
-                        if(document.getData().get("bio") != null){
-                            user.bio = document.getData().get("bio").toString();
-                            user_description.setText(user.bio);
-                        }
-                    } else {
-                        Log.d(TAG, "No such document");
+            public void onEvent(@Nullable DocumentSnapshot snapshot,
+                                @Nullable FirebaseFirestoreException e) {
+                if (e != null) {
+                    Log.w(TAG, "Listen failed.", e);
+                    return;
+                }
+
+                if (snapshot != null && snapshot.exists()) {
+                    Log.d(TAG, "Current data: " + snapshot.getData());
+                    if(snapshot.getData().get("nickName") != null){
+                        user.nickName = snapshot.getData().get("nickName").toString();
+                        user_name.setText(user.nickName);
                     }
+                    if(snapshot.getData().get("sex") != null && snapshot.getData().get("species") != null && snapshot.getData().get("age") != null){
+                        user.sex = snapshot.getData().get("sex").toString();
+                        user.species = snapshot.getData().get("species").toString();
+                        user.age = snapshot.getData().get("age").toString();
+                        user_info.setText(user.sex+" "+user.species+", "+user.age+" years old");
+                    }
+                    if(snapshot.getData().get("bio") != null){
+                        user.bio = snapshot.getData().get("bio").toString();
+                        user_description.setText(user.bio);
+                    }
+                    loadWithGlide(view,R.id.profile_avatar);
                 } else {
-                    Log.d(TAG, "get failed with ", task.getException());
+                    Log.d(TAG, "Current data: null");
                 }
             }
         });

@@ -62,6 +62,8 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
         postBtn.setOnClickListener(this);
         cancelBtn.setOnClickListener(this);
 
+
+
     }
 
 
