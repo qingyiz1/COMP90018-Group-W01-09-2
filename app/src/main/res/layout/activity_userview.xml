@@ -22,7 +22,8 @@
         android:dividerHeight="1dp"
         android:layout_alignParentTop="true"
         android:layout_marginBottom="5dp"
-        android:layout_marginTop="200dp"/>
+        android:layout_marginTop="200dp">
+    </ListView>
 
     <TextView
         android:id="@+id/user_name"
@@ -65,6 +66,33 @@
         android:layout_marginTop="20dp"
         android:layout_marginEnd="0dp"
         android:text="Follow" />
+
+    <EditText
+        android:id="@+id/commentInput"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="250dp"
+        android:layout_marginRight="100dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/et_custom"
+        android:fontFamily="@font/roboto_regular"
+        android:padding="15dp"
+        android:textSize="15sp" />
+
+    <Button
+        android:id="@+id/send"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="320dp"
+        android:layout_marginTop="250dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/et_custom"
+        android:fontFamily="@font/roboto_regular"
+        android:padding="15dp"
+        android:text="Send"
+        android:textSize="15sp" />
 
 
 </RelativeLayout>

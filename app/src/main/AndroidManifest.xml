@@ -38,7 +38,6 @@
         android:theme="@style/AppTheme">
         <activity android:name=".Activity.Shake.ShakeResultActivity"
             android:exported="true"/>
-        <activity android:name=".Activity.Shake.CommActivity" />
         <activity
             android:name=".Activity.Shake.ShakeActivity"
             android:exported="true" />

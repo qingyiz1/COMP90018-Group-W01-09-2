@@ -2,13 +2,18 @@ package com.example.comp90018.Activity.Shake;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Handler;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -29,6 +34,8 @@ public class UserViewActivity extends AppCompatActivity implements View.OnClickL
     private Button followButton;
     private ArrayList<Moment> feeds_array=new ArrayList<>();
     private boolean followOrNot;
+    private EditText mAmEtMsg;
+    private Button send;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +51,10 @@ public class UserViewActivity extends AppCompatActivity implements View.OnClickL
         browser_list=findViewById(R.id.browserListView);
         followButton=findViewById(R.id.follow_button);
         followButton.setOnClickListener(this);
+        mAmEtMsg=findViewById(R.id.commentInput);
+        mAmEtMsg.setVisibility(View.GONE);
+        send=findViewById(R.id.send);
+        send.setVisibility(View.GONE);
         //TODO: 从数据库获取用户名、用户信息、用户交友描述
         user_name.setText("user name");
         user_info.setText("user info");
@@ -81,10 +92,24 @@ public class UserViewActivity extends AppCompatActivity implements View.OnClickL
 
         //第一条动态
         Moment feed=new Moment(username, context, location, likelist, comment, user_has_liked);
-        feeds_array.add(feed);
         //第二条动态....
-        // Moment feed=new Moment(username, context, location, likelist, comment, user_has_liked);
-        // feeds_array.add(feed);
+        feeds_array.add(feed);
+        String username2="name2";
+        String context2="context2";
+        String location2="location2";
+        ArrayList<String> likelist2=new ArrayList<>();
+        ArrayList<String> comment2=new ArrayList<>();
+
+        comment2.add("user1: comment12222");
+        comment2.add("user2: comment22222");
+
+        likelist2.add("user1222");
+        likelist2.add("user22222");
+
+        //用户是否已经点赞
+        Boolean user_has_liked2=false;
+        Moment feed2=new Moment(username2, context2, location2, likelist2, comment2, user_has_liked2);
+        feeds_array.add(feed2);
         return feeds_array;
     }
 
@@ -103,6 +128,26 @@ public class UserViewActivity extends AppCompatActivity implements View.OnClickL
         }
     }
 
+    private void onFocusChange(boolean hasFocus) {
+        final boolean isFocus = hasFocus;
+        (new Handler()).postDelayed(new Runnable() {
+            public void run() {
+                InputMethodManager imm = (InputMethodManager)
+                        UserViewActivity.this.getSystemService(INPUT_METHOD_SERVICE);
+                if (isFocus) {
+                    //显示输入法
+                    imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+                    mAmEtMsg.setFocusable(true);
+                    mAmEtMsg.requestFocus();
+                } else {
+                    //隐藏输入法
+                    mAmEtMsg.setVisibility(View.GONE);
+                    imm.hideSoftInputFromWindow(mAmEtMsg.getWindowToken(), 0);
+                }
+            }
+        }, 100);
+    }
+
     class MyBaseAdapter extends BaseAdapter{
         private ArrayList<Moment> feed_array;
         public MyBaseAdapter(ArrayList<Moment> feed_array){
@@ -119,7 +164,7 @@ public class UserViewActivity extends AppCompatActivity implements View.OnClickL
 
         @Override
         public Object getItem(int position) {
-            return null;//names [position];
+            return feed_array.get(position);
         }
 
         @Override
@@ -129,6 +174,7 @@ public class UserViewActivity extends AppCompatActivity implements View.OnClickL
 
         @Override
         public View getView(final int position, View convertView, ViewGroup parent) {//组装数据
+            //final View rowView = mInflater.inflate(R.layout.feed,null);
             final View rowView=View.inflate(UserViewActivity.this,R.layout.feed,null);//在list_item中有两个id,现在要把他们拿过来
             final Moment oneFeed = feed_array.get(position);
 
@@ -232,20 +278,45 @@ public class UserViewActivity extends AppCompatActivity implements View.OnClickL
             });
             commentButton.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View arg0) {
-                    Intent intent = new Intent(UserViewActivity.this, CommActivity.class);
-                    UserViewActivity.this.startActivity(intent);
-                    //TODO: 传输数据给服务端
-                    //.....
-                    //TODO: END
-                    feed_array=getFeeds_array();//获取最新的feeds_array
-                    oneFeed.update(feed_array.get(position));
-                    if (oneFeed.getCommentList().size() != 0) {
-                        String commentlist=oneFeed.getCommentList().toString().replace(',', '\n');
-                        commentText.setText(commentlist.substring(1, commentlist.length() - 1));
-                    } else {
-                        commentText.setText("Nobody has commented yet.");
-                    }
+                    mAmEtMsg.setVisibility(View.VISIBLE);
+                    send.setVisibility(View.VISIBLE);
+                    InputMethodManager imm = (InputMethodManager) getApplicationContext().getSystemService(UserViewActivity.this.INPUT_METHOD_SERVICE);
+                    imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
                 }
+            });
+            send.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View arg0) {
+                    String comment=mAmEtMsg.getText().toString();
+                    if(comment.length()==0){
+                        new AlertDialog.Builder(UserViewActivity.this)
+                                .setTitle("Error!")
+                                .setMessage("No Empty Comment.")
+                                // Specifying a listener allows you to take an action before dismissing the dialog.
+                                .setPositiveButton(android.R.string.yes, null)
+                                // A null listener allows the button to dismiss the dialog and take no further action.
+                                //.setNegativeButton(android.R.string.no, null)
+                                .setIcon(R.drawable.ic_error)
+                                .show();
+                    }else {
+                        //TODO: 把comment传给服务器
+                        feed_array = getFeeds_array();//获取最新的feeds_array
+                        oneFeed.update(feed_array.get(position));
+                        if (oneFeed.getCommentList().size() != 0) {
+                            oneFeed.addCommentList(comment);
+                            String commentlist = oneFeed.getCommentList().toString().replace(',', '\n');
+                            commentlist = commentlist.substring(1, commentlist.length() - 1);
+                            commentText.setText(commentlist);
+                        } else {
+                            commentText.setText("Nobody has commented yet.");
+                        }
+                    }
+                    send.setVisibility(View.GONE);
+                    mAmEtMsg.setVisibility(View.GONE);
+                    mAmEtMsg.setText("");
+                    InputMethodManager imm = (InputMethodManager) getApplicationContext().getSystemService(UserViewActivity.this.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(mAmEtMsg.getWindowToken(), 0);
+                }
+
             });
             return rowView;
         }
