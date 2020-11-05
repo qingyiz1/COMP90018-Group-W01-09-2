@@ -83,6 +83,9 @@ public class HomePageFragment extends Fragment{
     }
 
     private ArrayList<Feed> getData(){
+        //TODO:  BEGIN 从数据库中，获取
+        feeds_array=new ArrayList<>();
+
         String username="Ann";
         String caption="Hello!";
         Drawable drawable = getResources().getDrawable(R.drawable.default_avatar);
@@ -91,9 +94,17 @@ public class HomePageFragment extends Fragment{
         Bitmap postPhoto = ((BitmapDrawable) drawable1).getBitmap();
         ArrayList<String> comment=new ArrayList<>();
         ArrayList<String> like=new ArrayList<>();
+
+        comment.add("user1: comment1");
+        comment.add("user2: comment2");
+        like.add("user1");
+        like.add("user2");
+
         Boolean user_has_liked=false;
         Feed feed=new Feed(username, touxiang, postPhoto, comment, like, caption, user_has_liked);
         feeds_array.add(feed);
+
+
         return feeds_array;
     }
 

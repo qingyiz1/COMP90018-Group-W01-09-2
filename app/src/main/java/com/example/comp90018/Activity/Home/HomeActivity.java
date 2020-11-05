@@ -153,10 +153,7 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
 //                Intent intent = new Intent(HomeActivity.this, 名字.class)
 //                startActivity(intent);
 //                break;
-            case R.id.button_shake://////////////////////////////////////////////////////输入fragment或者activity文件名字/////////////
-//                //fragment
-//                getSupportFragmentManager().beginTransaction().replace(R.id.main_body,new Fragement3()).commit();
-//                setSelectStatus(3);
+            case R.id.button_shake:
                   //activity
                 Intent intent = new Intent(HomeActivity.this, ShakeActivity.class);
                 startActivity(intent);

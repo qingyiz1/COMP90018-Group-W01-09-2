@@ -50,9 +50,11 @@ public class CommentActivity extends AppCompatActivity {
         });
     }
     private void createIntent(String string){
-        Intent intent = new Intent(CommentActivity.this, HomeActivity.class);
-        intent.setType("String");
-        intent.putExtra(Intent.EXTRA_TEXT, string);
-        startActivity(Intent.createChooser(intent, "Share to"));
+        //TODO: 把String传输给服务器端, 并跳到homepage
+//        Intent intent = new Intent(CommentActivity.this, HomeActivity.class);
+//        intent.setType("String");
+//        intent.putExtra(Intent.EXTRA_TEXT, string);
+//        startActivity(Intent.createChooser(intent, "Share to"));
+        finish();
     }
 }

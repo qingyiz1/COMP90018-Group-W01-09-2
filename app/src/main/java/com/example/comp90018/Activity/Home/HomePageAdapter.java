@@ -13,6 +13,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.comp90018.Activity.Shake.CommActivity;
+import com.example.comp90018.Activity.Shake.ShakeResultActivity;
+import com.example.comp90018.Activity.Shake.UserViewActivity;
 import com.example.comp90018.DataModel.Feed;
 import com.example.comp90018.R;
 
@@ -21,11 +24,11 @@ import java.util.ArrayList;
 public class HomePageAdapter extends BaseAdapter {
     private Context context;
     private ArrayList<Feed> feed_array;
-    private String finalLikeText;
     private String tmpLike;
     private int likePosition;
     private ImageButton likeButton;
-
+    TextView likedText;
+    TextView commentText;
 
     public HomePageAdapter(Context c, ArrayList<Feed> data) {
         context = c;
@@ -33,7 +36,7 @@ public class HomePageAdapter extends BaseAdapter {
     }
 
     //setter method to pass the data from fragment to here
-    public void setFeed_array(ArrayList<Feed> feed_array) {
+    public void HomePageAdapter(ArrayList<Feed> feed_array) {
         this.feed_array = feed_array;
     }
 
@@ -59,7 +62,7 @@ public class HomePageAdapter extends BaseAdapter {
 
     @Override
     public long getItemId(int i) {
-        return 0;
+        return i;
     }
 
     //@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
@@ -69,15 +72,18 @@ public class HomePageAdapter extends BaseAdapter {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         final View rowView = inflater.inflate(R.layout.feed, null, true);
 
+//        //获取最新的feeds_array
+//        feed_array=new ArrayList<>();
+
         //get the feed with location
         final Feed oneFeed = feed_array.get(position);
 
         //find all UI elements
-        ImageView userProfileImg = (ImageView) rowView.findViewById(R.id.userImage);
+        ImageButton userProfileImg = rowView.findViewById(R.id.userImage);
         TextView userName = (TextView) rowView.findViewById(R.id.text_userName);
         ImageView photoImg = (ImageView) rowView.findViewById(R.id.photoImage);
-        final TextView likedText = (TextView) rowView.findViewById(R.id.likedTextView);
-        TextView commentText = (TextView) rowView.findViewById(R.id.commentTextView);
+        likedText = (TextView) rowView.findViewById(R.id.likedTextView);
+        commentText = (TextView) rowView.findViewById(R.id.commentTextView);
         likeButton = (ImageButton) rowView.findViewById(R.id.likeButton);
         ImageButton commentButton = (ImageButton) rowView.findViewById(R.id.commentButton);
         TextView captionText = (TextView) rowView.findViewById(R.id.captionTextView);
@@ -88,17 +94,25 @@ public class HomePageAdapter extends BaseAdapter {
         TextView commentFixText = (TextView) rowView.findViewById(R.id.commentText);
         commentFixText.setTypeface(commentFixText.getTypeface(), Typeface.BOLD);
 
-        //set user profile image, user name, photo image
-        userProfileImg.setImageBitmap(oneFeed.getUserProfileImg());
-//        Bitmap profileImage = oneFeed.getUserProfileImg();
-//        if (profileImage != null) {
-//            userProfileImg.setImageBitmap(BitmapStore.getCroppedBitmap(profileImage));
-//        }else{
-//            Drawable drawable = rowView.getResources().getDrawable(R.drawable.touxiang);
-//            Bitmap defaultImage = ((BitmapDrawable) drawable).getBitmap();
-//            userProfileImg.setImageBitmap(defaultImage);
-//        }
+        // set up the name
         userName.setText(oneFeed.getDisplayName());
+
+        // set up the blank caption text in the view
+        if (oneFeed.getCaption() != null) {
+            captionText.setText(oneFeed.getCaption());
+        } else {
+            captionText.setText("No caption.");
+        }
+
+        //TODO: BEGIN 从数据库中，设置头像，发布的照片
+        userProfileImg.setImageBitmap(oneFeed.getUserProfileImg());
+        userProfileImg.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View arg0) {
+                Intent intent = new Intent(context, UserViewActivity.class);
+                context.startActivity(intent);
+            }
+        });
+
         photoImg.setImageBitmap(oneFeed.getPhoto());
 //        Bitmap postImage = oneFeed.getPhoto();
 //        if (postImage != null) {
@@ -109,39 +123,60 @@ public class HomePageAdapter extends BaseAdapter {
 //            photoImg.setImageBitmap(defaultImage1);
 //        }
 
+        // set up like image
+        if(oneFeed.getUser_has_liked()){
+            likeButton.setImageDrawable(rowView.getResources().getDrawable(R.drawable.filled_heart));
+        }else {
+            likeButton.setImageDrawable(rowView.getResources().getDrawable(R.drawable.empty_heart));
+        }
+        // set up the blank like text in the view
+        if (oneFeed.getLike().size() != 0) {
+            String likelist=oneFeed.getLike().toString();
+            likedText.setText(likelist.substring(1, likelist.length()-1));
+        } else {
+            likedText.setText("Nobody has liked yet.");
+        }
 
-        // implement the like function here. POST request to Instagram API
         likeButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View arg0) {
                 if (!oneFeed.getUser_has_liked()) {
-                    likeButton.setBackground(rowView.getResources().getDrawable(R.drawable.filled_heart));
+                    likeButton.setImageDrawable(rowView.getResources().getDrawable(R.drawable.filled_heart));
                     oneFeed.setUser_has_liked(true);
                     tmpLike = likedText.getText().toString();
                     likePosition = position;
                     //update liked list
                     Toast.makeText(context.getApplicationContext(), "You liked!", Toast.LENGTH_LONG).show();
                     System.out.println("Like: " + tmpLike);
-                    //updating the view
-                    //计算likes个数
-                    if (tmpLike.equals(oneFeed.getLike().toString())) {
-                        if (tmpLike.length() > 0) {
-                            if (Character.isDigit(tmpLike.charAt(1))) {
-                                int likeNum = Integer.parseInt(tmpLike.replaceAll("[^0-9]", "")) + 1;
-                                finalLikeText = "[" + String.valueOf(likeNum) + " likes]";
-                            } else {
-                                finalLikeText = tmpLike.replace("]", "") + "none]";
-                            }
-                        }
-                        likedText.setText(finalLikeText);
+                    oneFeed.setLike("user3");
+                    if (oneFeed.getLike().size() != 0) {
+                        String likelist=oneFeed.getLike().toString();
+                        likedText.setText(likelist.substring(1, likelist.length()-1));
+                    } else {
+                        likedText.setText("Nobody has liked yet.");
                     }
-                    System.out.println("Like: " + finalLikeText);
                 } else {
-                    Toast.makeText(context, "You have already liked!", Toast.LENGTH_LONG).show();
+                    likeButton.setImageDrawable(rowView.getResources().getDrawable(R.drawable.empty_heart));
+                    oneFeed.setUser_has_liked(false);
+                    Toast.makeText(context.getApplicationContext(), "Cancel like", Toast.LENGTH_LONG).show();
+                    oneFeed.deleteLike("user3");
+                    if (oneFeed.getLike().size() != 0) {
+                        String likelist=oneFeed.getLike().toString();
+                        likedText.setText(likelist.substring(1, likelist.length()-1));
+                    } else {
+                        likedText.setText("Nobody has liked yet.");
+                    }
                 }
             }
         });
 
-        // implement the comment function here through comment activity
+        // set up the blank comment text in the view
+        if (oneFeed.getComment().size() != 0) {
+            String commentlist=oneFeed.getComment().toString().replace(',', '\n');
+            commentText.setText(commentlist.substring(1, commentlist.length() - 1));
+        } else {
+            commentText.setText("Nobody has commented yet.");
+        }
+
         commentButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View arg0) {
                 Intent intent = new Intent(context, CommentActivity.class);
@@ -149,41 +184,6 @@ public class HomePageAdapter extends BaseAdapter {
             }
         });
 
-        // set up the blank caption text in the view
-        if (oneFeed.getCaption() != null) {
-            captionText.setText(oneFeed.getCaption());
-        } else {
-            captionText.setText("No caption.");
-        }
-
-        // set up the blank like text in the view
-        if (oneFeed.getLike() != null) {
-            System.out.println("Like: " + likedText.getText());
-            if (tmpLike == null && finalLikeText == null) {
-                if (oneFeed.getUser_has_liked()){
-                    likeButton.setBackground(rowView.getResources().getDrawable(R.drawable.filled_heart));
-                }
-                likedText.setText(oneFeed.getLike().toString().replace(',', ' '));
-            }else if(tmpLike != null && finalLikeText != null && position == likePosition){
-                likedText.setText(finalLikeText);
-                likeButton.setBackground(rowView.getResources().getDrawable(R.drawable.filled_heart));
-            }else{
-                if (oneFeed.getUser_has_liked()){
-                    likeButton.setBackground(rowView.getResources().getDrawable(R.drawable.filled_heart));
-                }
-                likedText.setText(oneFeed.getLike().toString().replace(',', ' '));
-            }
-        } else {
-            likedText.setText("Nobody has liked yet.");
-        }
-
-        // set up the blank comment text in the view
-        if (oneFeed.getComment() != null) {
-            commentText.setText(oneFeed.getComment().toString().replace(',', ' ').substring(1,
-                    oneFeed.getComment().toString().length() - 1));
-        } else {
-            commentText.setText("Nobody has commented yet.");
-        }
         return rowView;
     }
 

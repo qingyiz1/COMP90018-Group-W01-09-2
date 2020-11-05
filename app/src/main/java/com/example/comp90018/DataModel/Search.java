@@ -4,25 +4,16 @@ import android.graphics.Bitmap;
 
 public class Search {
     private String userName;
-    private String gender;
+    private String petType;
     private Bitmap profileImage;
-    private String fullName;
     private int profileImageNo;
 
     public Search() { }
 
-    public Search(String userName, String gender, Bitmap profileImage) {
+    public Search(String userName, String petType, Bitmap profileImage) {
         this.userName = userName;
-        this.gender = gender;
+        this.petType = petType;
         this.profileImage = profileImage;
-    }
-
-    public String getFullName() {
-        return fullName;
-    }
-
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
     }
 
     public int getProfileImageNo() {
@@ -49,12 +40,12 @@ public class Search {
         this.userName = username;
     }
 
-    public String getGender() {
-        return gender;
+    public String getPetType() {
+        return petType;
     }
 
-    public void setGender(String gender) {
-        this.gender = gender;
+    public void setPetType(String petType) {
+        this.petType = petType;
     }
     /**
      * 搜索条件
@@ -64,7 +55,7 @@ public class Search {
     public String getSearchCondition() {
         StringBuilder searchStr = new StringBuilder();
         searchStr.append(userName);
-        searchStr.append(gender);
+        searchStr.append(petType);
         return searchStr.toString();
     }
 }
