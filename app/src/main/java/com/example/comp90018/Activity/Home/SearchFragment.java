@@ -1,5 +1,6 @@
 package com.example.comp90018.Activity.Home;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -14,6 +15,7 @@ import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
+import com.example.comp90018.Activity.Shake.UserViewActivity;
 import com.example.comp90018.DataModel.Search;
 import com.example.comp90018.R;
 
@@ -70,23 +72,7 @@ public class SearchFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
         initData();
-//        initView();
-//        initAdapter();
-//        initSearch();
     }
-//    public void recommendation() {
-//        users = new ArrayList<>();
-//        //pass the data into discovery user array list
-//        byte[] bitmapdata = new byte[0];
-//        Bitmap bitmap = BitmapFactory.decodeByteArray(bitmapdata, 0, bitmapdata.length);
-//
-//        Drawable myDrawable = getResources().getDrawable(R.drawable.default_profile_image);
-//        Bitmap defaultImage = ((BitmapDrawable) myDrawable).getBitmap();
-//
-//        Search searchUser = new Search();
-//        searchAdapter.setUsers(users);
-//
-//    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -96,16 +82,6 @@ public class SearchFragment extends Fragment {
         listView = (ListView) view.findViewById(R.id.searchList);
         searchAdapter = new SearchAdapter(getActivity(), users);
         listView.setAdapter(searchAdapter);
-        //import adapter
-//        searchAdapter = new SearchAdapter(getActivity(), getData());
-//        listView.setAdapter(searchAdapter);
-
-//        search.setOnClickListener(new View.OnClickListener() {
-//            public void onClick(View arg0) {
-//
-//            }
-//        });
-//        initData();
         initView();
         return view;
     }
@@ -129,30 +105,10 @@ public class SearchFragment extends Fragment {
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         if (isVisibleToUser) {
-            //recommendation();
         }
         else {  }
     }
 
-    //////////////////////////////////////////////////////
-
-    /**
-     * 初始化适配器,一般的扩展只需修改该方法即可
-     */
-//    private void initAdapter() {
-//        searchAdapter = new SearchAdapter(getActivity(), (ArrayList<Search>) users);
-//        // 点击事件
-////        searchAdapter.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-////            @Override
-////            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-////                Toast.makeText(getActivity(), mCsvShow.getFilterDatas().get(i).getUserName() + "\n" + mCsvShow.getFilterDatas().get(i).getGender(), Toast.LENGTH_SHORT).show();
-////            }
-////        });
-//    }
-
-    /**
-     * 初始化数据
-     */
     private void initData() {
         users = new ArrayList<Search>();
 
@@ -161,36 +117,28 @@ public class SearchFragment extends Fragment {
         Drawable drawable1 = getResources().getDrawable(R.drawable.default_avatar);
         Bitmap touxiang1 = ((BitmapDrawable) drawable1).getBitmap();
         search1.setProfileImage(touxiang1);
-        search1.setGender("Girl");
+        search1.setPetType("cat");
 
         Search search2 = new Search();
         search2.setUserName("Ben");
         Drawable drawable2 = getResources().getDrawable(R.drawable.gallery);
         Bitmap touxiang2 = ((BitmapDrawable) drawable2).getBitmap();
         search2.setProfileImage(touxiang2);
-        search2.setGender("Boy");
+        search2.setPetType("dog");
         users.add(search1);
         users.add(search2);
     }
 
-    /**
-     * 初始化view
-     */
     private void initView() {
-//        mCsvShow = (CommolySearchView) getActivity().findViewById(R.id.csv_show);
-//        listView = (ListView) getActivity().findViewById(R.id.searchList);
-//        searchAdapter = new SearchAdapter(getActivity(), users);
-//        listView.setAdapter(searchAdapter);
-        // 设置数据源
         mCsvShow.setDatas(users);
         mCsvShow.setAdapter(searchAdapter);
-        // 设置筛选数据
+
         mCsvShow.setSearchDataListener(new CommolySearchView.SearchDatas<Search>() {
             @Override
             public ArrayList<Search> filterDatas(ArrayList<Search> datas, ArrayList<Search> filterdatas, String inputstr) {
                 for (int i = 0; i < datas.size(); i++) {
                     // 筛选条件
-                    if ((datas.get(i).getUserName()).contains(inputstr) || datas.get(i).getGender().contains(inputstr)) {
+                    if (((datas.get(i).getUserName()).toLowerCase()).contains(inputstr) || ((datas.get(i).getPetType()).toLowerCase()).contains(inputstr)) {
                         filterdatas.add(datas.get(i));
                     }
                 }
@@ -200,37 +148,11 @@ public class SearchFragment extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Toast.makeText(getActivity(), mCsvShow.getFilterDatas().get(i).getUserName() + " is a " + mCsvShow.getFilterDatas().get(i).getGender(), Toast.LENGTH_SHORT).show();
+                //TODO:转去相应用户的userview page
+                Intent intent = new Intent(getActivity(), UserViewActivity.class);
+                startActivity(intent);
             }
         });
     }
 
-    /**
-     * 初始化搜索
-     */
-//    private void initSearch() {
-//        listView.setAdapter(searchAdapter);
-//        // 设置数据源
-//        mCsvShow.setDatas(users);
-//        mCsvShow.setAdapter(searchAdapter);
-//        // 设置搜索
-//        mCsvShow.setSearchDataListener(new CommolySearchView.SearchDatas<Search>() {
-//            @Override
-//            public ArrayList<Search> filterDatas(ArrayList<Search> datas, ArrayList<Search> filterdatas, String inputstr) {
-//                for (int i = 0; i < datas.size(); i++) {
-//                    // 筛选条件
-//                    if ((datas.get(i).getUserName()).contains(inputstr) || datas.get(i).getGender().contains(inputstr)) {
-//                        filterdatas.add(datas.get(i));
-//                    }
-//                }
-//                return filterdatas;
-//            }
-//        });
-//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-//                Toast.makeText(getActivity(), mCsvShow.getFilterDatas().get(i).getUserName() + "\n" + mCsvShow.getFilterDatas().get(i).getGender(), Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//    }
 }

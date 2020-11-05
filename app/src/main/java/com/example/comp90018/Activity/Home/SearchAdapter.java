@@ -19,7 +19,7 @@ public class SearchAdapter extends BaseAdapter {
     private Context context;
     private ImageView userImg;
     private TextView userName;
-    private TextView gender;
+    private TextView petType;
 
     public SearchAdapter(Context c, ArrayList<Search> user){
         context = c;
@@ -61,11 +61,11 @@ public class SearchAdapter extends BaseAdapter {
         userImg = (ImageView) rowView.findViewById(R.id.userImg);
         userName = (TextView) rowView.findViewById(R.id.userName);
         userName.setTypeface(userName.getTypeface(), Typeface.BOLD);
-        gender = (TextView) rowView.findViewById(R.id.gender);
+        petType = (TextView) rowView.findViewById(R.id.pet_type);
         String[] fullUserName = userProfile.getUserName().toString().split("@");
         userName.setText(fullUserName[0]);
-        String[] putGender = userProfile.getGender().toString().split("@");
-        gender.setText(putGender[0]);
+        String[] putType = userProfile.getPetType().toString().split("@");
+        petType.setText(putType[0]);
 
         userImg.setImageBitmap(userProfile.getProfileImage());
 //        Bitmap profileImage = userProfile.getProfileImage();

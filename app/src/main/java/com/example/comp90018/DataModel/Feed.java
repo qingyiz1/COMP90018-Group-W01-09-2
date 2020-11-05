@@ -3,6 +3,8 @@ package com.example.comp90018.DataModel;
 import android.graphics.Bitmap;
 import android.widget.ImageView;
 
+import com.example.comp90018.Activity.Shake.Moment;
+
 import java.util.ArrayList;
 
 /**
@@ -14,12 +16,10 @@ public class Feed{
     private String displayName;
     private Bitmap userProfileImg;
     private Bitmap photo;
-    private String mediaID;
     private String caption;
     private Boolean user_has_liked;
     private ArrayList<String> comment;
     private ArrayList<String> like;
-
 
     public Feed(String displayName, Bitmap profileImg, Bitmap postPhoto, ArrayList<String> comment, ArrayList<String> like, String caption, Boolean user_has_liked) {
         this.displayName = displayName;
@@ -79,24 +79,34 @@ public class Feed{
         return comment;
     }
 
-    public void setComment(ArrayList<String> comment) {
-        this.comment = comment;
+    public void setComment(String comment) {
+        this.comment.add(comment);
     }
 
     public ArrayList<String> getLike() {
         return like;
     }
 
-    public void setLike(ArrayList<String> like) {
-        this.like = like;
+    public void setLike(String name) {
+        this.like.add(name);
     }
 
-    public String getMediaID() {
-        return mediaID;
+    public void deleteLike(String name){
+        for(int i=0; i<this.like.size();i++){
+            if(this.like.get(i).equals(name)){
+                this.like.remove(i);
+            }
+        }
     }
 
-    public void setMediaID(String mediaID) {
-        this.mediaID = mediaID;
+    public void update(Feed f){
+        this.displayName=f.getDisplayName();
+        this.userProfileImg=f.getUserProfileImg();
+        this.photo=f.getPhoto();
+        this.comment = f.getComment();
+        this.caption = f.getCaption();
+        this.like=f.getLike();
+        this.user_has_liked = f.getUser_has_liked();
     }
 
 }
