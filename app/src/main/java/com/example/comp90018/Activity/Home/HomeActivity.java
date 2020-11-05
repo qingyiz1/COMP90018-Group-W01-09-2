@@ -14,6 +14,7 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import com.example.comp90018.Activity.Map.MapActivity;
 import com.example.comp90018.Activity.Shake.ShakeActivity;
 import com.example.comp90018.Activity.Shake.ShakeFragment;
 import com.example.comp90018.Activity.fragments.ProfileFragment;
@@ -172,6 +173,12 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
 //                Intent intent = new Intent(HomeActivity.this, 名字.class)
 //                startActivity(intent);
 //                break;
+            case R.id.button_map:
+                //activity
+                Intent intentmap = new Intent(HomeActivity.this, MapActivity.class);
+                startActivity(intentmap);
+                break;
+
             case R.id.button_shake:
                 getSupportFragmentManager().beginTransaction().replace(R.id.main_body,new ShakeFragment()).commit();
                 setSelectStatus(3);
