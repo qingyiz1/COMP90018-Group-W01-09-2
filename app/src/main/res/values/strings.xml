@@ -168,4 +168,7 @@
     <string name="post_text">Post Text</string>
     <string name="input_your_text_here">Input your text here</string>
     <string name="insert_photo">Insert Photo</string>
+    <string name="comments">Comments</string>
+    <string name="comment">Comment</string>
+    <string name="add_a_comment">Add a comment</string>
 </resources>

@@ -15,7 +15,6 @@ import android.widget.Toast;
 
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.comp90018.Activity.Shake.UserViewActivity;
-import com.example.comp90018.DataModel.Feed;
 import com.example.comp90018.DataModel.Post;
 import com.example.comp90018.DataModel.UserModel;
 import com.example.comp90018.R;
@@ -23,7 +22,6 @@ import com.example.comp90018.utils.GlideApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.auth.User;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -91,7 +89,7 @@ public class HomePageAdapter extends BaseAdapter {
         likedText = (TextView) rowView.findViewById(R.id.likedTextView);
         commentText = (TextView) rowView.findViewById(R.id.commentTextView);
         likeButton = (ImageButton) rowView.findViewById(R.id.likeButton);
-        commentButton = (ImageButton) rowView.findViewById(R.id.commentButton);
+        commentButton = (ImageButton) rowView.findViewById(R.id.button_comment);
         content = (TextView) rowView.findViewById(R.id.content_text);
 
         //set text view styles
@@ -180,6 +178,7 @@ public class HomePageAdapter extends BaseAdapter {
         commentButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View arg0) {
                 Intent intent = new Intent(context, CommentActivity.class);
+                intent.putExtra("POST_ID",post.getId());
                 context.startActivity(intent);
             }
         });
