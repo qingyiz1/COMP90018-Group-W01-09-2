@@ -21,6 +21,7 @@ import com.example.comp90018.DataModel.UserModel;
 import com.example.comp90018.R;
 import com.example.comp90018.utils.GlideApp;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.auth.User;
 import com.google.firebase.storage.FirebaseStorage;
@@ -33,7 +34,7 @@ public class HomePageAdapter extends BaseAdapter {
     private ArrayList<Post> posts;
     private String tmpLike;
     private int likePosition;
-    private ImageButton likeButton,commentButton;
+    private ImageButton userProfileImg,likeButton,commentButton;
     TextView userName, likedText, commentText,content, likesFixText, commentFixText;
     UserModel user;
     View rowView;
@@ -85,6 +86,7 @@ public class HomePageAdapter extends BaseAdapter {
         final Post post = posts.get(position);
 
         //find all UI elements
+        userProfileImg = rowView.findViewById(R.id.userImage);
         userName = (TextView) rowView.findViewById(R.id.text_userName);
         likedText = (TextView) rowView.findViewById(R.id.likedTextView);
         commentText = (TextView) rowView.findViewById(R.id.commentTextView);
@@ -110,6 +112,14 @@ public class HomePageAdapter extends BaseAdapter {
 
         // get user profile image
         loadWithGlide(rowView,R.id.userImage,post.getAuthorUid());
+        userProfileImg.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View arg0) {
+                Intent intent = new Intent(context, UserViewActivity.class);
+                intent.putExtra("USER_UID", post.getAuthorUid());
+                context.startActivity(intent);
+            }
+        });
+
 
         // get post image
         loadWithGlide(rowView,R.id.photoImage,post.getId());
@@ -132,15 +142,11 @@ public class HomePageAdapter extends BaseAdapter {
         likeButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View arg0) {
                 if (!post.HasLiked(mAuth.getUid())) {
-                    likeButton.setImageDrawable(rowView.getResources().getDrawable(R.drawable.filled_heart));
-                    post.setHasLiked(true);
-                    tmpLike = likedText.getText().toString();
+                    db.collection("posts").document(post.getId()).update("likes", FieldValue.arrayUnion(mAuth.getUid()));
                     likePosition = position;
                     //update liked list
                     Toast.makeText(context.getApplicationContext(), "You liked!", Toast.LENGTH_LONG).show();
-                    System.out.println("Like: " + tmpLike);
 
-                    post.setLikes(user.getUid());
                     if (post.getLikes().size() != 0) {
                         String likeList = post.getLikes().toString();
                         likedText.setText(likeList.substring(1, likeList.length()-1));
@@ -150,9 +156,9 @@ public class HomePageAdapter extends BaseAdapter {
                     }
                 } else {
                     likeButton.setImageDrawable(rowView.getResources().getDrawable(R.drawable.empty_heart));
-                    post.setHasLiked(false);
+
                     Toast.makeText(context.getApplicationContext(), "Cancel like", Toast.LENGTH_LONG).show();
-                    post.deleteLikes(user.getUid());
+                    db.collection("posts").document(post.getId()).update("likes", FieldValue.arrayRemove(mAuth.getUid()));
                     if (post.getLikes().size() != 0) {
                         String likeList = post.getLikes().toString();
                         likedText.setText(likeList.substring(1, likeList.length()-1));
@@ -195,7 +201,6 @@ public class HomePageAdapter extends BaseAdapter {
                 .load(profileReference)
                 .placeholder(R.drawable.default_avatar)
                 .diskCacheStrategy(DiskCacheStrategy.NONE)
-                .skipMemoryCache(true)
                 .into(imageView);
         // [END storage_load_with_glide]
     }

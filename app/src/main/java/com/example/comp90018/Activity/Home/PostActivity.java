@@ -76,7 +76,9 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
 
 
     private void submitPost(){
+        comments.clear();
         comments.add(new Comment(mAuth.getUid(),"Welcome to Animal Society!"));
+        likes.clear();
         likes.add(mAuth.getUid());
         this.post = new Post(mAuth.getUid(),nickname,db.collection("posts").document().getId(),postContent.getText().toString(),comments,likes,Timestamp.now());
         db.collection("posts").document(post.getId())

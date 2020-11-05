@@ -135,9 +135,12 @@ public class HomePageFragment extends Fragment{
                                     if (document.exists()) {
                                         Log.d(TAG, "DocumentSnapshot data: " + document.getData());
                                         user = document.toObject(UserModel.class);
+                                        int index = mainListView.getFirstVisiblePosition();
+                                        View v = mainListView.getChildAt(0);
+                                        int top = (v == null) ? 0 : (v.getTop() - mainListView.getPaddingTop());
                                         homepageAdapter = new HomePageAdapter(getActivity(),posts,user);
-                                        mainListView.setAdapter(null);
                                         mainListView.setAdapter(homepageAdapter);
+                                        mainListView.setSelectionFromTop(index, top);
                                         //homepageAdapter.notifyDataSetChanged();
                                     } else {
                                         Log.d(TAG, "No such document");

@@ -40,7 +40,6 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
-    private FirebaseUser mUser;
     private UserModel user = new UserModel();
 
     public UserModel getUser(){
