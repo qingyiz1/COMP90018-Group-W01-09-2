@@ -199,7 +199,7 @@ public class UserViewActivity extends AppCompatActivity implements View.OnClickL
             final TextView commentText = (TextView) rowView.findViewById(R.id.commentTextView);
             final ImageButton likeButton = (ImageButton) rowView.findViewById(R.id.likeButton);
             ImageButton commentButton = (ImageButton) rowView.findViewById(R.id.commentButton);
-            TextView captionText = (TextView) rowView.findViewById(R.id.captionTextView);
+            TextView captionText = (TextView) rowView.findViewById(R.id.content_text);
 
             if(oneFeed.getUser_has_liked()){
                 likeButton.setImageDrawable(getResources().getDrawable(R.drawable.filled_heart));

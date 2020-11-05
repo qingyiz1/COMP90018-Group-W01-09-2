@@ -1,9 +1,6 @@
 package com.example.comp90018.Activity.Home;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -19,13 +15,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.comp90018.DataModel.Comment;
-import com.example.comp90018.DataModel.Feed;
 import com.example.comp90018.DataModel.Post;
 import com.example.comp90018.DataModel.UserModel;
 import com.example.comp90018.R;
-import com.example.comp90018.utils.GlideApp;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
@@ -34,16 +27,12 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.firestore.auth.User;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.List;
 
 public class HomePageFragment extends Fragment{
     // TODO: Rename parameter arguments, choose names that match
@@ -94,13 +83,8 @@ public class HomePageFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState){
         View view = inflater.inflate(R.layout.fragment_home_page, container, false);
-
         //import adapter
         mainListView = (ListView) view.findViewById(R.id.browseListView);
-        homepageAdapter = new HomePageAdapter(getActivity(),getData(),getCurrentUser());
-        mainListView.setAdapter(homepageAdapter);
-        homepageAdapter.notifyDataSetChanged();
-
         text_home = (TextView) view.findViewById(R.id.text_home);
 
         post = (ImageButton) view.findViewById(R.id.add_post);
@@ -109,33 +93,20 @@ public class HomePageFragment extends Fragment{
             public void onClick(View v) {
                 //go to post activity;
                 Intent intent = new Intent(getActivity(), PostActivity.class);
+                intent.putExtra("NICKNAME", user.nickName);
                 startActivity(intent);
             }
         });
+        getData();
         return view;
     }
 
-    private UserModel getCurrentUser(){
-        db.collection("users").document(mAuth.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
-                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
-                        user = document.toObject(UserModel.class);
-                    } else {
-                        Log.d(TAG, "No such document");
-                    }
-                } else {
-                    Log.d(TAG, "get failed with ", task.getException());
-                }
-            }
-        });
-        return user;
-    }
+//    private UserModel getCurrentUser(){
+//
+//
+//    }
 
-    private ArrayList<Post> getData(){
+    private void getData(){
 
         db.collection("posts")
 //                .whereEqualTo("state", "CA")
@@ -147,35 +118,37 @@ public class HomePageFragment extends Fragment{
                             Log.w(TAG, "Listen failed.", e);
                             return;
                         }
-
+                        posts.clear();
                         for (QueryDocumentSnapshot doc : value) {
                             ArrayList<Comment> comments = (ArrayList<Comment>) doc.getData().get("comments");
                             ArrayList<String> likes = (ArrayList<String>) doc.getData().get("likes");
                             Post post = new Post(doc.getData().get("authorUid").toString(),doc.getData().get("authorName").toString(),doc.getData().get("id").toString(),
                                     doc.getData().get("content").toString(),comments,likes, (Timestamp) doc.getData().get("dateCreated"));
-                            Log.d(TAG, "onEvent: "+post);
                             posts.add(post);
                         }
-                    }});
 
-//        String username="Ann";
-//        String caption="Hello!";
-//        Drawable drawable = getResources().getDrawable(R.drawable.default_avatar);
-//        Bitmap touxiang = ((BitmapDrawable) drawable).getBitmap();
-//        Drawable drawable1 = getResources().getDrawable(R.drawable.photo);
-//        Bitmap postPhoto = ((BitmapDrawable) drawable1).getBitmap();
-//        ArrayList<String> comment=new ArrayList<>();
-//        ArrayList<String> like=new ArrayList<>();
-//
-//        comment.add("user1: comment1");
-//        comment.add("user2: comment2");
-//        like.add("user1");
-//        like.add("user2");
-//
-//        Boolean user_has_liked=false;
-//
-//        feeds_array.add(feed);
-        return posts;
+                        db.collection("users").document(mAuth.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    DocumentSnapshot document = task.getResult();
+                                    if (document.exists()) {
+                                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                                        user = document.toObject(UserModel.class);
+                                        homepageAdapter = new HomePageAdapter(getActivity(),posts,user);
+                                        mainListView.setAdapter(null);
+                                        mainListView.setAdapter(homepageAdapter);
+                                        //homepageAdapter.notifyDataSetChanged();
+                                    } else {
+                                        Log.d(TAG, "No such document");
+                                    }
+                                } else {
+                                    Log.d(TAG, "get failed with ", task.getException());
+                                }
+                            }
+                        });
+
+                    }});
     }
 
     @Override

@@ -68,11 +68,6 @@ public class Post implements Serializable {
     public Post(){
 
     }
-    public Post(String authorUid,String content,Timestamp dateCreated){
-        this.dateCreated = dateCreated;
-        this.authorUid = authorUid;
-        this.content = content;
-    }
 
     public Post(String authorUid, String authorName, String id, String content, ArrayList<Comment> comments, ArrayList<String> likes, Timestamp dateCreated){
         this.id = id;

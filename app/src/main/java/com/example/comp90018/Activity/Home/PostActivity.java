@@ -22,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.comp90018.Activity.BaseActivity;
+import com.example.comp90018.DataModel.Comment;
 import com.example.comp90018.DataModel.Post;
 import com.example.comp90018.R;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -34,6 +35,7 @@ import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class PostActivity extends BaseActivity implements View.OnClickListener{
@@ -46,11 +48,17 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
     Post post;
     UploadTask uploadTask;
     Uri filePath;
+    String nickname;
+
+    ArrayList<Comment> comments = new ArrayList<>();
+    ArrayList<String> likes = new ArrayList<>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post);
+        nickname = getIntent().getStringExtra("NICKNAME");
+
         postContent = findViewById(R.id.post_content);
         postPic = findViewById(R.id.post_picture);
 
@@ -68,8 +76,9 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
 
 
     private void submitPost(){
-        this.post = new Post(mAuth.getUid(),postContent.getText().toString() ,Timestamp.now());
-        post.setId(db.collection("posts").document().getId());
+        comments.add(new Comment(mAuth.getUid(),"Welcome to Animal Society!"));
+        likes.add(mAuth.getUid());
+        this.post = new Post(mAuth.getUid(),nickname,db.collection("posts").document().getId(),postContent.getText().toString(),comments,likes,Timestamp.now());
         db.collection("posts").document(post.getId())
                 .set(post.toMap())
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
