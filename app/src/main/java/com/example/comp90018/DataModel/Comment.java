@@ -13,4 +13,9 @@ public class Comment implements Serializable {
     public Comment(){
 
     }
+
+    @Override
+    public String toString() {
+        return author+": "+content;
+    }
 }
