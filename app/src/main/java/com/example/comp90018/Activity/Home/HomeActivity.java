@@ -16,14 +16,12 @@ import android.widget.RelativeLayout;
 
 import com.example.comp90018.Activity.Map.MapActivity;
 import com.example.comp90018.Activity.Shake.ShakeActivity;
-import com.example.comp90018.Activity.Shake.ShakeFragment;
 import com.example.comp90018.Activity.fragments.ProfileFragment;
 import com.example.comp90018.DataModel.UserModel;
 import com.example.comp90018.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -180,11 +178,9 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
                 break;
 
             case R.id.button_shake:
-                getSupportFragmentManager().beginTransaction().replace(R.id.main_body,new ShakeFragment()).commit();
-                setSelectStatus(3);
                   //activity
-//                Intent intent = new Intent(HomeActivity.this, ShakeActivity.class);
-//                startActivity(intent);
+                Intent intent = new Intent(HomeActivity.this, ShakeActivity.class);
+                startActivity(intent);
                 break;
             case R.id.button_profile:
                 FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
