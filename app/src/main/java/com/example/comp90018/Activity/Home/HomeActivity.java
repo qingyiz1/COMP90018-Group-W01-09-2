@@ -15,7 +15,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.example.comp90018.Activity.Shake.ShakeActivity;
-import com.example.comp90018.Activity.Shake.ShakeFragment;
 import com.example.comp90018.Activity.fragments.ProfileFragment;
 import com.example.comp90018.DataModel.UserModel;
 import com.example.comp90018.R;
@@ -174,11 +173,11 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
 //                startActivity(intent);
 //                break;
             case R.id.button_shake:
-                getSupportFragmentManager().beginTransaction().replace(R.id.main_body,new ShakeFragment()).commit();
-                setSelectStatus(3);
+//                getSupportFragmentManager().beginTransaction().replace(R.id.main_body,new ShakeFragment()).commit();
+//                setSelectStatus(3);
                   //activity
-//                Intent intent = new Intent(HomeActivity.this, ShakeActivity.class);
-//                startActivity(intent);
+                Intent intent = new Intent(HomeActivity.this, ShakeActivity.class);
+                startActivity(intent);
                 break;
             case R.id.button_profile:
                 FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
