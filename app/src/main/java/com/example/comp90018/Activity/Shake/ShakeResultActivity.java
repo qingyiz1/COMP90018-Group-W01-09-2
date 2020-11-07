@@ -38,6 +38,7 @@ import com.google.firebase.storage.StorageReference;
 
 import com.example.comp90018.Activity.BaseActivity;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class ShakeResultActivity extends AppCompatActivity{
@@ -60,17 +61,7 @@ public class ShakeResultActivity extends AppCompatActivity{
         information=findViewById(R.id.shakePersonInformation);
         profileImage=findViewById(R.id.shakeImageButton);
 
-
-//        getUserdata(uid);
-
-
-
         RandomUid();
-
-//        ids.add("0nARU3GtAWh5jXijD8hwtlLMkjc2");
-//        String UID=ids.get(0);
-//        information.setText(UID);
-
 
         profileImage.setOnClickListener(new View.OnClickListener() {
             public void onClick(View arg0) {
@@ -99,7 +90,11 @@ public class ShakeResultActivity extends AppCompatActivity{
                 }else {
                     Log.d(TAG, "Error getting documents: ", task.getException());
                 }
-                information.setText(ids.get(4));//////////////////////////////////
+
+                Collections.shuffle(ids);
+                String UID=ids.get(0);
+                getUserdata(UID);
+
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
