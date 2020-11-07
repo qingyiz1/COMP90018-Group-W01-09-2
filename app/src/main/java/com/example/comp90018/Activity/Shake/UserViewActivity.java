@@ -216,7 +216,7 @@ public class UserViewActivity extends BaseActivity implements View.OnClickListen
     public void loadWithGlide(View container, int ID) {
         // [START storage_load_with_glide]
         // Reference to an image file in Cloud Storage
-        StorageReference profileReference = mStorageImagesRef.child(mAuth.getUid());
+        StorageReference profileReference = mStorageImagesRef.child(uid);
 
         // ImageView in your Activity
         ImageView imageView = container.findViewById(ID);
