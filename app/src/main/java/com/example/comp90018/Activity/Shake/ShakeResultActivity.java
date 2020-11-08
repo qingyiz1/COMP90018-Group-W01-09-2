@@ -1,5 +1,6 @@
 package com.example.comp90018.Activity.Shake;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -9,26 +10,36 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.comp90018.DataModel.UserModel;
 import com.example.comp90018.R;
 import com.example.comp90018.utils.GlideApp;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import com.example.comp90018.Activity.BaseActivity;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class ShakeResultActivity extends AppCompatActivity{
     TextView information;
@@ -39,35 +50,56 @@ public class ShakeResultActivity extends AppCompatActivity{
     private UserModel user = new UserModel();
 
     protected StorageReference mStorageImagesRef = FirebaseStorage.getInstance().getReference().child("images");
-    protected FirebaseAuth mAuth = FirebaseAuth.getInstance();;
+    protected FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private String uid="0nARU3GtAWh5jXijD8hwtlLMkjc2";
+    public ArrayList<String> ids = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shake_result);
-
-
         information=findViewById(R.id.shakePersonInformation);
         profileImage=findViewById(R.id.shakeImageButton);
 
-        //TODO: 数据库传头像，个人信息
-        getUserdata(uid);
+        RandomUid();
 
-//        information.setText("name, age, dog, female");
-//        profileImage.setImageDrawable(getResources().getDrawable(R.drawable.default_avatar));
-
-//        profileImage.setOnClickListener(new View.OnClickListener() {
-//            public void onClick(View arg0) {
-//                Intent intent = new Intent(ShakeResultActivity.this, UserViewActivity.class);
-//                startActivity(intent);
-//            }
-//        });
         profileImage.setOnClickListener(new View.OnClickListener() {
             public void onClick(View arg0) {
                 Intent intent = new Intent(ShakeResultActivity.this, UserViewActivity.class);
                 intent.putExtra("USER_UID", uid);
                 startActivity(intent);
+            }
+        });
+
+    }
+
+    private void RandomUid() {
+        db.collection("users").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        if (document!=null) {
+                            String id = document.getId();
+                            ids.add(id);
+                        }else {
+                            Log.d(TAG, "No such document");
+                        }
+                    }
+                }else {
+                    Log.d(TAG, "Error getting documents: ", task.getException());
+                }
+
+                Collections.shuffle(ids);
+                String UID=ids.get(0);
+                getUserdata(UID);
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                //HANDLE EXCEPTION
             }
         });
 
