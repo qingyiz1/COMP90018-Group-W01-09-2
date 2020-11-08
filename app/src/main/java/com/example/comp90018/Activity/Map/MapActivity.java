@@ -11,6 +11,9 @@ import com.example.comp90018.R;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationListener;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -38,10 +41,11 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 
-public class MapActivity extends AppCompatActivity implements OnMapReadyCallback, OnMarkerClickListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+public class MapActivity extends AppCompatActivity implements OnMapReadyCallback, OnMarkerClickListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,LocationListener {
     private GoogleMap mMap;
     protected static final String TAG = "MAP";
     private GoogleApiClient mGoogleApiClient;
+    private LocationRequest mLocationRequest;
     private Button follow;
     private Button near;
     private LatLng myloc;
@@ -69,6 +73,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                     .addApi(LocationServices.API)
                     .build();
         }
+        mLocationRequest = LocationRequest.create()
+                .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
+                .setInterval(10 * 1000)
+                .setFastestInterval(1 * 1000);
         SupportMapFragment mapFragment = (SupportMapFragment)getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
@@ -91,9 +99,13 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         this.mMap = googleMap;
         setName();
-
         mMap.setOnMarkerClickListener(this);
         mMap.setMyLocationEnabled(true);
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(-37.8,145)));
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(10), 2000, null);
+        if(lastKnownLocation!=null){
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(myloc));
+        }
     }
     public void setName(){
         DocumentReference docRef = db.collection("users").document(mAuth.getUid());
@@ -193,7 +205,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     @Override
     public void onConnected(@Nullable Bundle bundle) {
         lastKnownLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-        if(lastKnownLocation != null){
+        if(lastKnownLocation == null){
+            LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
+        }else {
             LatLng currloc = new LatLng(lastKnownLocation.getLatitude(),lastKnownLocation.getLongitude());
             this.myloc = currloc;
             update(myRef,name,currloc);
@@ -208,5 +222,17 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
         Log.d(TAG, "failed");
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+        if(location == null){
+            LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
+        }else{
+            lastKnownLocation = location;
+            LatLng currloc = new LatLng(lastKnownLocation.getLatitude(),lastKnownLocation.getLongitude());
+            this.myloc = currloc;
+            update(myRef,name,currloc);
+        }
     }
 }
