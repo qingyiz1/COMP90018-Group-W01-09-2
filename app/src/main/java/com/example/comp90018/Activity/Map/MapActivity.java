@@ -101,7 +101,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         setName();
         mMap.setOnMarkerClickListener(this);
         mMap.setMyLocationEnabled(true);
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(-37.8,145)));
         mMap.animateCamera(CameraUpdateFactory.zoomTo(10), 2000, null);
         if(lastKnownLocation!=null){
             mMap.moveCamera(CameraUpdateFactory.newLatLng(myloc));
