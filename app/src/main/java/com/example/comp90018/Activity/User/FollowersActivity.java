@@ -42,7 +42,7 @@ public class FollowersActivity extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                finish();
+//                finish();
             }
 
         });
@@ -55,6 +55,11 @@ public class FollowersActivity extends AppCompatActivity {
         recyclerView.setAdapter(userAdapter);
 
         idList = new ArrayList<>();
+
+
+
+
+
 
 //        switch (title) {
 //            case "likes":

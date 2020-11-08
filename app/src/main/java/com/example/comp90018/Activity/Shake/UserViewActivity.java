@@ -43,6 +43,7 @@ import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -50,6 +51,7 @@ import com.google.firebase.firestore.auth.User;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 public class UserViewActivity extends BaseActivity implements View.OnClickListener{
@@ -96,6 +98,7 @@ public class UserViewActivity extends BaseActivity implements View.OnClickListen
         followOrNot=false;
         if(followOrNot){
             followButton.setText("Following");
+//            db.collection("users").document(mAuth.getUid()).update("following", FieldValue.arrayUnion(user.uid));
         }else{
             followButton.setText("Follow");
         }
@@ -277,9 +280,11 @@ public class UserViewActivity extends BaseActivity implements View.OnClickListen
         if(view==followButton){
             if(followOrNot){
                 followOrNot=false;
+                db.collection("users").document(mAuth.getUid()).update("following", FieldValue.arrayRemove(uid));
                 followButton.setText("Follow");
             }else {
                 followOrNot=true;
+                db.collection("users").document(mAuth.getUid()).update("following", FieldValue.arrayUnion(uid));
                 followButton.setText("Following");
             }
             //TODO: 客户端传输给服务器，取消关注/关注

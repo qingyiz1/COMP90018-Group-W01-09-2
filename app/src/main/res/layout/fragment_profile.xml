@@ -13,29 +13,31 @@
         android:layout_marginTop="5dp"
         android:layout_marginEnd="0dp"
         android:background="#009688"
-        android:text="@string/follow"
+        android:text="Myfollow"
         android:textColor="#FFFFFF" />
 
     <Button
         android:id="@+id/edit_button"
         android:layout_width="110dp"
         android:layout_height="40dp"
-        android:layout_marginStart="150dp"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="5dp"
+        android:layout_toEndOf="@+id/follow_button"
         android:background="#009688"
-        android:textColor="#FFFFFF"
-        android:text="@string/edit_profile" />
+        android:text="@string/edit_profile"
+        android:textColor="#FFFFFF" />
 
     <Button
         android:id="@+id/sign_out_button"
         android:layout_width="wrap_content"
         android:layout_height="40dp"
-        android:layout_marginStart="300dp"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="0dp"
+        android:layout_toEndOf="@+id/edit_button"
         android:background="#009688"
-        android:textColor="#FFFFFF"
-        android:text="@string/sign_out" />
+        android:text="@string/sign_out"
+        android:textColor="#FFFFFF" />
 
     <ImageView
         android:id="@+id/profile_avatar"
