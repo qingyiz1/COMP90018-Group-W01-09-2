@@ -6,37 +6,36 @@
     android:layout_height="match_parent"
     tools:context="com.example.comp90018.DataModel.Search">
 
-    <ImageView
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:id="@+id/userImg"
-        android:layout_gravity="left|top"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginBottom="18dp" />
-
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
         android:id="@+id/userName"
-        android:layout_gravity="center_horizontal|top"
-        android:textSize="15dp"
-        android:layout_alignTop="@+id/userImg"
-        android:layout_toRightOf="@+id/userImg"
-        android:layout_toEndOf="@+id/userImg"
-        android:layout_marginLeft="40dp"
-        android:textColor="#ff33b5e5"/>
-
-    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:id="@+id/pet_type"
         android:layout_gravity="center_horizontal|top"
-        android:textSize="13dp"
-        android:layout_alignBottom="@+id/userImg"
-        android:layout_toRightOf="@+id/userImg"
+        android:layout_marginStart="34dp"
+        android:layout_marginLeft="40dp"
         android:layout_toEndOf="@+id/userImg"
-        android:layout_marginLeft="40dp" />
+        android:layout_toRightOf="@+id/userImg"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="#ff33b5e5"
+        android:textSize="15dp" />
+
+    <TextView
+        android:id="@+id/pet_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/userName"
+        android:layout_gravity="center_horizontal|top"
+        android:layout_marginStart="34dp"
+        android:layout_marginLeft="34dp"
+        android:layout_marginBottom="-31dp"
+        android:layout_toEndOf="@+id/userImg"
+        android:layout_toRightOf="@+id/userImg"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="13dp" />
+
+    <ImageButton
+        android:id="@+id/userImg"
+        android:layout_width="76dp"
+        android:layout_height="66dp"
+        android:src="@drawable/border" />
 </RelativeLayout>

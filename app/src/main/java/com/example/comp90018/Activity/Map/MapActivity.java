@@ -126,7 +126,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 showNear();
             }
         });
-        mapFragment.getMapAsync(this);
+//        mapFragment.getMapAsync(this);
     }
 
     public void setName(){
