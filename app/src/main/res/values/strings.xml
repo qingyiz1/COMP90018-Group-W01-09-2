@@ -20,7 +20,7 @@
     <string name="action_log_out">Log out</string>
     <string name="title_activity_login">LoginActivity</string>
     <string name="title_activity_signup">SignupActivity</string>
-
+    <string name="google_maps_key">AIzaSyDeezx5Icvno0MIU4ozDUAhNxZ2KCzpCvI</string>
     <string name="title_section3">Photo</string>
     <string name="title_section5">Profile</string>
     <string-array name="gender_arrays">
