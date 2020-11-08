@@ -51,7 +51,7 @@ public class ShakeResultActivity extends AppCompatActivity{
 
     protected StorageReference mStorageImagesRef = FirebaseStorage.getInstance().getReference().child("images");
     protected FirebaseAuth mAuth = FirebaseAuth.getInstance();
-    private String uid="0nARU3GtAWh5jXijD8hwtlLMkjc2";
+    private String UID="0nARU3GtAWh5jXijD8hwtlLMkjc2";
     public ArrayList<String> ids = new ArrayList<>();
 
     @Override
@@ -66,7 +66,8 @@ public class ShakeResultActivity extends AppCompatActivity{
         profileImage.setOnClickListener(new View.OnClickListener() {
             public void onClick(View arg0) {
                 Intent intent = new Intent(ShakeResultActivity.this, UserViewActivity.class);
-                intent.putExtra("USER_UID", uid);
+                intent.putExtra("USER_UID", UID);
+                intent.putExtra("authorUid", UID);
                 startActivity(intent);
             }
         });
@@ -92,7 +93,7 @@ public class ShakeResultActivity extends AppCompatActivity{
                 }
 
                 Collections.shuffle(ids);
-                String UID=ids.get(0);
+                UID=ids.get(0);
                 getUserdata(UID);
 
             }
