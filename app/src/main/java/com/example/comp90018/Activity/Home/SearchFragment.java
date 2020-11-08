@@ -6,6 +6,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,13 +14,32 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.comp90018.Activity.Shake.UserViewActivity;
+import com.example.comp90018.DataModel.Comment;
+import com.example.comp90018.DataModel.Post;
 import com.example.comp90018.DataModel.Search;
+import com.example.comp90018.DataModel.UserModel;
 import com.example.comp90018.R;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.Timestamp;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.auth.User;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -31,18 +51,24 @@ public class SearchFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private static final String TAG = "SearchFragment";
 
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
-    private CommolySearchView<Search> mCsvShow;
+    private CommolySearchView<UserModel> mCsvShow;
     private ListView listView;
     private SearchAdapter searchAdapter;
-    private ArrayList<Search> users;
+    private ArrayList<UserModel> users = new ArrayList<>();
 
     final private int SEARCH_COUNT = 10;
     private OnFragmentInteractionListener listener;
+    protected FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    // image storage
+    private StorageReference mStorageImagesRef = FirebaseStorage.getInstance().getReference().child("images");
+
 
     public SearchFragment() {
         // Required empty public constructor
@@ -80,9 +106,7 @@ public class SearchFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_search, container, false);
         mCsvShow = (CommolySearchView) view.findViewById(R.id.csv_show);
         listView = (ListView) view.findViewById(R.id.searchList);
-        searchAdapter = new SearchAdapter(getActivity(), users);
-        listView.setAdapter(searchAdapter);
-        initView();
+
         return view;
     }
 
@@ -92,7 +116,7 @@ public class SearchFragment extends Fragment {
         }
     }
 
-    public ArrayList<Search> getData(){
+    public ArrayList<UserModel> getData(){
         return users;
     }
 
@@ -110,35 +134,37 @@ public class SearchFragment extends Fragment {
     }
 
     private void initData() {
-        users = new ArrayList<Search>();
-
-        Search search1 = new Search();
-        search1.setUserName("Cindy");
-        Drawable drawable1 = getResources().getDrawable(R.drawable.default_avatar);
-        Bitmap touxiang1 = ((BitmapDrawable) drawable1).getBitmap();
-        search1.setProfileImage(touxiang1);
-        search1.setPetType("cat");
-
-        Search search2 = new Search();
-        search2.setUserName("Ben");
-        Drawable drawable2 = getResources().getDrawable(R.drawable.gallery);
-        Bitmap touxiang2 = ((BitmapDrawable) drawable2).getBitmap();
-        search2.setProfileImage(touxiang2);
-        search2.setPetType("dog");
-        users.add(search1);
-        users.add(search2);
+        db.collection("users")
+//                .whereEqualTo("state", "CA")
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot value,
+                                        @Nullable FirebaseFirestoreException e) {
+                        if (e != null) {
+                            Log.w(TAG, "Listen failed.", e);
+                            return;
+                        }
+                        users.clear();
+                        for (QueryDocumentSnapshot doc : value) {
+                            UserModel user = new UserModel(doc.get("uid").toString(),doc.get("nickName").toString(),doc.get("species").toString());
+                            users.add(user);
+                        }
+                        searchAdapter = new SearchAdapter(getActivity(), users);
+                        listView.setAdapter(searchAdapter);
+                        initView();
+                    }});
     }
 
     private void initView() {
         mCsvShow.setDatas(users);
         mCsvShow.setAdapter(searchAdapter);
 
-        mCsvShow.setSearchDataListener(new CommolySearchView.SearchDatas<Search>() {
+        mCsvShow.setSearchDataListener(new CommolySearchView.SearchDatas<UserModel>() {
             @Override
-            public ArrayList<Search> filterDatas(ArrayList<Search> datas, ArrayList<Search> filterdatas, String inputstr) {
+            public ArrayList<UserModel> filterDatas(ArrayList<UserModel> datas, ArrayList<UserModel> filterdatas, String inputstr) {
                 for (int i = 0; i < datas.size(); i++) {
                     // 筛选条件
-                    if (((datas.get(i).getUserName()).toLowerCase()).contains(inputstr) || ((datas.get(i).getPetType()).toLowerCase()).contains(inputstr)) {
+                    if (((datas.get(i).nickName).toLowerCase()).contains(inputstr) || ((datas.get(i).species).toLowerCase()).contains(inputstr)) {
                         filterdatas.add(datas.get(i));
                     }
                 }

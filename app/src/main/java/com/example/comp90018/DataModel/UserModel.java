@@ -35,6 +35,12 @@ public class UserModel implements Serializable {
         this.bio = bio;
     }
 
+    public UserModel(String uid,String nickName,String species){
+        this.uid = uid;
+        this.nickName = nickName;
+        this.species = species;
+    }
+
     public UserModel(String email, String password, String nickName,Timestamp dateCreated){
         this.email = email;
         this.password = password;

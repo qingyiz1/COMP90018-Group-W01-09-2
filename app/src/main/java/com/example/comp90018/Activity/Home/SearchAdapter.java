@@ -1,7 +1,9 @@
 package com.example.comp90018.Activity.Home;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Typeface;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,24 +11,38 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.example.comp90018.Activity.Shake.UserViewActivity;
 import com.example.comp90018.DataModel.Search;
+import com.example.comp90018.DataModel.UserModel;
 import com.example.comp90018.R;
+import com.example.comp90018.utils.GlideApp;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 
 public class SearchAdapter extends BaseAdapter {
-    private ArrayList<Search> users;
+    private static final String TAG = "SearchAdapter";
+    private ArrayList<UserModel> users;
     private Context context;
     private ImageView userImg;
     private TextView userName;
     private TextView petType;
+    protected FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    // image storage
+    private StorageReference mStorageImagesRef = FirebaseStorage.getInstance().getReference().child("images");
+    View rowView;
 
-    public SearchAdapter(Context c, ArrayList<Search> user){
+    public SearchAdapter(Context c, ArrayList<UserModel> user){
         context = c;
         users = user;
     }
 
-    public void setUsers(ArrayList<Search> users) {
+    public void setUsers(ArrayList<UserModel> users) {
         this.users = users;
     }
 
@@ -55,28 +71,45 @@ public class SearchAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        View rowView = inflater.inflate(R.layout.search, null, true);
-        Search userProfile = users.get(position);
+        rowView = inflater.inflate(R.layout.search, null, true);
+        final UserModel userProfile = users.get(position);
 
-        userImg = (ImageView) rowView.findViewById(R.id.userImg);
+        userImg = rowView.findViewById(R.id.userImg);
         userName = (TextView) rowView.findViewById(R.id.userName);
         userName.setTypeface(userName.getTypeface(), Typeface.BOLD);
         petType = (TextView) rowView.findViewById(R.id.pet_type);
-        String[] fullUserName = userProfile.getUserName().toString().split("@");
-        userName.setText(fullUserName[0]);
-        String[] putType = userProfile.getPetType().toString().split("@");
-        petType.setText(putType[0]);
+        userName.setText(userProfile.nickName);
+        petType.setText(userProfile.species);
 
-        userImg.setImageBitmap(userProfile.getProfileImage());
-//        Bitmap profileImage = userProfile.getProfileImage();
-//        if (profileImage != null) {
-//            userImg.setImageBitmap(BitmapStore.getCroppedBitmap(profileImage));
-//        }else{
-//            Drawable drawable = rowView.getResources().getDrawable(R.drawable.touxiang);
-//            Bitmap defaultImage = ((BitmapDrawable) drawable).getBitmap();
-//            userImg.setImageBitmap(defaultImage);
-//        }
+        Log.d(TAG, "getView: "+userProfile.getUid());
+        loadWithGlide(rowView,R.id.userImg,userProfile.getUid());
+        userImg.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View arg0) {
+                Intent intent = new Intent(context, UserViewActivity.class);
+                intent.putExtra("USER_UID", userProfile.getUid());
+                context.startActivity(intent);
+            }
+        });
 
         return rowView;
+    }
+
+    public void loadWithGlide(View container, int ID, String picId) {
+        // [START storage_load_with_glide]
+        // Reference to an image file in Cloud Storage
+        StorageReference profileReference = mStorageImagesRef.child(picId);
+
+        // ImageView in your Activity
+        ImageView imageView = container.findViewById(ID);
+
+        // Download directly from StorageReference using Glide
+        // (See MyAppGlideModule for Loader registration)
+        GlideApp.with(context /* context */)
+                .load(profileReference)
+                .placeholder(R.drawable.default_avatar)
+                .skipMemoryCache(true)
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .into(imageView);
+        // [END storage_load_with_glide]
     }
 }

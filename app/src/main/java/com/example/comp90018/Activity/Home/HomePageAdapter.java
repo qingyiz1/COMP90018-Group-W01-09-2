@@ -141,7 +141,7 @@ public class HomePageAdapter extends BaseAdapter {
         } else {
             likedText.setText("Nobody has liked yet.");
         }
-        
+
         likeButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View arg0) {
                 if (!post.HasLiked(user.nickName)) {
