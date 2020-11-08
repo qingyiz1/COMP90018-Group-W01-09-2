@@ -57,8 +57,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         this.mMap = googleMap;
 //        setName();
+        LatLng myloc = new LatLng(-37.798968, 144.964473);
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(myloc));
         mMap.setMyLocationEnabled(true);
-        mMap.animateCamera(CameraUpdateFactory.zoomTo(1), 2000, null);
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(13), 2000, null);
         getshop();
         getsquare();
     }
