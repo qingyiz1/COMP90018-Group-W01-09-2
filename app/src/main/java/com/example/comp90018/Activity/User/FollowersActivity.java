@@ -34,7 +34,7 @@ public class FollowersActivity extends AppCompatActivity {
 
     RecyclerView recyclerView;
     UserAdapter userAdapter;
-    List<User> userList;
+    private ArrayList<UserModel> userList;
 
     protected FirebaseFirestore db = FirebaseFirestore.getInstance();
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
