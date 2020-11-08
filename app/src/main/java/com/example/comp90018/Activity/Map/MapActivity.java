@@ -82,16 +82,17 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         shopdata.put("Pet Art",new LatLng(-37.781025, 144.980352));
     }
     public void getsquare(){
-        squaredata.put("University Square",new LatLng(-37.797822, 144.960277));
+        squaredata.put("University Square",new LatLng(-37.801242, 144.960349));
         squaredata.put("Curtain Square",new LatLng(-37.786698, 144.978816));
-        squaredata.put("Lincoln Square",new LatLng(-37.800488, 144.963709));
-        squaredata.put("Argyle Square",new LatLng(-37.801946, 144.965227));
-        squaredata.put("Curtain Square",new LatLng(-37.788039, 144.974477));
-        squaredata.put("Darling Square",new LatLng(-37.811026, 144.994892));
-        squaredata.put("City Square",new LatLng(-37.815788, 144.966930));
-        squaredata.put("Fed Square",new LatLng(-37.817860, 144.969069));
-        squaredata.put("Golden Square Bicentennial Park",new LatLng(-37.826336, 145.024812));
-        squaredata.put("Garden Square",new LatLng(-37.816980, 144.979322));
+        squaredata.put("Lincoln Square",new LatLng(-37.802306, 144.962884));
+        squaredata.put("Argyle Square",new LatLng(-37.802889, 144.965800));
+        squaredata.put("Darling Square",new LatLng(-37.812835, 144.989402));
+        squaredata.put("City Square",new LatLng(-37.815854, 144.966952));
+        squaredata.put("Fed Square",new LatLng(-37.817972, 144.969081));
+
+        squaredata.put("Macarthur Square",new LatLng(-37.798327, 144.971541));
+        squaredata.put("Golden Square Bicentennial Park",new LatLng(-37.828529, 145.010047));
+        squaredata.put("Garden Square",new LatLng(-37.820403, 144.978786));
     }
     void clearMarker(){
         for(Marker marker : allMarkers){
