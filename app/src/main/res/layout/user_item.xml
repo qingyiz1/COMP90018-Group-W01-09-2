@@ -22,8 +22,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/username"
-            android:text="username"
+            android:id="@+id/nickname"
+            android:text="Nick Name"
             android:maxLines="1"
             android:textStyle="bold"
             android:textColor="@color/colorPrimaryDark"/>
@@ -31,8 +31,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/fullname"
-            android:text="Full Name"
+            android:id="@+id/pet_type"
+            android:text="Pet Type"
             android:maxLines="1" />
 
 
