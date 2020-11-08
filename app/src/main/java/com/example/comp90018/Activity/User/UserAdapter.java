@@ -31,6 +31,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -45,7 +46,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder>{
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private StorageReference mStorageImagesRef = FirebaseStorage.getInstance().getReference().child("images");
 
-    public UserAdapter(Context mContext, ArrayList<UserModel> mUser) {
+    public UserAdapter(Context mContext, List<User> mUser) {
         this.mContext = mContext;
         this.mUser = mUser;
     }
