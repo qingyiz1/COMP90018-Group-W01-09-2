@@ -75,8 +75,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         }
         mLocationRequest = LocationRequest.create()
                 .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
-                .setInterval(10 * 1000)
-                .setFastestInterval(1 * 1000);
+                .setInterval(100);
         SupportMapFragment mapFragment = (SupportMapFragment)getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
@@ -102,9 +101,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         mMap.setOnMarkerClickListener(this);
         mMap.setMyLocationEnabled(true);
         mMap.animateCamera(CameraUpdateFactory.zoomTo(10), 2000, null);
-        if(lastKnownLocation!=null){
-            mMap.moveCamera(CameraUpdateFactory.newLatLng(myloc));
-        }
+
     }
     public void setName(){
         DocumentReference docRef = db.collection("users").document(mAuth.getUid());
@@ -232,6 +229,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             LatLng currloc = new LatLng(lastKnownLocation.getLatitude(),lastKnownLocation.getLongitude());
             this.myloc = currloc;
             update(myRef,name,currloc);
+            if(mMap!=null){
+                mMap.moveCamera(CameraUpdateFactory.newLatLng(myloc));
+            }
         }
     }
 }
