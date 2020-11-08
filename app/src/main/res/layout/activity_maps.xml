@@ -18,15 +18,15 @@
         android:layout_weight="1"/>
 
     <Button
-        android:id="@+id/follow"
+        android:id="@+id/shop"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="MyFollow" />
+        android:text="PetShops" />
 
     <Button
-        android:id="@+id/near"
+        android:id="@+id/square"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Nearby People" />
+        android:text="PetSquares" />
 
 </LinearLayout>

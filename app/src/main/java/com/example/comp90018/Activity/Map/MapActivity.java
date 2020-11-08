@@ -1,130 +1,98 @@
 package com.example.comp90018.Activity.Map;
 
-import androidx.annotation.Nullable;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
-import android.os.Bundle;
-
-import com.example.comp90018.Activity.Shake.UserViewActivity;
 import com.example.comp90018.R;
-
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.LocationListener;
-import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
-import android.view.View;
-import android.widget.Button;
-import android.location.Location;
-import android.util.Log;
-import androidx.annotation.NonNull;
-import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.model.Marker;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.List;
-import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
+import com.google.android.gms.maps.model.MarkerOptions;
 
-public class MapActivity extends AppCompatActivity implements OnMapReadyCallback, OnMarkerClickListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,LocationListener {
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+public class MapActivity extends AppCompatActivity implements OnMapReadyCallback{
     private GoogleMap mMap;
     protected static final String TAG = "MAP";
-    private GoogleApiClient mGoogleApiClient;
-    private LocationRequest mLocationRequest;
-    private Button follow;
-    private Button near;
-    private LatLng myloc;
-    FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private FirebaseAuth mAuth = FirebaseAuth.getInstance();
-    FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference myRef = database.getReference("location");
+
+    private Button shop;
+    private Button square;
     private static final String KEY_CAMERA_POSITION = "camera_position";
     private static final String KEY_LOCATION = "location";
     private List<Marker> allMarkers = new ArrayList<Marker>();
     private final double EARTH_RADIUS = 6378137.0;
-    private String name;
-    // String:username LatLng: 经纬度
-    Map<String,LatLng> locdata;
-    // String:username
-    List<String> followlist;
-    private Location lastKnownLocation;
+    Map<String,LatLng> shopdata = new HashMap<>();
+    Map<String,LatLng> squaredata = new HashMap<>();
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-        if (mGoogleApiClient == null) {
-            mGoogleApiClient = new GoogleApiClient.Builder(this)
-                    .addConnectionCallbacks(this)
-                    .addOnConnectionFailedListener(this)
-                    .addApi(LocationServices.API)
-                    .build();
-        }
-        mLocationRequest = LocationRequest.create()
-                .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
-                .setInterval(100);
         SupportMapFragment mapFragment = (SupportMapFragment)getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        follow = (Button)findViewById(R.id.follow);
-        near = (Button)findViewById(R.id.near);
-        follow.setOnClickListener(new View.OnClickListener() {
+        shop = (Button)findViewById(R.id.shop);
+        square = (Button)findViewById(R.id.square);
+        shop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showFollow();
+                showshop();
             }
         });
-        near.setOnClickListener(new View.OnClickListener() {
+        square.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showNear();
+                showsquare();
             }
         });
     }
 
     public void onMapReady(GoogleMap googleMap) {
         this.mMap = googleMap;
-        setName();
-        mMap.setOnMarkerClickListener(this);
+//        setName();
         mMap.setMyLocationEnabled(true);
-        mMap.animateCamera(CameraUpdateFactory.zoomTo(10), 2000, null);
-
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(1), 2000, null);
+        getshop();
+        getsquare();
     }
-    public void setName(){
-        DocumentReference docRef = db.collection("users").document(mAuth.getUid());
-        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
-                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
-                        if(document.getData().get("nickName") != null){
-                            name = document.getData().get("nickName").toString();
-                        }
-                    } else {
-                        Log.d(TAG, "No such document");
-                    }
-                } else {
-                    Log.d(TAG, "get failed with ", task.getException());
-                }
-            }
-        });
+    public void getshop(){
+        shopdata.put("Upmarket Pets",new LatLng(-37.807348, 144.958702));
+        shopdata.put("Supaw Pet Bakery",new LatLng(-37.810860, 144.951312));
+        shopdata.put("Pompous Paws",new LatLng(-37.806045, 144.961526));
+        shopdata.put("Upmarket Pets",new LatLng(-37.807673, 144.958350));
+        shopdata.put("Classy Tails",new LatLng(-37.817369, 144.962642));
+        shopdata.put("My Pet Warehouse South Melbourne",new LatLng(-37.828344, 144.961886));
+        shopdata.put("The Pet Grocer",new LatLng(-37.830487, 144.960311));
+        shopdata.put("South Melbourne Market Pet Shop",new LatLng(-37.831912, 144.956566));
+        shopdata.put("PETstock South Melbourne",new LatLng(-37.832116, 144.955021));
+        shopdata.put("Best Friends Pets Richmond",new LatLng(-37.810222, 145.013924));
+        shopdata.put("Laundrymutt",new LatLng(-37.816327, 145.005264));
+        shopdata.put("Petbarn Richmond",new LatLng(-37.828938, 145.004406));
+        shopdata.put("New Life Aquarium & Pet Abbotsford",new LatLng(-37.805478, 144.997368));
+        shopdata.put("Doghouse Australia",new LatLng(-37.794627, 145.007667));
+        shopdata.put("PETstock Clifton Hill",new LatLng(-37.779432, 144.985351));
+        shopdata.put("Petbarn Brunswick",new LatLng(-37.772070, 144.967477));
+        shopdata.put("Pet Art",new LatLng(-37.781025, 144.980352));
     }
-
+    public void getsquare(){
+        squaredata.put("University Square",new LatLng(-37.797822, 144.960277));
+        squaredata.put("Curtain Square",new LatLng(-37.786698, 144.978816));
+        squaredata.put("Lincoln Square",new LatLng(-37.800488, 144.963709));
+        squaredata.put("Argyle Square",new LatLng(-37.801946, 144.965227));
+        squaredata.put("Curtain Square",new LatLng(-37.788039, 144.974477));
+        squaredata.put("Darling Square",new LatLng(-37.811026, 144.994892));
+        squaredata.put("City Square",new LatLng(-37.815788, 144.966930));
+        squaredata.put("Fed Square",new LatLng(-37.817860, 144.969069));
+        squaredata.put("Golden Square Bicentennial Park",new LatLng(-37.826336, 145.024812));
+        squaredata.put("Garden Square",new LatLng(-37.816980, 144.979322));
+    }
     void clearMarker(){
         for(Marker marker : allMarkers){
             marker.remove();
@@ -132,49 +100,23 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         allMarkers.clear();
     }
 
-    // 需后端改写 更新当前位置
-    void update(DatabaseReference ref, String username, LatLng location){
-        ref.child("name").child(username).child("location").setValue(location);
-    }
 
-
-    @Override
-    public boolean onMarkerClick(final Marker marker){
-        Intent intent = new Intent(MapActivity.this, UserViewActivity.class);
-        startActivity(intent);
-        return true;
-    }
-
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        if (mMap != null) {
-            outState.putParcelable(KEY_CAMERA_POSITION, mMap.getCameraPosition());
-            outState.putParcelable(KEY_LOCATION, lastKnownLocation);
-        }
-        super.onSaveInstanceState(outState);
-    }
-
-    public void showFollow(){
+    public void showshop(){
         clearMarker();
-        for (Map.Entry<String,LatLng> a: locdata.entrySet()){
-            if(followlist.contains(a.getKey())){
-                LatLng currloc = a.getValue();
-                String username = a.getKey();
-                Marker marker = this.mMap.addMarker(new MarkerOptions().position(currloc).title(username));
-                allMarkers.add(marker);
-            }
-        }
-    }
-    public void showNear(){
-        clearMarker();
-        for (Map.Entry<String,LatLng> a: locdata.entrySet()){
+        for (Map.Entry<String,LatLng> a: shopdata.entrySet()){
             LatLng currloc = a.getValue();
-            String username = a.getKey();
-            if(distance(currloc,this.myloc)<5){
-                Marker marker = this.mMap.addMarker(new MarkerOptions().position(currloc).title(username));
-                allMarkers.add(marker);
-            }
+            String shopname = a.getKey();
+            Marker marker = this.mMap.addMarker(new MarkerOptions().position(currloc).title(shopname));
+            allMarkers.add(marker);
+        }
+    }
+    public void showsquare(){
+        clearMarker();
+        for (Map.Entry<String,LatLng> a: squaredata.entrySet()){
+            LatLng currloc = a.getValue();
+            String squarename = a.getKey();
+            Marker marker = this.mMap.addMarker(new MarkerOptions().position(currloc).title(squarename));
+            allMarkers.add(marker);
         }
     }
 
@@ -193,45 +135,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         return s;
     }
 
-    @Override
-    public void onPointerCaptureChanged(boolean hasCapture) {
 
-    }
 
-    @Override
-    public void onConnected(@Nullable Bundle bundle) {
-        lastKnownLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-        if(lastKnownLocation == null){
-            LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
-        }else {
-            LatLng currloc = new LatLng(lastKnownLocation.getLatitude(),lastKnownLocation.getLongitude());
-            this.myloc = currloc;
-            update(myRef,name,currloc);
-        }
-    }
 
-    @Override
-    public void onConnectionSuspended(int i) {
-        Log.d(TAG, "suspended");
-    }
 
-    @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-        Log.d(TAG, "failed");
-    }
-
-    @Override
-    public void onLocationChanged(Location location) {
-        if(location == null){
-            LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
-        }else{
-            lastKnownLocation = location;
-            LatLng currloc = new LatLng(lastKnownLocation.getLatitude(),lastKnownLocation.getLongitude());
-            this.myloc = currloc;
-            update(myRef,name,currloc);
-            if(mMap!=null){
-                mMap.moveCamera(CameraUpdateFactory.newLatLng(myloc));
-            }
-        }
-    }
 }
