@@ -1,7 +1,11 @@
 package com.example.comp90018.Activity.Home;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.PorterDuff;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
@@ -13,6 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.comp90018.DataModel.Search;
 import com.example.comp90018.R;
 
 import java.util.ArrayList;
@@ -24,6 +29,7 @@ public class CommolySearchView<T> extends LinearLayout {
     private EditText mEditText;
     private Button search;
     private SearchAdapter searchAdapter;
+    private ArrayList<Search> users;
     final private int SEARCH_COUNT = 10;
     /**
      * Source data
