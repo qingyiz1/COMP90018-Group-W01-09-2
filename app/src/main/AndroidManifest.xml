@@ -49,17 +49,11 @@
             android:name=".Activity.User.EditProfileActivity"
             android:exported="true" />
         <activity
-            android:name=".Activity.User.FollowersActivity"
-            android:exported="true" />
-        <activity
             android:name=".Activity.Shake.UserViewActivity"
             android:exported="true" />
         <activity
             android:name=".Activity.Home.HomeActivity"
             android:exported="true" />
-        <activity
-            android:name=".Activity.Home.CameraActivity"
-            android:label="Camera" />
         <activity
             android:name=".Activity.Home.PostActivity"
             android:label="Post" />

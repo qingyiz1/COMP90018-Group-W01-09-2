@@ -64,32 +64,26 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
     }
 
     private void initView(){
-        //底部导航栏
         main_body=findViewById(R.id.main_body);
         button_home=findViewById(R.id.button_home);
         button_search=findViewById(R.id.button_search);
         button_map=findViewById(R.id.button_map);
         button_shake=findViewById(R.id.button_shake);
         button_profile=findViewById(R.id.button_profile);
-
         nav_bottons=findViewById(R.id.nav_bottons);
-
         button_home.setOnClickListener(this);
         button_search.setOnClickListener(this);
         button_map.setOnClickListener(this);
         button_shake.setOnClickListener(this);
         button_profile.setOnClickListener(this);
-        //技巧
-        //tv_back.setVisibility(View.GONE);
-        //title_bar.setBackgroundColor(Color.parseColor("#30B4FF"));
     }
 
     private void setSelectStatus(int index) {
         switch (index){
             case 0:
-                //图片点击选择变换图片，颜色的改变，其他变为原来的颜色，并保持原有的图片
+                //setBackgroundColor
                 button_home.setBackgroundColor(Color.parseColor("#fafaaf"));
-                //其他的文本颜色不变
+                //set text color
                 button_search.setBackgroundColor(Color.parseColor("#ffffff"));
                 button_map.setBackgroundColor(Color.parseColor("#ffffff"));
                 button_shake.setBackgroundColor(Color.parseColor("#ffffff"));
@@ -163,26 +157,11 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
                 getSupportFragmentManager().beginTransaction().replace(R.id.main_body,new SearchFragment()).commit();
                 setSelectStatus(1);
                 break;
-//            case R.id.button_map://////////////////////////////////////////////////////输入fragment或者activity文件名字/////////////
-//                //fragment
-//                getSupportFragmentManager().beginTransaction().replace(R.id.main_body,new Fragement3()).commit();
-//                setSelectStatus(2);
-//                //activity
-//                Intent intent = new Intent(HomeActivity.this, 名字.class)
-//                startActivity(intent);
-//                break;
             case R.id.button_map:
-                //activity
                 Intent intentmap = new Intent(HomeActivity.this, MapActivity.class);
                 startActivity(intentmap);
                 break;
-
             case R.id.button_shake:
-
-//                getSupportFragmentManager().beginTransaction().replace(R.id.main_body,new ShakeFragment()).commit();
-//                setSelectStatus(3);
-
-                  //activity
                 Intent intent = new Intent(HomeActivity.this, ShakeActivity.class);
                 startActivity(intent);
                 break;

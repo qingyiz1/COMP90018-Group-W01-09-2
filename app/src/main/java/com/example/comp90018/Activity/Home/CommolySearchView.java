@@ -32,12 +32,12 @@ public class CommolySearchView<T> extends LinearLayout {
     private ArrayList<Search> users;
     final private int SEARCH_COUNT = 10;
     /**
-     * 数据源
+     * Source data
      */
     private ArrayList<T> mDatas = new ArrayList<T>();
     private ArrayList<T> mDupDatas = new ArrayList<T>();
     /**
-     * 筛选后的数据源
+     * Search result data
      */
     private ArrayList<T> mFilterDatas = new ArrayList<T>();
     private ArrayList<T> mDupFilterDatas = new ArrayList<T>();
@@ -49,23 +49,21 @@ public class CommolySearchView<T> extends LinearLayout {
      */
     public interface SearchDatas<T> {
         /**
-         * 参数一:全部数据,参数二:筛选后的数据,参数三:输入的内容
-         *
-         * @param datas
-         * @param filterdatas
-         * @param inputstr
+         * @param datas           alldata
+         * @param filterdatas     data after selection
+         * @param inputstr        input data(search condition)
          * @return
          */
         ArrayList<T> filterDatas(ArrayList<T> datas, ArrayList<T> filterdatas, String inputstr);
     }
 
     /**
-     * 回调
+     * callback all data
      */
     private SearchDatas<T> mListener;
 
     /**
-     * 设置回调
+     * set callback
      *
      * @param listener
      */
@@ -85,13 +83,13 @@ public class CommolySearchView<T> extends LinearLayout {
     public CommolySearchView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         mContext = context;
-        // 绑定布局文件
+        // set layout
         LayoutInflater.from(context).inflate(R.layout.searchview_layout, this);
         initView();
     }
 
     /**
-     * 初始化控件
+     * initialization
      */
     private void initView() {
         mEditText = (EditText) findViewById(R.id.editText);
@@ -113,7 +111,7 @@ public class CommolySearchView<T> extends LinearLayout {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                // 获取筛选后的数据
+                // get data after search
                 mFilterDatas = mListener.filterDatas(mDupDatas, mFilterDatas, charSequence.toString());
                 if (null != mDatas) {
                     mDatas.clear();
@@ -130,7 +128,7 @@ public class CommolySearchView<T> extends LinearLayout {
     }
 
     /**
-     * 获取筛选后的数据
+     * get data fits search result
      *
      * @return
      */
@@ -139,7 +137,7 @@ public class CommolySearchView<T> extends LinearLayout {
     }
 
     /**
-     * 重置数据
+     * redeploy data
      */
     private void reSetDatas() {
         if (null != mFilterDatas) {
@@ -152,7 +150,7 @@ public class CommolySearchView<T> extends LinearLayout {
     }
 
     /**
-     * 设置数据源
+     * set source data
      *
      * @param datas
      */
@@ -171,7 +169,7 @@ public class CommolySearchView<T> extends LinearLayout {
     }
 
     /**
-     * 设置适配器
+     * set adapter
      *
      * @param adapter
      */
@@ -182,26 +180,4 @@ public class CommolySearchView<T> extends LinearLayout {
         searchAdapter = adapter;
     }
 
-    /**
-     * drawable转bitmap
-     *
-     * @param drawable
-     * @return
-     */
-        private Bitmap drawableToBitamp(Drawable drawable) {
-            if (null == drawable) {
-                return null;
-            }
-            if (drawable instanceof BitmapDrawable) {
-                BitmapDrawable bd = (BitmapDrawable) drawable;
-                return bd.getBitmap();
-            }
-            int w = drawable.getIntrinsicWidth();
-            int h = drawable.getIntrinsicHeight();
-            Bitmap bitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
-            Canvas canvas = new Canvas(bitmap);
-            drawable.setBounds(0, 0, w, h);
-            drawable.draw(canvas);
-            return bitmap;
-        }
 }
