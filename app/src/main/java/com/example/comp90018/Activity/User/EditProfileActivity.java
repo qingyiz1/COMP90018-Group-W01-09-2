@@ -56,6 +56,7 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
     ImageView close, image_profile;
     MaterialEditText nickname, species, age,sex,bio;
     Button chooseBtn,saveBtn;
+    FirebaseUser firebaseUser;
     private Uri filePath;
     private UploadTask uploadTask;
 

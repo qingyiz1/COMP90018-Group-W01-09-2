@@ -36,17 +36,18 @@ import java.util.ArrayList;
 import java.util.Map;
 
 public class HomePageFragment extends Fragment{
-    // Rename parameter arguments, choose names that match
+    // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private static final String TAG = "HomePageFragment";
-    // Rename and change types of parameters
+    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
     private OnFragmentInteractionListener listener;
     private static ArrayList<Post> posts = new ArrayList<>();
+    //private static ArrayList<Feed> new_feeds_array;
     private TextView text_home;
     private ImageButton post;
     private ListView mainListView;
@@ -57,6 +58,23 @@ public class HomePageFragment extends Fragment{
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     // image storage
     private StorageReference mStorageImagesRef = FirebaseStorage.getInstance().getReference().child("images");
+
+//    /**
+//     * Use this factory method to create a new instance of
+//     * this fragment using the provided parameters.
+//     *
+//     * @param param1 Parameter 1.
+//     * @param param2 Parameter 2.
+//     * @return A new instance of fragment SearchFragment.
+//     */
+//    public static HomePageFragment newInstance(String param1, String param2) {
+//        HomePageFragment fragment = new HomePageFragment();
+//        Bundle args = new Bundle();
+//        args.putString(ARG_PARAM1, param1);
+//        args.putString(ARG_PARAM2, param2);
+//        fragment.setArguments(args);
+//        return fragment;
+//    }
 
     public HomePageFragment() {
         // Required empty public constructor
@@ -84,11 +102,15 @@ public class HomePageFragment extends Fragment{
         return view;
     }
 
-
+//    private UserModel getCurrentUser(){
+//
+//
+//    }
 
     private void getData(){
 
         db.collection("posts")
+//                .whereEqualTo("state", "CA")
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
                     public void onEvent(@Nullable QuerySnapshot value,
@@ -163,6 +185,7 @@ public class HomePageFragment extends Fragment{
                                         homepageAdapter = new HomePageAdapter(getActivity(),posts,user);
                                         mainListView.setAdapter(homepageAdapter);
                                         mainListView.setSelectionFromTop(index, top);
+                                        //homepageAdapter.notifyDataSetChanged();
                                     } else {
                                         Log.d(TAG, "No such document");
                                     }
@@ -193,8 +216,18 @@ public class HomePageFragment extends Fragment{
         else {  }
     }
 
-    public interface OnFragmentInteractionListener {
-
+    // TODO: Rename method, update argument and hook method into UI event
+    public void onButtonPressed(Uri uri) {
+        if (listener != null) {
+            listener.onFragmentInteraction(uri);
+        }
     }
+
+    public interface OnFragmentInteractionListener {
+        // TODO: Update argument type and name
+        public void onFragmentInteraction(Uri uri);
+    }
+
+
 
 }

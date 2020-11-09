@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.comp90018.Activity.Shake.UserViewActivity;
+import com.example.comp90018.DataModel.Search;
 import com.example.comp90018.DataModel.UserModel;
 import com.example.comp90018.R;
 import com.example.comp90018.utils.GlideApp;
@@ -31,7 +32,7 @@ public class SearchAdapter extends BaseAdapter {
     private TextView userName;
     private TextView petType;
     protected FirebaseFirestore db = FirebaseFirestore.getInstance();
-
+    private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     // image storage
     private StorageReference mStorageImagesRef = FirebaseStorage.getInstance().getReference().child("images");
     View rowView;

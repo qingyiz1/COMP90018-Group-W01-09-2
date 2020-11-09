@@ -12,6 +12,7 @@ import com.google.firebase.storage.StorageReference;
 
 public class BaseActivity extends AppCompatActivity {
 
+
     // [START declare_database_ref]
     protected FirebaseFirestore db = FirebaseFirestore.getInstance();
     // [END declare_database_ref]
