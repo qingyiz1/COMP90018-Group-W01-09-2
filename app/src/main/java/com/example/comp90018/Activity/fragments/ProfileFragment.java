@@ -19,6 +19,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.comp90018.Activity.Home.HomePageAdapter;
 import com.example.comp90018.Activity.MainActivity;
 import com.example.comp90018.Activity.User.EditProfileActivity;
+import com.example.comp90018.Activity.User.FollowActivity;
 import com.example.comp90018.Activity.User.FollowersActivity;
 import com.example.comp90018.DataModel.Comment;
 import com.example.comp90018.DataModel.Post;
@@ -111,7 +112,8 @@ public class ProfileFragment extends Fragment implements View.OnClickListener  {
             Intent intent = new Intent(getActivity(), EditProfileActivity.class);
             startActivity(intent);
         }else if(view == followBtn){
-            Intent intent = new Intent(getActivity(), FollowersActivity.class);
+            Intent intent = new Intent(getActivity(), FollowActivity.class);
+            intent.putExtra("USER_UID", uid);
             startActivity(intent);
 //            db.collection("users").document(mAuth.getUid()).update("following", FieldValue.arrayUnion(user.uid));
         }
