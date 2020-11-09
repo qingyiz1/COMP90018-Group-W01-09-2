@@ -42,8 +42,8 @@ public class ShakeActivity extends AppCompatActivity implements SensorEventListe
 
     private SensorManager mSensorManager;
     private Sensor mAccelerometerSensor;
-    private Vibrator mVibrator;//手机震动
-    private SoundPool mSoundPool;//摇一摇音效
+    private Vibrator mVibrator;//make phone vibrate
+    private SoundPool mSoundPool;//make phone make a sound
 
     private Button mButton;
     private ImageView shakePic;
@@ -86,10 +86,10 @@ public class ShakeActivity extends AppCompatActivity implements SensorEventListe
     @Override
     protected void onStart() {
         super.onStart();
-        //获取 SensorManager 负责管理传感器
+        //get SensorManager
         mSensorManager = ((SensorManager) getSystemService(SENSOR_SERVICE));
         if (mSensorManager != null) {
-            //获取加速度传感器
+            //get accelerameter on the phone
             mAccelerometerSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
             if (mAccelerometerSensor != null) {
                 mSensorManager.registerListener(this, mAccelerometerSensor, SensorManager.SENSOR_DELAY_UI);
