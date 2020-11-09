@@ -62,14 +62,12 @@ public class UserViewActivity extends BaseActivity implements View.OnClickListen
 
         followButton=findViewById(R.id.follow_button);
         followButton.setText("Follow");
-        followOrNot(mAuth.getUid(),uid);
+        followOrNot();
         followButton.setOnClickListener(this);
-
-        getData();
     }
 
-    private void followOrNot(final String mAuth, final String uid) {
-        db.collection("users").whereEqualTo("uid", mAuth)
+    private void followOrNot() {
+        db.collection("users").whereEqualTo("uid", mAuth.getUid())
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
                     public void onEvent(@Nullable QuerySnapshot value,
@@ -80,12 +78,10 @@ public class UserViewActivity extends BaseActivity implements View.OnClickListen
                         }
 
                         for (QueryDocumentSnapshot doc : value) {
-                            final ArrayList<String> followingpeople = (ArrayList<String>) doc.getData().get("following");
-
-                            for (String user : followingpeople) {
-                                if (uid.equals(user)) {
+                            final ArrayList<String> followingPeople = (ArrayList<String>) doc.getData().get("following");
+                            if(followingPeople != null){
+                                if(followingPeople.contains(uid)) {
                                     followButton.setText("Following");
-
                                 }
                             }
                         }
@@ -127,94 +123,6 @@ public class UserViewActivity extends BaseActivity implements View.OnClickListen
                 }
             }
         });
-    }
-
-    private void getData(){
-        db.collection("posts").whereEqualTo("authorUid", uid)
-                .addSnapshotListener(new EventListener<QuerySnapshot>() {
-                    @Override
-                    public void onEvent(@Nullable QuerySnapshot value,
-                                        @Nullable FirebaseFirestoreException e) {
-                        if (e != null) {
-                            Log.w(TAG, "Listen failed.", e);
-                            return;
-                        }
-                        posts.clear();
-                        for (QueryDocumentSnapshot doc : value) {
-                            ArrayList<Map<String,String>> commentTemp = (ArrayList<Map<String, String>>) doc.getData().get("comments");
-                            final ArrayList<Comment> comments = new ArrayList<>();
-                            final ArrayList<String> likes = new ArrayList<>();
-
-                            for(final Map<String,String> comment: commentTemp){
-                                db.collection("users").document(comment.get("author")).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                        if (task.isSuccessful()) {
-                                            DocumentSnapshot document = task.getResult();
-                                            if (document.exists()) {
-                                                Log.d(TAG, "DocumentSnapshot data: " + document.getData());
-                                                String nickname = document.getData().get("nickName").toString();
-                                                comments.add(new Comment(nickname,comment.get("content")));
-                                            } else {
-                                                Log.d(TAG, "No such document");
-                                            }
-                                        } else {
-                                            Log.d(TAG, "get failed with ", task.getException());
-                                        }
-                                    }
-                                });
-                            }
-                            ArrayList<String> tempLikes = (ArrayList<String>) doc.getData().get("likes");
-                            for(String user : tempLikes){
-                                db.collection("users").document(user).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                        if (task.isSuccessful()) {
-                                            DocumentSnapshot document = task.getResult();
-                                            if (document.exists()) {
-                                                Log.d(TAG, "DocumentSnapshot data: " + document.getData());
-                                                String nickname = document.getData().get("nickName").toString();
-                                                likes.add(nickname);
-                                            } else {
-                                                Log.d(TAG, "No such document");
-                                            }
-                                        } else {
-                                            Log.d(TAG, "get failed with ", task.getException());
-                                        }
-                                    }
-                                });
-                            }
-
-                            Post post = new Post(doc.getData().get("authorUid").toString(),doc.getData().get("authorName").toString(),doc.getData().get("id").toString(),
-                                    doc.getData().get("content").toString(),comments,likes, (Timestamp) doc.getData().get("dateCreated"));
-                            posts.add(post);
-                        }
-
-                        db.collection("users").document(mAuth.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                if (task.isSuccessful()) {
-                                    DocumentSnapshot document = task.getResult();
-                                    if (document.exists()) {
-                                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
-                                        user = document.toObject(UserModel.class);
-                                        Log.d(TAG, "onComplete: "+user.nickName);
-                                        int index = browser_list.getFirstVisiblePosition();
-                                        View v = browser_list.getChildAt(0);
-                                        int top = (v == null) ? 0 : (v.getTop() - browser_list.getPaddingTop());
-                                        homepageAdapter = new HomePageAdapter(getBaseContext(),posts,user);
-                                        browser_list.setAdapter(homepageAdapter);
-                                        browser_list.setSelectionFromTop(index, top);
-                                    } else {
-                                        Log.d(TAG, "No such document");
-                                    }
-                                } else {
-                                    Log.d(TAG, "get failed with ", task.getException());
-                                }
-                            }
-                        });
-
-                    }});
     }
 
     @Override
