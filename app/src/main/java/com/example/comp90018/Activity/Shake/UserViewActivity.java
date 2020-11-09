@@ -2,25 +2,14 @@ package com.example.comp90018.Activity.Shake;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.AlertDialog;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.Typeface;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -28,7 +17,6 @@ import android.widget.TextView;
 
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.comp90018.Activity.BaseActivity;
-import com.example.comp90018.Activity.Home.CommentActivity;
 
 import com.example.comp90018.Activity.Home.HomePageAdapter;
 import com.example.comp90018.DataModel.Comment;
@@ -47,11 +35,9 @@ import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.firestore.auth.User;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 
 public class UserViewActivity extends BaseActivity implements View.OnClickListener{
@@ -86,22 +72,51 @@ public class UserViewActivity extends BaseActivity implements View.OnClickListen
 
         browser_list=findViewById(R.id.browserListView);
         followButton=findViewById(R.id.follow_button);
+
+        followButton.setText("Follow");
+        followOrNot(mAuth.getUid(),uid);
+
         followButton.setOnClickListener(this);
 
         getData();
 
-//        mAmEtMsg=findViewById(R.id.commentInput);
-//        mAmEtMsg.setVisibility(View.GONE);
-//        send=findViewById(R.id.send);
-//        send.setVisibility(View.GONE);
+//        followOrNot=false;
+//        if(followOrNot){
+//            followButton.setText("Following");
+//        }else{
+//            followButton.setText("Follow");
+//        }
 
-        followOrNot=false;
-        if(followOrNot){
-            followButton.setText("Following");
-//            db.collection("users").document(mAuth.getUid()).update("following", FieldValue.arrayUnion(user.uid));
-        }else{
-            followButton.setText("Follow");
-        }
+//        followButton.setText("Follow");
+//        followOrNot(mAuth.getUid(),uid);
+
+    }
+
+   //(mAuth.getUid(),uid)
+
+    private void followOrNot(final String mAuth, final String uid) {
+        db.collection("users").whereEqualTo("uid", mAuth)
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot value,
+                                        @Nullable FirebaseFirestoreException e) {
+                        if (e != null) {
+                            Log.w(TAG, "Listen failed.", e);
+                            return;
+                        }
+
+                        for (QueryDocumentSnapshot doc : value) {
+                            final ArrayList<String> followingpeople = (ArrayList<String>) doc.getData().get("following");
+
+                            for (String user : followingpeople) {
+                                if (uid.equals(user)) {
+                                    followButton.setText("Following");
+
+                                }
+                            }
+                        }
+                    }
+                });
 
     }
 
@@ -231,61 +246,41 @@ public class UserViewActivity extends BaseActivity implements View.OnClickListen
                     }});
     }
 
-//    private void getData(){
+//    @Override
+//    public void onClick(View view) {
+//        if(view==followButton){
+//            if(followOrNot){
+//                followOrNot=false;
+//                db.collection("users").document(mAuth.getUid()).update("following", FieldValue.arrayRemove(uid));
+//                followButton.setText("Follow");
+//            }else {
+//                followOrNot=true;
+//                if(uid!=mAuth.getUid()){
+//                db.collection("users").document(mAuth.getUid()).update("following", FieldValue.arrayUnion(uid));
+//                }
+//                followButton.setText("Following");
+//            }
+//            //TODO: 客户端传输给服务器，取消关注/关注
 //
-//        db.collection("posts")
-//                .whereEqualTo("authorUid", uid)
-//                .addSnapshotListener(new EventListener<QuerySnapshot>() {
-//                    @Override
-//                    public void onEvent(@Nullable QuerySnapshot value,
-//                                        @Nullable FirebaseFirestoreException e) {
-//                        if (e != null) {
-//                            Log.w(TAG, "Listen failed.", e);
-//                            return;
-//                        }
-//                        posts.clear();
-//                        for (QueryDocumentSnapshot doc : value) {
-//                            ArrayList<Comment> comments = (ArrayList<Comment>) doc.getData().get("comments");
-//                            ArrayList<String> likes = (ArrayList<String>) doc.getData().get("likes");
-//                            Post post = new Post(doc.getData().get("authorUid").toString(),doc.getData().get("authorName").toString(),doc.getData().get("id").toString(),
-//                                    doc.getData().get("content").toString(),comments,likes, (Timestamp) doc.getData().get("dateCreated"));
-//                            posts.add(post);
-//                        }
-//
-//                        db.collection("users").document(mAuth.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-//                            @Override
-//                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-//                                if (task.isSuccessful()) {
-//                                    DocumentSnapshot document = task.getResult();
-//                                    if (document.exists()) {
-//                                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
-//                                        user = document.toObject(UserModel.class);
-//                                        homepageAdapter = new HomePageAdapter(UserViewActivity.this,posts,user);
-//                                        browser_list.setAdapter(homepageAdapter);
-//                                        //homepageAdapter.notifyDataSetChanged();
-//                                    } else {
-//                                        Log.d(TAG, "No such document");
-//                                    }
-//                                } else {
-//                                    Log.d(TAG, "get failed with ", task.getException());
-//                                }
-//                            }
-//                        });
-//
-//                    }});
+//        }
 //    }
 
     @Override
     public void onClick(View view) {
         if(view==followButton){
-            if(followOrNot){
+            if(followButton.getText().equals("Following")){
                 followOrNot=false;
                 db.collection("users").document(mAuth.getUid()).update("following", FieldValue.arrayRemove(uid));
                 followButton.setText("Follow");
-            }else {
+            }else if(followButton.getText().equals("Follow")){
                 followOrNot=true;
-                db.collection("users").document(mAuth.getUid()).update("following", FieldValue.arrayUnion(uid));
-                followButton.setText("Following");
+                if(!uid.equals(mAuth.getUid())){
+                    db.collection("users").document(mAuth.getUid()).update("following", FieldValue.arrayUnion(uid));
+                    followButton.setText("Following");
+                }else{
+                    followButton.setText("You can't follow yourself");
+                }
+
             }
             //TODO: 客户端传输给服务器，取消关注/关注
 
