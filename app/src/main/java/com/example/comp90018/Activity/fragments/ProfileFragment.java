@@ -20,7 +20,6 @@ import com.example.comp90018.Activity.Home.HomePageAdapter;
 import com.example.comp90018.Activity.MainActivity;
 import com.example.comp90018.Activity.User.EditProfileActivity;
 import com.example.comp90018.Activity.User.FollowActivity;
-import com.example.comp90018.Activity.User.FollowersActivity;
 import com.example.comp90018.DataModel.Comment;
 import com.example.comp90018.DataModel.Post;
 import com.example.comp90018.DataModel.UserModel;
@@ -32,12 +31,10 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.firestore.auth.User;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.example.comp90018.utils.GlideApp;
@@ -63,14 +60,6 @@ public class ProfileFragment extends Fragment implements View.OnClickListener  {
     ArrayList<Post> posts = new ArrayList<>();
     private HomePageAdapter homepageAdapter;
     private ListView browser_list;
-
-//    public static ProfileFragment newInstance(UserModel userModel) {
-//        ProfileFragment fragment = new ProfileFragment();
-//        Bundle bundle = new Bundle();
-//        bundle.putSerializable(USER_DATA, userModel);
-//        fragment.setArguments(bundle);
-//        return fragment;
-//    }
 
     public ProfileFragment(String uid) {
         // Required empty public constructor

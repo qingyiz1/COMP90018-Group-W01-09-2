@@ -31,10 +31,7 @@ import com.google.firebase.storage.StorageReference;
 public class FollowActivity extends AppCompatActivity {
 
     private ListView listView;
-    private CommolySearchView<UserModel> mCsvShow;
     private ArrayList<UserModel> users = new ArrayList<>();
-    private StorageReference mStorageImagesRef = FirebaseStorage.getInstance().getReference().child("images");
-
     protected FirebaseFirestore db = FirebaseFirestore.getInstance();
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private static final String TAG = "FollowersActivity";
@@ -44,10 +41,7 @@ public class FollowActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_follow);
-//        View view = inflater.inflate(R.layout.activity_follow, container, false);
-//        mCsvShow = (CommolySearchView) view.findViewById(R.id.csv_show);
         listView = (ListView) findViewById(R.id.followingperson);
-        //initData();
         getData();
 
     }
@@ -91,28 +85,6 @@ public class FollowActivity extends AppCompatActivity {
                         }
                     }
                 });
-    }
-
-
-    private void initData() {
-        db.collection("users").whereEqualTo("uid", mAuth.getUid())
-//
-            .addSnapshotListener(new EventListener<QuerySnapshot>() {
-                @Override
-                public void onEvent(@Nullable QuerySnapshot value,
-                                    @Nullable FirebaseFirestoreException e) {
-                    if (e != null) {
-                        Log.w(TAG, "Listen failed.", e);
-                        return;
-                    }
-                    users.clear();
-                    for (QueryDocumentSnapshot doc : value) {
-                        UserModel user = new UserModel(doc.get("uid").toString(),doc.get("nickName").toString(),doc.get("species").toString());
-                        users.add(user);
-                    }
-                    searchAdapter = new SearchAdapter(getBaseContext(), users);
-                    listView.setAdapter(searchAdapter);
-                }});
     }
 
 
