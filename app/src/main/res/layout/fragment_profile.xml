@@ -13,7 +13,7 @@
         android:layout_marginTop="5dp"
         android:layout_marginEnd="0dp"
         android:background="#009688"
-        android:text="My follow"
+        android:text="Myfollow"
         android:textColor="#FFFFFF" />
 
     <Button
