@@ -54,7 +54,7 @@ public class UserViewActivity extends BaseActivity implements View.OnClickListen
         uid = getIntent().getStringExtra("USER_UID");
         Log.d(TAG, "onCreate: "+uid);
         getUserdata(uid);
-
+        getData();
         user_name = findViewById(R.id.user_name);
         user_info = findViewById(R.id.user_info);
         user_description = findViewById(R.id.user_description);
@@ -62,14 +62,12 @@ public class UserViewActivity extends BaseActivity implements View.OnClickListen
 
         followButton=findViewById(R.id.follow_button);
         followButton.setText("Follow");
-        followOrNot(mAuth.getUid(),uid);
+        followOrNot();
         followButton.setOnClickListener(this);
-
-        getData();
     }
 
-    private void followOrNot(final String mAuth, final String uid) {
-        db.collection("users").whereEqualTo("uid", mAuth)
+    private void followOrNot() {
+        db.collection("users").whereEqualTo("uid", mAuth.getUid())
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
                     public void onEvent(@Nullable QuerySnapshot value,
@@ -80,12 +78,10 @@ public class UserViewActivity extends BaseActivity implements View.OnClickListen
                         }
 
                         for (QueryDocumentSnapshot doc : value) {
-                            final ArrayList<String> followingpeople = (ArrayList<String>) doc.getData().get("following");
-
-                            for (String user : followingpeople) {
-                                if (uid.equals(user)) {
+                            final ArrayList<String> followingPeople = (ArrayList<String>) doc.getData().get("following");
+                            if(followingPeople != null){
+                                if(followingPeople.contains(uid)) {
                                     followButton.setText("Following");
-
                                 }
                             }
                         }
@@ -94,43 +90,9 @@ public class UserViewActivity extends BaseActivity implements View.OnClickListen
 
     }
 
-    private void getUserdata(String uid){
-        DocumentReference docRef = db.collection("users").document(uid);
-        docRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
-            @Override
-            public void onEvent(@Nullable DocumentSnapshot snapshot,
-                                @Nullable FirebaseFirestoreException e) {
-                if (e != null) {
-                    Log.w(TAG, "Listen failed.", e);
-                    return;
-                }
-
-                if (snapshot != null && snapshot.exists()) {
-                    Log.d(TAG, "Current data: " + snapshot.getData());
-                    if(snapshot.getData().get("nickName") != null){
-                        user.nickName = snapshot.getData().get("nickName").toString();
-                        user_name.setText(user.nickName);
-                    }
-                    if(snapshot.getData().get("sex") != null && snapshot.getData().get("species") != null && snapshot.getData().get("age") != null){
-                        user.sex = snapshot.getData().get("sex").toString();
-                        user.species = snapshot.getData().get("species").toString();
-                        user.age = snapshot.getData().get("age").toString();
-                        user_info.setText(user.sex+" "+user.species+", "+user.age+" years old");
-                    }
-                    if(snapshot.getData().get("bio") != null){
-                        user.bio = snapshot.getData().get("bio").toString();
-                        user_description.setText(user.bio);
-                    }
-                    loadWithGlide(getWindow().getDecorView().getRootView(),R.id.profile_avatar);
-                } else {
-                    Log.d(TAG, "Current data: null");
-                }
-            }
-        });
-    }
-
     private void getData(){
-        db.collection("posts").whereEqualTo("authorUid", uid)
+        db.collection("posts")
+                .whereEqualTo("authorUid",uid)
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
                     public void onEvent(@Nullable QuerySnapshot value,
@@ -202,7 +164,7 @@ public class UserViewActivity extends BaseActivity implements View.OnClickListen
                                         int index = browser_list.getFirstVisiblePosition();
                                         View v = browser_list.getChildAt(0);
                                         int top = (v == null) ? 0 : (v.getTop() - browser_list.getPaddingTop());
-                                        homepageAdapter = new HomePageAdapter(getBaseContext(),posts,user);
+                                        homepageAdapter = new HomePageAdapter(UserViewActivity.this,posts,user);
                                         browser_list.setAdapter(homepageAdapter);
                                         browser_list.setSelectionFromTop(index, top);
                                     } else {
@@ -215,6 +177,42 @@ public class UserViewActivity extends BaseActivity implements View.OnClickListen
                         });
 
                     }});
+    }
+
+
+    private void getUserdata(String uid){
+        DocumentReference docRef = db.collection("users").document(uid);
+        docRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot snapshot,
+                                @Nullable FirebaseFirestoreException e) {
+                if (e != null) {
+                    Log.w(TAG, "Listen failed.", e);
+                    return;
+                }
+
+                if (snapshot != null && snapshot.exists()) {
+                    Log.d(TAG, "Current data: " + snapshot.getData());
+                    if(snapshot.getData().get("nickName") != null){
+                        user.nickName = snapshot.getData().get("nickName").toString();
+                        user_name.setText(user.nickName);
+                    }
+                    if(snapshot.getData().get("sex") != null && snapshot.getData().get("species") != null && snapshot.getData().get("age") != null){
+                        user.sex = snapshot.getData().get("sex").toString();
+                        user.species = snapshot.getData().get("species").toString();
+                        user.age = snapshot.getData().get("age").toString();
+                        user_info.setText(user.sex+" "+user.species+", "+user.age+" years old");
+                    }
+                    if(snapshot.getData().get("bio") != null){
+                        user.bio = snapshot.getData().get("bio").toString();
+                        user_description.setText(user.bio);
+                    }
+                    loadWithGlide(getWindow().getDecorView().getRootView(),R.id.profile_avatar);
+                } else {
+                    Log.d(TAG, "Current data: null");
+                }
+            }
+        });
     }
 
     @Override

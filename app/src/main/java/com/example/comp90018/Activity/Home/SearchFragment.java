@@ -131,8 +131,15 @@ public class SearchFragment extends Fragment {
                         }
                         users.clear();
                         for (QueryDocumentSnapshot doc : value) {
-                            UserModel user = new UserModel(doc.get("uid").toString(),doc.get("nickName").toString(),doc.get("species").toString());
-                            users.add(user);
+                            Object uidObject = doc.get("uid");
+                            Object nicknameObject = doc.get("nickName");
+                            Object speciesObject = doc.get("species");
+                            if(uidObject != null && nicknameObject != null && speciesObject != null){
+                                UserModel user = new UserModel(doc.get("uid").toString(),doc.get("nickName").toString(),doc.get("species").toString());
+                                users.add(user);
+                            }
+
+
                         }
                         searchAdapter = new SearchAdapter(getActivity(), users);
                         listView.setAdapter(searchAdapter);
