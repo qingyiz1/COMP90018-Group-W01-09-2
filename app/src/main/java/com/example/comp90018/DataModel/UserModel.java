@@ -41,10 +41,11 @@ public class UserModel implements Serializable {
         this.species = species;
     }
 
-    public UserModel(String email, String password, String nickName,Timestamp dateCreated){
+    public UserModel(String email, String password, String nickName,String species,Timestamp dateCreated){
         this.email = email;
         this.password = password;
         this.nickName = nickName;
+        this.species = species;
         this.dateCreated = dateCreated;
     }
 
