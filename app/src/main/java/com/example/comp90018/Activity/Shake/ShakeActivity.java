@@ -1,8 +1,12 @@
 package com.example.comp90018.Activity.Shake;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+//import androidx.fragment.app.Fragment;
 
+import android.app.Fragment;
 import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.hardware.Sensor;
@@ -18,6 +22,9 @@ import android.os.Vibrator;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.AnimationUtils;
+import android.view.animation.Transformation;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -104,12 +111,12 @@ public class ShakeActivity extends AppCompatActivity implements SensorEventListe
 
         if (type == Sensor.TYPE_ACCELEROMETER) {
             float[] values = event.values;
-            float x = values[0]; // The acceleration of gravity in the x-axis direction, right is positive
-            float y = values[1]; // The acceleration of gravity in the y-axis direction, forward is positive
-            float z = values[2]; // The acceleration of gravity in the z-axis direction, upward is positive
+            float x = values[0];
+            float y = values[1];
+            float z = values[2];
 
-            if ((Math.abs(x) > 15 || Math.abs(y) > 15 || Math.abs(z) > 15) && !isShake) {
-                // if the acceleration of gravity in any axis is larger than 15, judge the phone is shaking
+            if ((Math.abs(x) > 17 || Math.abs(y) > 17 || Math
+                    .abs(z) > 17) && !isShake) {
                 isShake = true;
                 Thread thread = new Thread() {
                     @Override
@@ -155,9 +162,7 @@ public class ShakeActivity extends AppCompatActivity implements SensorEventListe
                 case START_SHAKE:
                     //This method requires the caller to hold the permission VIBRATE.
                     mActivity.mVibrator.vibrate(300);
-                    // play the sound
                     mActivity.mSoundPool.play(mActivity.mWeiChatAudio, 1, 1, 0, 0, 1);
-                    // the picture animates, move upward
                     mActivity.startAnimation(false);
                     break;
                 case AGAIN_SHAKE:
@@ -165,7 +170,6 @@ public class ShakeActivity extends AppCompatActivity implements SensorEventListe
                     break;
                 case END_SHAKE:
                     mActivity.isShake = false;
-                    // the picture animates, move downward
                     mActivity.startAnimation(true);
                     try {
                         Thread.sleep(500);
@@ -181,9 +185,8 @@ public class ShakeActivity extends AppCompatActivity implements SensorEventListe
 
 
     private void startAnimation(boolean isBack) {
-        // isBack=false: move upward
-        // isBack=true: move downward
         int type = Animation.RELATIVE_TO_SELF;
+
         float fromY;
         float toY;
         if (isBack) {
@@ -193,7 +196,10 @@ public class ShakeActivity extends AppCompatActivity implements SensorEventListe
             fromY = 0;
             toY = -0.1f;
         }
-        TranslateAnimation anim = new TranslateAnimation(type, 0, type, 0, type, fromY, type, toY);
+
+        TranslateAnimation anim = new TranslateAnimation(
+                type, 0, type, 0, type, fromY, type, toY
+        );
         anim.setDuration(200);
         anim.setFillAfter(true);
         mLayout.startAnimation(anim);
