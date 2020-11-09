@@ -48,6 +48,33 @@ public class UserModel implements Serializable {
         this.dateCreated = dateCreated;
     }
 
+//    public void getNickname() {
+//
+//        DocumentReference docRef = db.collection("users").document(FirebaseAuth.getInstance().getCurrentUser().getUid());
+//        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+//
+//            @Override
+//            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+//                if (task.isSuccessful()) {
+//                    DocumentSnapshot document = task.getResult();
+//                    if (document.exists()) {
+//                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+//                        nickName =document.getString("nickName");
+//                        setNickName(nickName);
+//                    } else {
+//                        Log.d(TAG, "No such document");
+//                    }
+//                } else {
+//                    Log.d(TAG, "get failed with ", task.getException());
+//                }
+//
+//
+//            }
+//
+//        });
+//
+//    }
+
     public Map<String, Object> toMap() {
         // Create a new user with a first and last name
         Map<String, Object> newUser = new HashMap<>();

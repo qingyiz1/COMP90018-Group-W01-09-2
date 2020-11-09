@@ -1,6 +1,9 @@
 package com.example.comp90018.Activity.Home;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,23 +12,34 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.comp90018.Activity.Shake.UserViewActivity;
+import com.example.comp90018.DataModel.Comment;
+import com.example.comp90018.DataModel.Post;
+import com.example.comp90018.DataModel.Search;
 import com.example.comp90018.DataModel.UserModel;
 import com.example.comp90018.R;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.auth.User;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -55,10 +69,10 @@ public class SearchFragment extends Fragment {
     // image storage
     private StorageReference mStorageImagesRef = FirebaseStorage.getInstance().getReference().child("images");
 
+
     public SearchFragment() {
         // Required empty public constructor
     }
-
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
@@ -121,6 +135,7 @@ public class SearchFragment extends Fragment {
 
     private void initData() {
         db.collection("users")
+//                .whereEqualTo("state", "CA")
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
                     public void onEvent(@Nullable QuerySnapshot value,
@@ -148,7 +163,7 @@ public class SearchFragment extends Fragment {
             @Override
             public ArrayList<UserModel> filterDatas(ArrayList<UserModel> datas, ArrayList<UserModel> filterdatas, String inputstr) {
                 for (int i = 0; i < datas.size(); i++) {
-                    // search condition
+                    // 筛选条件
                     if (((datas.get(i).nickName).toLowerCase()).contains(inputstr) || ((datas.get(i).species).toLowerCase()).contains(inputstr)) {
                         filterdatas.add(datas.get(i));
                     }
@@ -159,7 +174,7 @@ public class SearchFragment extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                //go to according userview page
+                //TODO:转去相应用户的userview page
                 Intent intent = new Intent(getActivity(), UserViewActivity.class);
                 startActivity(intent);
             }

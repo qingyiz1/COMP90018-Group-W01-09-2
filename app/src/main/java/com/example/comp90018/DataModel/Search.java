@@ -48,7 +48,7 @@ public class Search {
         this.petType = petType;
     }
     /**
-     * search condition
+     * 搜索条件
      *
      * @return
      */

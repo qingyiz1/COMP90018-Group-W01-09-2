@@ -65,6 +65,10 @@ public class Post implements Serializable {
 
     boolean hasLiked;
 
+    public Post(){
+
+    }
+
     public Post(String authorUid, String authorName, String id, String content, ArrayList<Comment> comments, ArrayList<String> likes, Timestamp dateCreated){
         this.id = id;
         this.authorName = authorName;

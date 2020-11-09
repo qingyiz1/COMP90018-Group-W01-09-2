@@ -123,4 +123,23 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         }
     }
 
+    public double distance(LatLng a, LatLng b){
+        double lata = a.latitude * Math.PI / 180;
+        double latb = b.latitude * Math.PI / 180;
+        double lona = a.longitude * Math.PI / 180;
+        double lonb = b.longitude * Math.PI / 180;
+        double lat = lata - latb;
+        double lon = lona - lonb;
+        double s = 2 * Math.asin(Math.sqrt(Math.pow(Math.sin(lat/2), 2)
+                + Math.cos(lata) * Math.cos(latb)
+                * Math.pow(Math.sin(lon/2), 2)));
+        s = s * EARTH_RADIUS;
+        s = Math.round(s * 10000) / 10000;
+        return s;
+    }
+
+
+
+
+
 }
